@@ -5,7 +5,7 @@ import dungeonmania.entities.Entity;
 import dungeonmania.entities.Interactable;
 import dungeonmania.entities.Player;
 import dungeonmania.entities.collectables.Treasure;
-import dungeonmania.entities.enemies.MovementBehaviour.FastestMovement;
+import dungeonmania.entities.enemies.MovementBehaviour.ShortestPathMovement;
 import dungeonmania.entities.enemies.MovementBehaviour.RandomMovement;
 import dungeonmania.map.GameMap;
 import dungeonmania.util.Position;
@@ -24,7 +24,7 @@ public class Mercenary extends Enemy implements Interactable {
         super(position, health, attack);
         this.bribeAmount = bribeAmount;
         this.bribeRadius = bribeRadius;
-        super.changeMovement(new FastestMovement(this));
+        super.changeMovement(new ShortestPathMovement(this));
     }
 
     public boolean isAllied() {
