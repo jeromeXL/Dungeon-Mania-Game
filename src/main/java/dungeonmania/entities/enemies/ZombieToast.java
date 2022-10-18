@@ -5,6 +5,7 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 import dungeonmania.Game;
+import dungeonmania.entities.enemies.MovementBehaviour.RandomMovement;
 import dungeonmania.map.GameMap;
 import dungeonmania.util.Position;
 
@@ -15,24 +16,25 @@ public class ZombieToast extends Enemy {
 
     public ZombieToast(Position position, double health, double attack) {
         super(position, health, attack);
+        super.changeMovement(new RandomMovement(this));
     }
 
-    @Override
-    public void move(Game game) {
-        Position nextPos;
-        GameMap map = game.getMap();
-        List<Position> pos = getPosition().getCardinallyAdjacentPositions();
-        pos = pos
-            .stream()
-            .filter(p -> map.canMoveTo(this, p)).collect(Collectors.toList());
-        if (pos.size() == 0) {
-            nextPos = getPosition();
-            game.getMap().moveTo(this, nextPos);
-        } else {
-            nextPos = pos.get(randGen.nextInt(pos.size()));
-            game.getMap().moveTo(this, nextPos);
-        }
+    // @Override
+    // public void move(Game game) {
+    // Position nextPos;
+    // GameMap map = game.getMap();
+    // List<Position> pos = getPosition().getCardinallyAdjacentPositions();
+    // pos = pos
+    // .stream()
+    // .filter(p -> map.canMoveTo(this, p)).collect(Collectors.toList());
+    // if (pos.size() == 0) {
+    // nextPos = getPosition();
+    // game.getMap().moveTo(this, nextPos);
+    // } else {
+    // nextPos = pos.get(randGen.nextInt(pos.size()));
+    // game.getMap().moveTo(this, nextPos);
+    // }
 
-    }
+    // }
 
 }
