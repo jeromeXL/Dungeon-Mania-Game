@@ -1,19 +1,10 @@
 package dungeonmania.entities.enemies;
 
-import java.util.List;
-
-import dungeonmania.Game;
-import dungeonmania.entities.Boulder;
 import dungeonmania.entities.Entity;
-import dungeonmania.entities.enemies.MovementBehaviour.Movement;
 import dungeonmania.entities.enemies.MovementBehaviour.SpiderMovement;
 import dungeonmania.util.Position;
 
 public class Spider extends Enemy {
-
-    private List<Position> movementTrajectory;
-    private int nextPositionElement;
-    private boolean forward;
 
     public static final int DEFAULT_SPAWN_RATE = 0;
     public static final double DEFAULT_ATTACK = 5;
@@ -27,46 +18,7 @@ public class Spider extends Enemy {
          * 7 S 3 11 S 3/7
          * 6 5 4 B 5 4/6
          */
-        movementTrajectory = position.getAdjacentPositions();
-        nextPositionElement = 1;
-        forward = true;
         super.changeMovement(new SpiderMovement(this, position));
     };
 
-    // private void updateNextPosition() {
-    // if (forward) {
-    // nextPositionElement++;
-    // if (nextPositionElement == 8) {
-    // nextPositionElement = 0;
-    // }
-    // } else {
-    // nextPositionElement--;
-    // if (nextPositionElement == -1) {
-    // nextPositionElement = 7;
-    // }
-    // }
-    // }
-
-    // @Override
-    // public void move(Game game) {
-    // // Position nextPos = movementTrajectory.get(nextPositionElement);
-    // // List<Entity> entities = game.getMap().getEntities(nextPos);
-    // // if (entities != null && entities.size() > 0 &&
-    // entities.stream().anyMatch(e
-    // // -> e instanceof Boulder)) {
-    // // forward = !forward;
-    // // updateNextPosition();
-    // // updateNextPosition();
-    // // }
-    // // nextPos = movementTrajectory.get(nextPositionElement);
-    // // entities = game.getMap().getEntities(nextPos);
-    // // if (entities == null
-    // // || entities.size() == 0
-    // // || entities.stream().allMatch(e -> e.canMoveOnto(game.getMap(), this))) {
-    // // game.getMap().moveTo(this, nextPos);
-    // // updateNextPosition();
-    // // }
-    // Movement movement = super.getMovement();
-    // movement.move(game);
-    // }
 }
