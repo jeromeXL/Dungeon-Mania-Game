@@ -13,9 +13,8 @@ public class FastestMovement implements Movement {
     }
 
     @Override
-    public void move(Game game) {
-        GameMap map = game.getMap();
-        Position nextPos = map.dijkstraPathFind(enemy.getPosition(), map.getPlayer().getPosition(), enemy);
+    public void move(Game game, GameMap map) {
+        Position nextPos = map.dijkstraPathFind(enemy.getPosition(), map.getPlayerCurrPos(), enemy);
         map.moveTo(enemy, nextPos);
     }
 }

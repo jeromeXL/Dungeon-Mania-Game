@@ -24,11 +24,11 @@ public abstract class Enemy extends Entity implements Battleable {
         this.movement = null;
     }
 
-    public void changeMovement(Movement movement) {
+    protected void changeMovement(Movement movement) {
         this.movement = movement;
     }
 
-    public Movement getMovement() {
+    private Movement getMovement() {
         return movement;
     }
 
@@ -63,6 +63,6 @@ public abstract class Enemy extends Entity implements Battleable {
 
     public void move(Game game) {
         Movement m = getMovement();
-        m.move(game);
+        m.move(game, game.getMap());
     }
 }

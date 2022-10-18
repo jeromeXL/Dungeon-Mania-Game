@@ -18,19 +18,18 @@ public class RandomMovement implements Movement {
     }
 
     @Override
-    public void move(Game game) {
+    public void move(Game game, GameMap map) {
         Position nextPos;
-        GameMap map = game.getMap();
-        List<Position> pos = enemy.getPosition().getCardinallyAdjacentPositions();
+        List<Position> pos = enemy.getCardinallyAdjacentPositionCurrPos();
         pos = pos
                 .stream()
                 .filter(p -> map.canMoveTo(enemy, p)).collect(Collectors.toList());
         if (pos.size() == 0) {
             nextPos = enemy.getPosition();
-            game.getMap().moveTo(enemy, nextPos);
+            map.moveTo(enemy, nextPos);
         } else {
             nextPos = pos.get(randGen.nextInt(pos.size()));
-            game.getMap().moveTo(enemy, nextPos);
+            map.moveTo(enemy, nextPos);
         }
     }
 }

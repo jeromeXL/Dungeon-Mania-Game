@@ -6,6 +6,7 @@ import dungeonmania.Game;
 import dungeonmania.entities.Boulder;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.enemies.Enemy;
+import dungeonmania.map.GameMap;
 import dungeonmania.util.Position;
 
 public class SpiderMovement implements Movement {
@@ -36,20 +37,20 @@ public class SpiderMovement implements Movement {
     }
 
     @Override
-    public void move(Game game) {
+    public void move(Game game, GameMap map) {
         Position nextPos = movementTrajectory.get(nextPositionElement);
-        List<Entity> entities = game.getMap().getEntities(nextPos);
+        List<Entity> entities = map.getEntities(nextPos);
         if (entities != null && entities.size() > 0 && entities.stream().anyMatch(e -> e instanceof Boulder)) {
             forward = !forward;
             updateNextPosition();
             updateNextPosition();
         }
         nextPos = movementTrajectory.get(nextPositionElement);
-        entities = game.getMap().getEntities(nextPos);
+        entities = map.getEntities(nextPos);
         if (entities == null
                 || entities.size() == 0
-                || entities.stream().allMatch(e -> e.canMoveOnto(game.getMap(), enemy))) {
-            game.getMap().moveTo(enemy, nextPos);
+                || entities.stream().allMatch(e -> e.canMoveOnto(map, enemy))) {
+            map.moveTo(enemy, nextPos);
             updateNextPosition();
         }
     }

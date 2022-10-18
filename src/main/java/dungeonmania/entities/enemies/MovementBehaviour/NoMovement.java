@@ -1,6 +1,7 @@
 package dungeonmania.entities.enemies.MovementBehaviour;
 
 import dungeonmania.entities.enemies.Enemy;
+import dungeonmania.map.GameMap;
 import dungeonmania.Game;
 
 public class NoMovement implements Movement {
@@ -11,7 +12,7 @@ public class NoMovement implements Movement {
     }
 
     @Override
-    public void move(Game game) {
+    public void move(Game game, GameMap map) {
         return;
     }
 }
