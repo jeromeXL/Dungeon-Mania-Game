@@ -63,7 +63,7 @@ public abstract class Entity {
         return position;
     }
 
-    public List<Position> getCardinallyAdjacentPositionCurrPos() {
+    public List<Position> getAdjacentPositionsToCurrPos() {
         return getPosition().getCardinallyAdjacentPositions();
     }
 
