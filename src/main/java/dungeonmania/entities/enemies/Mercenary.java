@@ -1,14 +1,12 @@
 package dungeonmania.entities.enemies;
 
-import java.util.List;
-import java.util.Random;
-import java.util.stream.Collectors;
-
 import dungeonmania.Game;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.Interactable;
 import dungeonmania.entities.Player;
 import dungeonmania.entities.collectables.Treasure;
+import dungeonmania.entities.enemies.MovementBehaviour.ShortestPathMovement;
+import dungeonmania.entities.enemies.MovementBehaviour.RandomMovement;
 import dungeonmania.map.GameMap;
 import dungeonmania.util.Position;
 
@@ -26,6 +24,7 @@ public class Mercenary extends Enemy implements Interactable {
         super(position, health, attack);
         this.bribeAmount = bribeAmount;
         this.bribeRadius = bribeRadius;
+        super.changeMovement(new ShortestPathMovement(this));
     }
 
     public boolean isAllied() {
@@ -34,12 +33,14 @@ public class Mercenary extends Enemy implements Interactable {
 
     @Override
     public void onOverlap(GameMap map, Entity entity) {
-        if (allied) return;
+        if (allied)
+            return;
         super.onOverlap(map, entity);
     }
 
     /**
      * check whether the current merc can be bribed
+     *
      * @param player
      * @return
      */
@@ -60,32 +61,8 @@ public class Mercenary extends Enemy implements Interactable {
     @Override
     public void interact(Player player, Game game) {
         allied = true;
+        super.changeMovement(new RandomMovement(this));
         bribe(player);
-    }
-
-    @Override
-    public void move(Game game) {
-        Position nextPos;
-        GameMap map = game.getMap();
-        if (allied) {
-            // Move random
-            Random randGen = new Random();
-            List<Position> pos = getPosition().getCardinallyAdjacentPositions();
-            pos = pos
-                .stream()
-                .filter(p -> map.canMoveTo(this, p)).collect(Collectors.toList());
-            if (pos.size() == 0) {
-                nextPos = getPosition();
-                map.moveTo(this, nextPos);
-            } else {
-                nextPos = pos.get(randGen.nextInt(pos.size()));
-                map.moveTo(this, nextPos);
-            }
-        } else {
-            // Follow hostile
-            nextPos = map.dijkstraPathFind(getPosition(), map.getPlayer().getPosition(), this);
-        }
-        map.moveTo(this, nextPos);
     }
 
     @Override

@@ -18,7 +18,6 @@ import dungeonmania.entities.enemies.ZombieToastSpawner;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
-
 public class GameMap {
     private Game game;
     private Map<Position, GraphNode> nodes = new HashMap<>();
@@ -38,8 +37,8 @@ public class GameMap {
     private void initRegisterBombsAndSwitches() {
         List<Bomb> bombs = getEntities(Bomb.class);
         List<Switch> switchs = getEntities(Switch.class);
-        for (Bomb b: bombs) {
-            for (Switch s: switchs) {
+        for (Bomb b : bombs) {
+            for (Switch s : switchs) {
                 if (Position.isAdjacent(b.getPosition(), s.getPosition())) {
                     b.subscribe(s);
                     s.subscribe(b);
@@ -83,7 +82,8 @@ public class GameMap {
     }
 
     public void moveTo(Entity entity, Position position) {
-        if (!canMoveTo(entity, position)) return;
+        if (!canMoveTo(entity, position))
+            return;
 
         triggerMovingAwayEvent(entity);
         removeNode(entity);
@@ -93,7 +93,8 @@ public class GameMap {
     }
 
     public void moveTo(Entity entity, Direction direction) {
-        if (!canMoveTo(entity, Position.translateBy(entity.getPosition(), direction))) return;
+        if (!canMoveTo(entity, Position.translateBy(entity.getPosition(), direction)))
+            return;
         triggerMovingAwayEvent(entity);
         removeNode(entity);
         entity.translate(direction);
@@ -105,7 +106,7 @@ public class GameMap {
         List<Runnable> callbacks = new ArrayList<>();
         getEntities(entity.getPosition()).forEach(e -> {
             if (e != entity)
-            callbacks.add(() -> e.onMovedAway(this, entity));
+                callbacks.add(() -> e.onMovedAway(this, entity));
         });
         callbacks.forEach(callback -> {
             callback.run();
@@ -116,7 +117,7 @@ public class GameMap {
         List<Runnable> overlapCallbacks = new ArrayList<>();
         getEntities(entity.getPosition()).forEach(e -> {
             if (e != entity)
-            overlapCallbacks.add(() -> e.onOverlap(this, entity));
+                overlapCallbacks.add(() -> e.onOverlap(this, entity));
         });
         overlapCallbacks.forEach(callback -> {
             callback.run();
@@ -127,11 +128,10 @@ public class GameMap {
         return !nodes.containsKey(position) || nodes.get(position).canMoveOnto(this, entity);
     }
 
-
     public Position dijkstraPathFind(Position src, Position dest, Entity entity) {
         // if inputs are invalid, don't move
         if (!nodes.containsKey(src) || !nodes.containsKey(dest))
-        return src;
+            return src;
 
         Map<Position, Integer> dist = new HashMap<>();
         Map<Position, Position> prev = new HashMap<>();
@@ -140,36 +140,37 @@ public class GameMap {
         prev.put(src, null);
         dist.put(src, 0);
 
-        PriorityQueue<Position> q = new PriorityQueue<>((x, y) ->
-            Integer.compare(dist.getOrDefault(x, Integer.MAX_VALUE), dist.getOrDefault(y, Integer.MAX_VALUE)));
+        PriorityQueue<Position> q = new PriorityQueue<>((x, y) -> Integer
+                .compare(dist.getOrDefault(x, Integer.MAX_VALUE), dist.getOrDefault(y, Integer.MAX_VALUE)));
         q.add(src);
 
         while (!q.isEmpty()) {
             Position curr = q.poll();
-            if (curr.equals(dest) || dist.get(curr) > 200) break;
+            if (curr.equals(dest) || dist.get(curr) > 200)
+                break;
             // check portal
             if (nodes.containsKey(curr) && nodes.get(curr).getEntities().stream().anyMatch(Portal.class::isInstance)) {
                 Portal portal = nodes.get(curr).getEntities()
-                    .stream()
-                    .filter(Portal.class::isInstance).map(Portal.class::cast)
-                    .collect(Collectors.toList())
-                    .get(0);
+                        .stream()
+                        .filter(Portal.class::isInstance).map(Portal.class::cast)
+                        .collect(Collectors.toList())
+                        .get(0);
                 List<Position> teleportDest = portal.getDestPositions(this, entity);
                 teleportDest.stream()
-                .filter(p -> !visited.containsKey(p))
-                .forEach(p -> {
-                    dist.put(p, dist.get(curr));
-                    prev.put(p, prev.get(curr));
-                    q.add(p);
-                });
+                        .filter(p -> !visited.containsKey(p))
+                        .forEach(p -> {
+                            dist.put(p, dist.get(curr));
+                            prev.put(p, prev.get(curr));
+                            q.add(p);
+                        });
                 continue;
             }
             visited.put(curr, true);
             List<Position> neighbours = curr.getCardinallyAdjacentPositions()
-            .stream()
-            .filter(p -> !visited.containsKey(p))
-            .filter(p -> !nodes.containsKey(p) || nodes.get(p).canMoveOnto(this, entity))
-            .collect(Collectors.toList());
+                    .stream()
+                    .filter(p -> !visited.containsKey(p))
+                    .filter(p -> !nodes.containsKey(p) || nodes.get(p).canMoveOnto(this, entity))
+                    .collect(Collectors.toList());
 
             neighbours.forEach(n -> {
                 int newDist = dist.get(curr) + (nodes.containsKey(n) ? nodes.get(n).getWeight() : 1);
@@ -182,7 +183,8 @@ public class GameMap {
             });
         }
         Position ret = dest;
-        if (prev.get(ret) == null || ret.equals(src)) return src;
+        if (prev.get(ret) == null || ret.equals(src))
+            return src;
         while (!prev.get(ret).equals(src)) {
             ret = prev.get(ret);
         }
@@ -212,7 +214,7 @@ public class GameMap {
         Position p = node.getPosition();
 
         if (!nodes.containsKey(p))
-        nodes.put(p, node);
+            nodes.put(p, node);
         else {
             GraphNode curr = nodes.get(p);
             curr.mergeNode(node);
@@ -224,9 +226,9 @@ public class GameMap {
         Entity res = null;
         for (Map.Entry<Position, GraphNode> entry : nodes.entrySet()) {
             List<Entity> es = entry.getValue().getEntities()
-            .stream()
-            .filter(e -> e.getId().equals(id))
-            .collect(Collectors.toList());
+                    .stream()
+                    .filter(e -> e.getId().equals(id))
+                    .collect(Collectors.toList());
             if (es != null && es.size() > 0) {
                 res = es.get(0);
                 break;
@@ -256,6 +258,10 @@ public class GameMap {
 
     public Player getPlayer() {
         return player;
+    }
+
+    public Position getPlayerCurrPos() {
+        return getPlayer().getPosition();
     }
 
     public void setPlayer(Player player) {
