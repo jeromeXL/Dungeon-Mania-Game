@@ -5,7 +5,7 @@ import dungeonmania.map.GameMap;
 import dungeonmania.Game;
 
 public class NoMovement implements Movement {
-    Enemy enemy;
+    private Enemy enemy;
 
     public NoMovement(Enemy enemy) {
         this.enemy = enemy;

@@ -10,7 +10,7 @@ import dungeonmania.map.GameMap;
 import dungeonmania.util.Position;
 
 public class RandomMovement implements Movement {
-    Enemy enemy;
+    private Enemy enemy;
     private Random randGen = new Random();
 
     public RandomMovement(Enemy e) {

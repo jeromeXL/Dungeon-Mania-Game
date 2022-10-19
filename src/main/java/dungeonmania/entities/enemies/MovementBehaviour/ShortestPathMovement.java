@@ -6,7 +6,7 @@ import dungeonmania.map.GameMap;
 import dungeonmania.util.Position;
 
 public class ShortestPathMovement implements Movement {
-    Enemy enemy;
+    private Enemy enemy;
 
     public ShortestPathMovement(Enemy enemy) {
         this.enemy = enemy;

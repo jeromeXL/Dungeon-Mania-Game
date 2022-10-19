@@ -10,7 +10,7 @@ import dungeonmania.map.GameMap;
 import dungeonmania.util.Position;
 
 public class SpiderMovement implements Movement {
-    Enemy enemy;
+    private Enemy enemy;
     private List<Position> movementTrajectory;
     private int nextPositionElement;
     private boolean forward;
