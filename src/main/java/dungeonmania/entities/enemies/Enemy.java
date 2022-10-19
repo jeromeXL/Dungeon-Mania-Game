@@ -65,4 +65,8 @@ public abstract class Enemy extends Entity implements Battleable {
         Movement m = getMovement();
         m.move(game, game.getMap());
     }
+
+    public double getHealth() {
+        return getBattleStatistics().getHealth();
+    }
 }

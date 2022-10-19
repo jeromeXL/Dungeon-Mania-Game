@@ -56,7 +56,8 @@ public class Player extends Entity implements Battleable {
 
     public boolean build(String entity, EntityFactory factory) {
         InventoryItem item = inventory.checkBuildCriteria(this, true, entity.equals("shield"), factory);
-        if (item == null) return false;
+        if (item == null)
+            return false;
         return inventory.add(item);
     }
 
@@ -69,7 +70,8 @@ public class Player extends Entity implements Battleable {
     public void onOverlap(GameMap map, Entity entity) {
         if (entity instanceof Enemy) {
             if (entity instanceof Mercenary) {
-                if (((Mercenary) entity).isAllied()) return;
+                if (((Mercenary) entity).isAllied())
+                    return;
             }
             map.getGame().battle(this, (Enemy) entity);
         }
@@ -98,7 +100,8 @@ public class Player extends Entity implements Battleable {
 
     public <T extends InventoryItem> void use(Class<T> itemType) {
         T item = inventory.getFirst(itemType);
-        if (item != null) inventory.remove(item);
+        if (item != null)
+            inventory.remove(item);
     }
 
     public void use(Bomb bomb, GameMap map) {
@@ -155,22 +158,22 @@ public class Player extends Entity implements Battleable {
     public BattleStatistics applyBuff(BattleStatistics origin) {
         if (state.isInvincible()) {
             return BattleStatistics.applyBuff(origin, new BattleStatistics(
-                0,
-                0,
-                0,
-                1,
-                1,
-                true,
-                true));
+                    0,
+                    0,
+                    0,
+                    1,
+                    1,
+                    true,
+                    true));
         } else if (state.isInvisible()) {
             return BattleStatistics.applyBuff(origin, new BattleStatistics(
-                0,
-                0,
-                0,
-                1,
-                1,
-                false,
-                false));
+                    0,
+                    0,
+                    0,
+                    1,
+                    1,
+                    false,
+                    false));
         }
         return origin;
     }
@@ -183,5 +186,13 @@ public class Player extends Entity implements Battleable {
     @Override
     public void onDestroy(GameMap gameMap) {
         return;
+    }
+
+    public double getHealth() {
+        return getBattleStatistics().getHealth();
+    }
+
+    public <T> List<T> getItems(Class<T> clz) {
+        return getInventory().getEntities(clz);
     }
 }
