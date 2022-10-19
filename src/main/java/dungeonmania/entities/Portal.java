@@ -59,10 +59,11 @@ public class Portal extends Entity {
         return pair == null
                 ? null
                 : pair.getPosition().getAdjacentPositions()
-                    .stream()
-                    .filter(p -> map.canMoveTo(entity, p))
-                    .collect(Collectors.toList());
+                        .stream()
+                        .filter(p -> map.canMoveTo(entity, p))
+                        .collect(Collectors.toList());
     }
+
     public void bind(Portal portal) {
         if (this.pair == portal)
             return;
@@ -80,8 +81,4 @@ public class Portal extends Entity {
         return;
     }
 
-    @Override
-    public void onDestroy(GameMap gameMap) {
-        return;
-    }
 }
