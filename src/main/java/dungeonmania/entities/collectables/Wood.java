@@ -12,11 +12,6 @@ public class Wood extends Entity implements InventoryItem {
     }
 
     @Override
-    public boolean canMoveOnto(GameMap map, Entity entity) {
-        return true;
-    }
-
-    @Override
     public void onOverlap(GameMap map, Entity entity) {
         if (entity instanceof Player) {
             if (!((Player) entity).pickUp(this))

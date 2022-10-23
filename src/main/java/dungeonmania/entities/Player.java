@@ -77,11 +77,6 @@ public class Player extends Entity implements Battleable {
         }
     }
 
-    @Override
-    public boolean canMoveOnto(GameMap map, Entity entity) {
-        return true;
-    }
-
     public Entity getEntity(String itemUsedId) {
         return inventory.getEntity(itemUsedId);
     }
