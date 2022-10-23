@@ -74,7 +74,7 @@ public class Bomb extends Entity implements InventoryItem {
     /**
      * it destroys all entities in diagonally and cardinally adjacent cells, except
      * for the player
-     * 
+     *
      * @param map
      */
     public void explode(GameMap map) {
