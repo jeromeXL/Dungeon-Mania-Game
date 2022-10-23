@@ -27,7 +27,8 @@ public class Portal extends Entity {
     }
 
     public boolean canTeleportTo(GameMap map, Entity entity) {
-        List<Position> neighbours = getPosition().getCardinallyAdjacentPositions();
+        // List<Position> neighbours = getPosition().getCardinallyAdjacentPositions();
+        List<Position> neighbours = getAdjacentPositionsToCurrPos();
         return neighbours.stream().allMatch(n -> map.canMoveTo(entity, n));
     }
 

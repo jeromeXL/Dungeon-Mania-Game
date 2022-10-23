@@ -45,6 +45,18 @@ public class GameMap {
                 }
             }
         }
+        // switchs.stream().filter(s -> Position.isAdjacent(b.getPosition(),
+        // s.getPosition())).forEach(s -> {
+        // b.subscribe(s);
+        // s.subscribe(b);
+        // });
+
+        // bombs.stream().forEach(
+        // b -> switchs.stream().filter(s -> Position.isAdjacent(b.getPosition(),
+        // s.getPosition())).forEach(s -> {
+        // b.subscribe(s);
+        // s.subscribe(b);
+        // }));
     }
 
     // Pair up portals if there's any
