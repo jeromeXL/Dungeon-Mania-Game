@@ -7,6 +7,7 @@ import java.util.Queue;
 import dungeonmania.battles.BattleStatistics;
 import dungeonmania.battles.Battleable;
 import dungeonmania.entities.collectables.Bomb;
+import dungeonmania.entities.collectables.Collectables;
 import dungeonmania.entities.collectables.potions.InvincibilityPotion;
 import dungeonmania.entities.collectables.potions.Potion;
 import dungeonmania.entities.enemies.Enemy;
@@ -71,6 +72,10 @@ public class Player extends Entity implements Battleable {
                 if (((Mercenary) entity).isAllied()) return;
             }
             map.getGame().battle(this, (Enemy) entity);
+        }
+        else if (entity instanceof Collectables) {
+            if (!(this.pickUp(entity))) return;
+            map.destroyEntity(entity);
         }
     }
 
@@ -183,4 +188,6 @@ public class Player extends Entity implements Battleable {
     public void onDestroy(GameMap gameMap) {
         return;
     }
+
+
 }
