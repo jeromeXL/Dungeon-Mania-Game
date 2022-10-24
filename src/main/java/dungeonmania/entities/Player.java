@@ -56,7 +56,8 @@ public class Player extends Entity implements Battleable {
 
     public boolean build(String entity, EntityFactory factory) {
         InventoryItem item = inventory.checkBuildCriteria(this, true, entity.equals("shield"), factory);
-        if (item == null) return false;
+        if (item == null)
+            return false;
         return inventory.add(item);
     }
 
@@ -69,18 +70,14 @@ public class Player extends Entity implements Battleable {
     public void onOverlap(GameMap map, Entity entity) {
         if (entity instanceof Enemy) {
             if (entity instanceof Mercenary) {
-                if (((Mercenary) entity).isAllied()) return;
+                if (((Mercenary) entity).isAllied())
+                    return;
             }
             map.getGame().battle(this, (Enemy) entity);
         } else if (entity instanceof Collectables) {
             if (!(this.pickUp(entity))) return;
             map.destroyEntity(entity);
         }
-    }
-
-    @Override
-    public boolean canMoveOnto(GameMap map, Entity entity) {
-        return true;
     }
 
     public Entity getEntity(String itemUsedId) {
@@ -101,7 +98,8 @@ public class Player extends Entity implements Battleable {
 
     public <T extends InventoryItem> void use(Class<T> itemType) {
         T item = inventory.getFirst(itemType);
-        if (item != null) inventory.remove(item);
+        if (item != null)
+            inventory.remove(item);
     }
 
     public void use(Bomb bomb, GameMap map) {
@@ -158,34 +156,32 @@ public class Player extends Entity implements Battleable {
     public BattleStatistics applyBuff(BattleStatistics origin) {
         if (state.isInvincible()) {
             return BattleStatistics.applyBuff(origin, new BattleStatistics(
-                0,
-                0,
-                0,
-                1,
-                1,
-                true,
-                true));
+                    0,
+                    0,
+                    0,
+                    1,
+                    1,
+                    true,
+                    true));
         } else if (state.isInvisible()) {
             return BattleStatistics.applyBuff(origin, new BattleStatistics(
-                0,
-                0,
-                0,
-                1,
-                1,
-                false,
-                false));
+                    0,
+                    0,
+                    0,
+                    1,
+                    1,
+                    false,
+                    false));
         }
         return origin;
     }
 
-    @Override
-    public void onMovedAway(GameMap map, Entity entity) {
-        return;
+    public double getHealth() {
+        return getBattleStatistics().getHealth();
     }
 
-    @Override
-    public void onDestroy(GameMap gameMap) {
-        return;
+    public <T> List<T> getItems(Class<T> clz) {
+        return getInventory().getEntities(clz);
     }
 
 

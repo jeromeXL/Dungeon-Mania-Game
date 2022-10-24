@@ -34,11 +34,11 @@ public class Sword extends Collectables implements InventoryItem, BattleItem {
     @Override
     public BattleStatistics applyBuff(BattleStatistics origin) {
         return BattleStatistics.applyBuff(origin, new BattleStatistics(
-            0,
-            attack,
-            0,
-            1,
-            1));
+                0,
+                attack,
+                0,
+                1,
+                1));
     }
 
     @Override

@@ -28,7 +28,7 @@ public abstract class Entity {
     }
 
     public boolean canMoveOnto(GameMap map, Entity entity) {
-        return false;
+        return true;
     }
 
     // use setPosition
@@ -63,7 +63,7 @@ public abstract class Entity {
         return position;
     }
 
-    public List<Position> getCardinallyAdjacentPositionCurrPos() {
+    public List<Position> getAdjacentPositionsToCurrPos() {
         return getPosition().getCardinallyAdjacentPositions();
     }
 

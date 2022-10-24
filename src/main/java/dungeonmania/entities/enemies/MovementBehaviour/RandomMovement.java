@@ -20,7 +20,7 @@ public class RandomMovement implements Movement {
     @Override
     public void move(Game game, GameMap map) {
         Position nextPos;
-        List<Position> pos = enemy.getCardinallyAdjacentPositionCurrPos();
+        List<Position> pos = enemy.getAdjacentPositionsToCurrPos();
         pos = pos
                 .stream()
                 .filter(p -> map.canMoveTo(enemy, p)).collect(Collectors.toList());
