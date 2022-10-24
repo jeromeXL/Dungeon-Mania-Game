@@ -18,26 +18,12 @@ public abstract class Potion extends Entity implements InventoryItem, BattleItem
     }
 
     @Override
-    public boolean canMoveOnto(GameMap map, Entity entity) {
-        return true;
-    }
-
-    @Override
     public void onOverlap(GameMap map, Entity entity) {
         if (entity instanceof Player) {
-            if (!((Player) entity).pickUp(this)) return;
+            if (!((Player) entity).pickUp(this))
+                return;
             map.destroyEntity(this);
         }
-    }
-
-    @Override
-    public void onDestroy(GameMap gameMap) {
-        return;
-    }
-
-    @Override
-    public void onMovedAway(GameMap map, Entity entity) {
-        return;
     }
 
     @Override

@@ -13,17 +13,7 @@ public abstract class Buildable extends Entity implements InventoryItem, BattleI
     }
 
     @Override
-    public void onOverlap(GameMap map, Entity entity) {
-        return;
-    }
-
-    @Override
-    public void onMovedAway(GameMap map, Entity entity) {
-        return;
-    }
-
-    @Override
-    public void onDestroy(GameMap gameMap) {
-        return;
+    public boolean canMoveOnto(GameMap map, Entity entity) {
+        return false;
     }
 }

@@ -28,7 +28,7 @@ public abstract class Entity {
     }
 
     public boolean canMoveOnto(GameMap map, Entity entity) {
-        return false;
+        return true;
     }
 
     // use setPosition
@@ -47,17 +47,23 @@ public abstract class Entity {
         this.position = Position.translateBy(this.position, offset);
     }
 
-    public abstract void onOverlap(GameMap map, Entity entity);
+    public void onOverlap(GameMap map, Entity entity) {
+        return;
+    }
 
-    public abstract void onMovedAway(GameMap map, Entity entity);
+    public void onMovedAway(GameMap map, Entity entity) {
+        return;
+    }
 
-    public abstract void onDestroy(GameMap gameMap);
+    public void onDestroy(GameMap gameMap) {
+        return;
+    }
 
     public Position getPosition() {
         return position;
     }
 
-    public List<Position> getCardinallyAdjacentPositionCurrPos() {
+    public List<Position> getAdjacentPositionsToCurrPos() {
         return getPosition().getCardinallyAdjacentPositions();
     }
 

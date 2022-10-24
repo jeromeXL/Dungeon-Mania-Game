@@ -40,29 +40,16 @@ public class Bomb extends Entity implements InventoryItem {
     }
 
     @Override
-    public boolean canMoveOnto(GameMap map, Entity entity) {
-        return true;
-    }
-
-    @Override
     public void onOverlap(GameMap map, Entity entity) {
-        if (state != State.SPAWNED) return;
+        if (state != State.SPAWNED)
+            return;
         if (entity instanceof Player) {
-            if (!((Player) entity).pickUp(this)) return;
+            if (!((Player) entity).pickUp(this))
+                return;
             subs.stream().forEach(s -> s.unsubscribe(this));
             map.destroyEntity(this);
         }
         this.state = State.INVENTORY;
-    }
-
-    @Override
-    public void onMovedAway(GameMap map, Entity entity) {
-        return;
-    }
-
-    @Override
-    public void onDestroy(GameMap gameMap) {
-        return;
     }
 
     public void onPutDown(GameMap map, Position p) {
@@ -72,9 +59,9 @@ public class Bomb extends Entity implements InventoryItem {
         List<Position> adjPosList = getPosition().getCardinallyAdjacentPositions();
         adjPosList.stream().forEach(node -> {
             List<Entity> entities = map.getEntities(node)
-                                        .stream()
-                                        .filter(e -> (e instanceof Switch))
-                                        .collect(Collectors.toList());
+                    .stream()
+                    .filter(e -> (e instanceof Switch))
+                    .collect(Collectors.toList());
             entities.stream()
                     .map(Switch.class::cast)
                     .forEach(s -> s.subscribe(this, map));
@@ -85,7 +72,9 @@ public class Bomb extends Entity implements InventoryItem {
     }
 
     /**
-     * it destroys all entities in diagonally and cardinally adjacent cells, except for the player
+     * it destroys all entities in diagonally and cardinally adjacent cells, except
+     * for the player
+     *
      * @param map
      */
     public void explode(GameMap map) {
@@ -95,9 +84,10 @@ public class Bomb extends Entity implements InventoryItem {
             for (int j = y - radius; j <= y + radius; j++) {
                 List<Entity> entities = map.getEntities(new Position(i, j));
                 entities = entities.stream()
-                    .filter(e -> !(e instanceof Player))
-                    .collect(Collectors.toList());
-                for (Entity e: entities) map.destroyEntity(e);
+                        .filter(e -> !(e instanceof Player))
+                        .collect(Collectors.toList());
+                for (Entity e : entities)
+                    map.destroyEntity(e);
             }
         }
     }
