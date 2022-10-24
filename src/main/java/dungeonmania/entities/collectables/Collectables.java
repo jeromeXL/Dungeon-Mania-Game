@@ -7,7 +7,7 @@ import dungeonmania.util.Position;
 
 public class Collectables extends Entity{
 
-    public Collectables (Position position) {
+    public Collectables(Position position) {
         super(position);
     }
     
