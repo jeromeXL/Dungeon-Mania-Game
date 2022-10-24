@@ -5,12 +5,12 @@ import dungeonmania.entities.Player;
 import dungeonmania.map.GameMap;
 import dungeonmania.util.Position;
 
-public class Collectables extends Entity{
+public class Collectables extends Entity {
 
     public Collectables(Position position) {
         super(position);
     }
-    
+
     @Override
     public boolean canMoveOnto(GameMap map, Entity entity) {
         return true;
