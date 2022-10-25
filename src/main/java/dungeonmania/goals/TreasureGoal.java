@@ -4,7 +4,7 @@ import dungeonmania.Game;
 import dungeonmania.entities.collectables.Treasure;
 
 public class TreasureGoal implements Goal {
-    int target;
+    private int target;
 
     public TreasureGoal(int target) {
         this.target = target;

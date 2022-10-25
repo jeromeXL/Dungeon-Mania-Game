@@ -3,8 +3,8 @@ package dungeonmania.goals;
 import dungeonmania.Game;
 
 public class OrGoal implements Goal {
-    Goal goal1;
-    Goal goal2;
+    private Goal goal1;
+    private Goal goal2;
 
     public OrGoal(Goal goal1, Goal goal2) {
         this.goal1 = goal1;
