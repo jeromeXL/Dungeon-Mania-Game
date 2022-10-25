@@ -13,8 +13,8 @@ public class OrGoal implements Goal {
 
     @Override
     public boolean achieved(Game game) {
-        if (game.getPlayer() == null)
-            return false;
+        // if (game.getPlayer() == null)
+        // return false;
         return goal1.achieved(game) || goal2.achieved(game);
     }
 
@@ -22,8 +22,7 @@ public class OrGoal implements Goal {
     public String toString(Game game) {
         if (achieved(game))
             return "";
-        else
-            return "(" + goal1.toString(game) + " OR " + goal2.toString(game) + ")";
+        return "(" + goal1.toString(game) + " OR " + goal2.toString(game) + ")";
     }
 
 }
