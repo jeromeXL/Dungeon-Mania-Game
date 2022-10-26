@@ -40,7 +40,7 @@ public class EnemyGoalsTest {
     @Test
     @Tag("15-2")
     @DisplayName("Test achieving a basic enemies goal by killing one enemy and destroying the zombie spawner")
-    public void KillAnEnemyThenDestroySpawner() {
+    public void KillAnEnemyThenDestroySpawner() throws InvalidActionException {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
         DungeonResponse res = dmc.newGame("d_enemyGoalsTest_KillAnEnemyThenDestroySpawner",
@@ -57,10 +57,13 @@ public class EnemyGoalsTest {
         // assert goal not met
         assertTrue(TestUtils.getGoals(res).contains(":enemies"));
 
-        // Move right 3 times and destroy spawner, picking up a sword on the way
+        // Move right 3 times, pick up the sword and use it whilst next to the spawner,
+        // destroying it.
         for (int i = 0; i < 3; i++) {
             res = dmc.tick(Direction.RIGHT);
         }
+        // use the sword whilst next to the Spawner
+        res = dmc.tick(TestUtils.getInventory(res, "sword").get(0).getId());
 
         // assert goal met
         assertEquals("", TestUtils.getGoals(res));
@@ -109,5 +112,16 @@ public class EnemyGoalsTest {
         assertTrue(TestUtils.getGoals(res).contains(":exit"));
         assertTrue(TestUtils.getGoals(res).contains(":enemies"));
         assertTrue(TestUtils.getGoals(res).contains(":treasure"));
+
+        // Move right and kill the spider. This should complete the enemies goal
+        res = dmc.tick(Direction.RIGHT);
+        assertTrue(TestUtils.getGoals(res).contains(":exit"));
+        assertFalse(TestUtils.getGoals(res).contains(":enemies"));
+        assertFalse(TestUtils.getGoals(res).contains(":treasure"));
+
+        // Move up to reach the exit.
+        res = dmc.tick(Direction.UP);
+        // assert goal met
+        assertEquals("", TestUtils.getGoals(res));
     }
 }

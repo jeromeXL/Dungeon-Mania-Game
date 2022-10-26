@@ -10,7 +10,9 @@ import dungeonmania.entities.EntityFactory;
 import dungeonmania.entities.Interactable;
 import dungeonmania.entities.Player;
 import dungeonmania.entities.collectables.Bomb;
+import dungeonmania.entities.collectables.Sword;
 import dungeonmania.entities.collectables.Treasure;
+import dungeonmania.entities.collectables.Useable;
 import dungeonmania.entities.collectables.potions.Potion;
 import dungeonmania.entities.enemies.Enemy;
 import dungeonmania.exceptions.InvalidActionException;
@@ -54,7 +56,7 @@ public class Game {
 
     public Game tick(Direction movementDirection) {
         registerOnce(
-            () -> player.move(this.getMap(), movementDirection), PLAYER_MOVEMENT, "playerMoves");
+                () -> player.move(this.getMap(), movementDirection), PLAYER_MOVEMENT, "playerMoves");
         tick();
         return this;
     }
@@ -63,7 +65,7 @@ public class Game {
         Entity item = player.getEntity(itemUsedId);
         if (item == null)
             throw new InvalidActionException(String.format("Item with id %s doesn't exist", itemUsedId));
-        if (!(item instanceof Bomb) && !(item instanceof Potion))
+        if (!(item instanceof Useable))
             throw new IllegalArgumentException(String.format("%s cannot be used", item.getClass()));
 
         registerOnce(() -> {
@@ -71,6 +73,8 @@ public class Game {
                 player.use((Bomb) item, map);
             if (item instanceof Potion)
                 player.use((Potion) item, tickCount);
+            if (item instanceof Sword)
+                player.use((Sword) item, map);
         }, PLAYER_MOVEMENT, "playerUsesItem");
         tick();
         return this;
@@ -78,6 +82,7 @@ public class Game {
 
     /**
      * Battle between player and enemy
+     *
      * @param player
      * @param enemy
      */
@@ -88,6 +93,7 @@ public class Game {
         }
         if (enemy.getBattleStatistics().getHealth() <= 0) {
             map.destroyEntity(enemy);
+            player.incrementKillCount();
         }
     }
 
@@ -109,7 +115,7 @@ public class Game {
             throw new InvalidActionException("Entity cannot be interacted");
         }
         registerOnce(
-            () -> ((Interactable) e).interact(player, this), PLAYER_MOVEMENT, "playerBuildsItem");
+                () -> ((Interactable) e).interact(player, this), PLAYER_MOVEMENT, "playerBuildsItem");
         tick();
         return this;
     }

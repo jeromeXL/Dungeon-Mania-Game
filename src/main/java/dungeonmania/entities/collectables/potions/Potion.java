@@ -4,10 +4,11 @@ import dungeonmania.Game;
 import dungeonmania.battles.BattleStatistics;
 import dungeonmania.entities.BattleItem;
 import dungeonmania.entities.collectables.Collectables;
+import dungeonmania.entities.collectables.Useable;
 import dungeonmania.entities.inventory.InventoryItem;
 import dungeonmania.util.Position;
 
-public abstract class Potion extends Collectables implements InventoryItem, BattleItem {
+public abstract class Potion extends Collectables implements InventoryItem, BattleItem, Useable {
     private int duration;
 
     public Potion(Position position, int duration) {
