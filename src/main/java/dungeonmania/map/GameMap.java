@@ -37,26 +37,12 @@ public class GameMap {
     private void initRegisterBombsAndSwitches() {
         List<Bomb> bombs = getEntities(Bomb.class);
         List<Switch> switchs = getEntities(Switch.class);
-        for (Bomb b : bombs) {
-            for (Switch s : switchs) {
-                if (Position.isAdjacent(b.getPosition(), s.getPosition())) {
-                    b.subscribe(s);
-                    s.subscribe(b);
-                }
-            }
-        }
-        // switchs.stream().filter(s -> Position.isAdjacent(b.getPosition(),
-        // s.getPosition())).forEach(s -> {
-        // b.subscribe(s);
-        // s.subscribe(b);
-        // });
-
-        // bombs.stream().forEach(
-        // b -> switchs.stream().filter(s -> Position.isAdjacent(b.getPosition(),
-        // s.getPosition())).forEach(s -> {
-        // b.subscribe(s);
-        // s.subscribe(b);
-        // }));
+        bombs.stream().forEach(
+                b -> switchs.stream().filter(s -> Position.isAdjacent(b.getPosition(),
+                        s.getPosition())).forEach(s -> {
+                            b.subscribe(s);
+                            s.subscribe(b);
+                        }));
     }
 
     // Pair up portals if there's any
