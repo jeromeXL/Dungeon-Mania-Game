@@ -1,5 +1,6 @@
 package dungeonmania.entities.collectables;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import dungeonmania.Game;
@@ -53,14 +54,20 @@ public class Sword extends Collectables implements InventoryItem, BattleItem, Us
     // When a sword is used, look at cardinally adjacent positions, and destroy any
     // spawners.
     public void destroySpawners(GameMap map, Position p) {
+        List<ZombieToastSpawner> destroy = new ArrayList<>();
         List<Position> adjacentPositions = p.getCardinallyAdjacentPositions();
         for (Position pos : adjacentPositions) {
             List<Entity> eAtPos = map.getEntities(pos);
             for (Entity e : eAtPos) {
                 if (e instanceof ZombieToastSpawner) {
-                    map.destroyEntity(e);
+                    // map.destroyEntity(e);
+                    destroy.add((ZombieToastSpawner) e);
                 }
             }
+        }
+
+        for (ZombieToastSpawner z : destroy) {
+            map.destroyEntity(z);
         }
     }
 }
