@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class NewAlliedMovementTest {
     @Test
     @Tag("16-1")
-    @DisplayName("Test achieving a basic enemies goal with only one enemy and no spawners")
+    @DisplayName("Testing whether an ally will go towards the player via Dijkstra's")
     public void AlliesApproachPlayer() {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
@@ -33,13 +33,13 @@ public class NewAlliedMovementTest {
         for (int i = 0; i < 3; i++) {
             res = dmc.tick(Direction.LEFT);
         }
-        assertEquals(new Position(2, 2), getMercPos(res));
+        assertEquals(new Position(4, 2), getMercPos(res));
         assertEquals(new Position(3, 2), getPlayerPos(res));
     }
 
     @Test
-    @Tag("16-1")
-    @DisplayName("Test achieving a basic enemies goal with only one enemy and no spawners")
+    @Tag("16-2")
+    @DisplayName("Testing whether an ally will follow the players movement once it is adjacent")
     public void FollowsPlayer() {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
@@ -58,7 +58,7 @@ public class NewAlliedMovementTest {
         for (int i = 0; i < 3; i++) {
             res = dmc.tick(Direction.LEFT);
         }
-        assertEquals(new Position(2, 2), getMercPos(res));
+        assertEquals(new Position(4, 2), getMercPos(res));
         assertEquals(new Position(3, 2), getPlayerPos(res));
 
         res = dmc.tick(Direction.RIGHT);

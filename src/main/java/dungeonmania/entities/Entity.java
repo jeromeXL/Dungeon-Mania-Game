@@ -4,8 +4,10 @@ import dungeonmania.map.GameMap;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public abstract class Entity {
     public static final int FLOOR_LAYER = 0;
@@ -93,5 +95,24 @@ public abstract class Entity {
 
     public Direction getFacing() {
         return this.facing;
+    }
+
+    // A generic function that returns a list Entites of an entity type that is
+    // cardinally adjacent to the current entity.
+    public <T extends Entity> List<T> getCardAdjEntities(Class<T> clz, GameMap map, Position p) {
+        List<T> l = new ArrayList<>();
+        List<Position> adjacentPositions = p.getCardinallyAdjacentPositions();
+        for (Position pos : adjacentPositions) {
+            // List<Entity> eAtPos = map.getEntities(pos);
+            // for (Entity e : eAtPos) {
+            // if (e instanceof clz) {
+            // // map.destroyEntity(e);
+            // l.add((clz) e);
+            // }
+            // }
+            map.getEntities(pos).stream().filter(clz::isInstance).map(clz::cast).forEach(x -> l.add(x));
+        }
+
+        return l;
     }
 }

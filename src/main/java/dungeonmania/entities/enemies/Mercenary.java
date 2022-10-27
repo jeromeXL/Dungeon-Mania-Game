@@ -1,16 +1,18 @@
 package dungeonmania.entities.enemies;
 
+import java.util.List;
+
 import dungeonmania.Game;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.Interactable;
 import dungeonmania.entities.Player;
 import dungeonmania.entities.collectables.Treasure;
+import dungeonmania.entities.enemies.MovementBehaviour.FollowPlayerMovement;
 import dungeonmania.entities.enemies.MovementBehaviour.ShortestPathMovement;
-import dungeonmania.entities.enemies.MovementBehaviour.RandomMovement;
 import dungeonmania.map.GameMap;
 import dungeonmania.util.Position;
 
-public class Mercenary extends Enemy implements Interactable {
+public class Mercenary extends Enemy implements Interactable, Ally {
     public static final int DEFAULT_BRIBE_AMOUNT = 1;
     public static final int DEFAULT_BRIBE_RADIUS = 1;
     public static final double DEFAULT_ATTACK = 5.0;
@@ -27,13 +29,19 @@ public class Mercenary extends Enemy implements Interactable {
         super.changeMovement(new ShortestPathMovement(this));
     }
 
+    @Override
     public boolean isAllied() {
         return allied;
     }
 
     @Override
+    public void setAllied() {
+        allied = true;
+    }
+
+    @Override
     public void onOverlap(GameMap map, Entity entity) {
-        if (allied)
+        if (isAllied())
             return;
         super.onOverlap(map, entity);
     }
@@ -60,13 +68,20 @@ public class Mercenary extends Enemy implements Interactable {
 
     @Override
     public void interact(Player player, Game game) {
-        allied = true;
-        super.changeMovement(new RandomMovement(this));
+        setAllied();
+        super.changeMovement(new ShortestPathMovement(this));
         bribe(player);
     }
 
     @Override
     public boolean isInteractable(Player player) {
-        return !allied && canBeBribed(player);
+        return !isAllied() && canBeBribed(player);
+    }
+
+    public void isAdjacentToPlayer(GameMap map) {
+        List<Player> p = getCardAdjEntities(Player.class, map, getPosition());
+        if (p.size() == 1) {
+            this.changeMovement(new FollowPlayerMovement(this, map.getPlayer()));
+        }
     }
 }

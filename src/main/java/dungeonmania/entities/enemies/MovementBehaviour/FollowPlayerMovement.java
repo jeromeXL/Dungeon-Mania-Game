@@ -1,25 +1,24 @@
 package dungeonmania.entities.enemies.MovementBehaviour;
 
 import dungeonmania.Game;
+import dungeonmania.entities.Player;
 import dungeonmania.entities.enemies.Ally;
 import dungeonmania.entities.enemies.Enemy;
 import dungeonmania.map.GameMap;
 import dungeonmania.util.Position;
 
-public class ShortestPathMovement implements Movement {
+public class FollowPlayerMovement implements Movement {
     private Enemy enemy;
+    private Player player;
 
-    public ShortestPathMovement(Enemy enemy) {
+    public FollowPlayerMovement(Enemy enemy, Player player) {
         this.enemy = enemy;
+        this.player = player;
     }
 
     @Override
     public void move(Game game, GameMap map) {
-        Position nextPos = map.dijkstraPathFind(enemy.getPosition(), map.getPlayerCurrPos(), enemy);
+        Position nextPos = player.getPreviousDistinctPosition();
         map.moveTo(enemy, nextPos);
-        if (enemy instanceof Ally) {
-            Ally a = (Ally) enemy;
-            a.isAdjacentToPlayer(map);
-        }
     }
 }

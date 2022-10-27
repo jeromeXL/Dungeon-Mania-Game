@@ -3,16 +3,11 @@ package dungeonmania.mvp;
 import dungeonmania.DungeonManiaController;
 import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.DungeonResponse;
-import dungeonmania.response.models.BattleResponse;
-import dungeonmania.response.models.RoundResponse;
-import dungeonmania.response.models.EntityResponse;
 import dungeonmania.util.Direction;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
