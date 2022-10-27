@@ -24,7 +24,7 @@ public abstract class Enemy extends Entity implements Battleable {
         this.movement = null;
     }
 
-    protected void changeMovement(Movement movement) {
+    public void changeMovement(Movement movement) {
         this.movement = movement;
     }
 

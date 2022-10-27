@@ -19,7 +19,9 @@ public class ShortestPathMovement implements Movement {
         map.moveTo(enemy, nextPos);
         if (enemy instanceof Ally) {
             Ally a = (Ally) enemy;
-            a.isAdjacentToPlayer(map);
+            if (a.isAllied()) {
+                a.isAdjacentToPlayer(map);
+            }
         }
     }
 }
