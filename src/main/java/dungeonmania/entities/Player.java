@@ -67,8 +67,10 @@ public class Player extends Entity implements Battleable {
     public void move(GameMap map, Direction direction) {
         this.setFacing(direction);
         map.moveTo(this, Position.translateBy(this.getPosition(), direction));
-        getCardAdjEntities(Enemy.class, map, getPosition()).stream().filter(m -> m.isAllied())
-                .forEach(m -> m.changeMovement(new FollowPlayerMovement(m, this)));
+        // getCardAdjEntities(Enemy.class, map, getPosition()).stream().filter(m ->
+        // m.isAllied())
+        // .forEach(m -> m.changeMovement(new FollowPlayerMovement(m, this)));
+        map.getEntities(Enemy.class).stream().forEach(e -> e.isAdjacentToPlayer(map));
 
     }
 

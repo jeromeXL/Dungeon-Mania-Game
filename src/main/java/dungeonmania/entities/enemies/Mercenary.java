@@ -80,9 +80,11 @@ public class Mercenary extends Enemy implements Interactable {
 
     @Override
     public void isAdjacentToPlayer(GameMap map) {
-        List<Player> p = getCardAdjEntities(Player.class, map, getPosition());
-        if (p.size() == 1) {
-            this.changeMovement(new FollowPlayerMovement(this, map.getPlayer()));
+        if (allied) {
+            List<Player> p = getCardAdjEntities(Player.class, map, getPosition());
+            if (p.size() == 1) {
+                this.changeMovement(new FollowPlayerMovement(this, map.getPlayer()));
+            }
         }
     }
 }

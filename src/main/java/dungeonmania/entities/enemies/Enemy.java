@@ -24,7 +24,7 @@ public abstract class Enemy extends Entity implements Battleable {
         this.movement = null;
     }
 
-    public void changeMovement(Movement movement) {
+    protected void changeMovement(Movement movement) {
         this.movement = movement;
     }
 
@@ -69,7 +69,7 @@ public abstract class Enemy extends Entity implements Battleable {
         return false;
     }
 
-    public void setAllied() {
+    protected void setAllied() {
         return;
     }
 
