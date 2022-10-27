@@ -102,16 +102,8 @@ public abstract class Entity {
     public <T extends Entity> List<T> getCardAdjEntities(Class<T> clz, GameMap map, Position p) {
         List<T> l = new ArrayList<>();
         List<Position> adjacentPositions = p.getCardinallyAdjacentPositions();
-        for (Position pos : adjacentPositions) {
-            // List<Entity> eAtPos = map.getEntities(pos);
-            // for (Entity e : eAtPos) {
-            // if (e instanceof clz) {
-            // // map.destroyEntity(e);
-            // l.add((clz) e);
-            // }
-            // }
-            map.getEntities(pos).stream().filter(clz::isInstance).map(clz::cast).forEach(x -> l.add(x));
-        }
+        adjacentPositions.stream().forEach(
+                pos -> map.getEntities(pos).stream().filter(clz::isInstance).map(clz::cast).forEach(x -> l.add(x)));
 
         return l;
     }
