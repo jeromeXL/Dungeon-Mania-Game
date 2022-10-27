@@ -15,7 +15,7 @@ public class NewAlliedMovementTest {
     @Test
     @Tag("16-1")
     @DisplayName("Testing whether an ally will go towards the player via Dijkstra's")
-    public void AlliesApproachPlayer() {
+    public void alliesApproachPlayer() {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
         DungeonResponse res = dmc.newGame("d_NewAlliedMovementTest_AlliesApproachPlayer",
@@ -40,7 +40,7 @@ public class NewAlliedMovementTest {
     @Test
     @Tag("16-2")
     @DisplayName("Testing whether an ally will follow the players movement once it is adjacent")
-    public void FollowsPlayer() {
+    public void followsPlayer() {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
         DungeonResponse res = dmc.newGame("d_NewAlliedMovementTest_AlliesApproachPlayer",
@@ -78,7 +78,7 @@ public class NewAlliedMovementTest {
     @Test
     @Tag("16-3")
     @DisplayName("Testing whether bribing a mercenary whilst one square away puts them in the correct position")
-    public void OnePositionAwayBribe() {
+    public void onePositionAwayBribe() {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
         DungeonResponse res = dmc.newGame("d_NewAlliedMovementTest_OnePositionAwayBribe",

@@ -15,7 +15,7 @@ public class EnemyGoalsTest {
     @Test
     @Tag("15-1")
     @DisplayName("Test achieving a basic enemies goal with only one enemy and no spawners")
-    public void KillOneEnemy() {
+    public void killOneEnemy() {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
         DungeonResponse res = dmc.newGame("d_enemyGoalsTest_KillOneEnemy", "c_enemyGoalsTest_KillOneEnemy");
@@ -35,7 +35,7 @@ public class EnemyGoalsTest {
     @Test
     @Tag("15-2")
     @DisplayName("Test achieving a basic enemies goal by killing one enemy and destroying the zombie spawner")
-    public void KillAnEnemyThenDestroySpawner() throws InvalidActionException {
+    public void killAnEnemyThenDestroySpawner() throws InvalidActionException {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
         DungeonResponse res = dmc.newGame("d_enemyGoalsTest_KillAnEnemyThenDestroySpawner",
@@ -67,7 +67,7 @@ public class EnemyGoalsTest {
     @Test
     @Tag("15-3")
     @DisplayName("Killing an enemy and then use exit to achieve AND goal")
-    public void KillAnEnemyThenExitGoal() {
+    public void killAnEnemyThenExitGoal() {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
         DungeonResponse res = dmc.newGame("d_enemyGoalsTest_KillAnEnemyThenExitGoal",
@@ -98,7 +98,7 @@ public class EnemyGoalsTest {
     @Test
     @Tag("15-4")
     @DisplayName("Complex goal of Exit AND (enemies or treasure goal)")
-    public void ComplexEnemyGoalAndOr() {
+    public void complexEnemyGoalAndOr() {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
         DungeonResponse res = dmc.newGame("d_enemyGoalsTest_ComplexEnemyGoalAndOr",
