@@ -7,7 +7,6 @@ import dungeonmania.util.Position;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 public abstract class Entity {
     public static final int FLOOR_LAYER = 0;
