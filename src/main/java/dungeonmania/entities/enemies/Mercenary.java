@@ -12,15 +12,15 @@ import dungeonmania.entities.enemies.MovementBehaviour.ShortestPathMovement;
 import dungeonmania.map.GameMap;
 import dungeonmania.util.Position;
 
-public class Mercenary extends Enemy implements Interactable, Ally {
+public class Mercenary extends Enemy implements Interactable {
     public static final int DEFAULT_BRIBE_AMOUNT = 1;
     public static final int DEFAULT_BRIBE_RADIUS = 1;
     public static final double DEFAULT_ATTACK = 5.0;
     public static final double DEFAULT_HEALTH = 10.0;
+    private boolean allied = false;
 
     private int bribeAmount = Mercenary.DEFAULT_BRIBE_AMOUNT;
     private int bribeRadius = Mercenary.DEFAULT_BRIBE_RADIUS;
-    private boolean allied = false;
 
     public Mercenary(Position position, double health, double attack, int bribeAmount, int bribeRadius) {
         super(position, health, attack);
@@ -69,8 +69,8 @@ public class Mercenary extends Enemy implements Interactable, Ally {
     @Override
     public void interact(Player player, Game game) {
         setAllied();
-        super.changeMovement(new ShortestPathMovement(this));
         bribe(player);
+        isAdjacentToPlayer(game.getMap());
     }
 
     @Override
@@ -78,6 +78,7 @@ public class Mercenary extends Enemy implements Interactable, Ally {
         return !isAllied() && canBeBribed(player);
     }
 
+    @Override
     public void isAdjacentToPlayer(GameMap map) {
         List<Player> p = getCardAdjEntities(Player.class, map, getPosition());
         if (p.size() == 1) {

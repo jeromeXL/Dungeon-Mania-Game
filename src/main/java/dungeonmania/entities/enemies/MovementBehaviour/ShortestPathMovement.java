@@ -1,7 +1,6 @@
 package dungeonmania.entities.enemies.MovementBehaviour;
 
 import dungeonmania.Game;
-import dungeonmania.entities.enemies.Ally;
 import dungeonmania.entities.enemies.Enemy;
 import dungeonmania.map.GameMap;
 import dungeonmania.util.Position;
@@ -17,11 +16,8 @@ public class ShortestPathMovement implements Movement {
     public void move(Game game, GameMap map) {
         Position nextPos = map.dijkstraPathFind(enemy.getPosition(), map.getPlayerCurrPos(), enemy);
         map.moveTo(enemy, nextPos);
-        if (enemy instanceof Ally) {
-            Ally a = (Ally) enemy;
-            if (a.isAllied()) {
-                a.isAdjacentToPlayer(map);
-            }
+        if (enemy.isAllied()) {
+            enemy.isAdjacentToPlayer(map);
         }
     }
 }

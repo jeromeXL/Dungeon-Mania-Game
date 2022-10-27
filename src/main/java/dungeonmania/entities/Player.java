@@ -11,7 +11,6 @@ import dungeonmania.entities.collectables.Collectables;
 import dungeonmania.entities.collectables.Sword;
 import dungeonmania.entities.collectables.potions.InvincibilityPotion;
 import dungeonmania.entities.collectables.potions.Potion;
-import dungeonmania.entities.enemies.Ally;
 import dungeonmania.entities.enemies.Enemy;
 import dungeonmania.entities.enemies.Mercenary;
 import dungeonmania.entities.enemies.MovementBehaviour.FollowPlayerMovement;
@@ -68,7 +67,7 @@ public class Player extends Entity implements Battleable {
     public void move(GameMap map, Direction direction) {
         this.setFacing(direction);
         map.moveTo(this, Position.translateBy(this.getPosition(), direction));
-        getCardAdjEntities(Mercenary.class, map, getPosition()).stream().filter(m -> m.isAllied())
+        getCardAdjEntities(Enemy.class, map, getPosition()).stream().filter(m -> m.isAllied())
                 .forEach(m -> m.changeMovement(new FollowPlayerMovement(m, this)));
 
     }

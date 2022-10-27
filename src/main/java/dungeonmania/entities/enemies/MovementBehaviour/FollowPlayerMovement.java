@@ -2,7 +2,6 @@ package dungeonmania.entities.enemies.MovementBehaviour;
 
 import dungeonmania.Game;
 import dungeonmania.entities.Player;
-import dungeonmania.entities.enemies.Ally;
 import dungeonmania.entities.enemies.Enemy;
 import dungeonmania.map.GameMap;
 import dungeonmania.util.Position;
@@ -19,6 +18,8 @@ public class FollowPlayerMovement implements Movement {
     @Override
     public void move(Game game, GameMap map) {
         Position nextPos = player.getPreviousDistinctPosition();
-        map.moveTo(enemy, nextPos);
+        if (!nextPos.equals(player.getPosition())) {
+            map.moveTo(enemy, nextPos);
+        }
     }
 }

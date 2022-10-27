@@ -75,6 +75,34 @@ public class NewAlliedMovementTest {
         assertEquals(new Position(3, 1), getMercPos(res));
     }
 
+    @Test
+    @Tag("16-3")
+    @DisplayName("Testing whether bribing a mercenary whilst one square away puts them in the correct position")
+    public void OnePositionAwayBribe() {
+        DungeonManiaController dmc;
+        dmc = new DungeonManiaController();
+        DungeonResponse res = dmc.newGame("d_NewAlliedMovementTest_OnePositionAwayBribe",
+                "c_NewAlliedMovementTest_AlliesApproachPlayer");
+        String mercId = TestUtils.getEntitiesStream(res, "mercenary").findFirst().get().getId();
+        assertEquals(new Position(5, 2), getPlayerPos(res));
+        assertEquals(new Position(10, 2), getMercPos(res));
+        // Move right to pick up treasure
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(new Position(6, 2), getPlayerPos(res));
+        assertEquals(1, TestUtils.getInventory(res, "treasure").size());
+        // Move right so that the Player and Mercenary are next to each other
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(new Position(7, 2), getPlayerPos(res));
+        assertEquals(new Position(8, 2), getMercPos(res));
+        // achieve bribe
+        res = assertDoesNotThrow(() -> dmc.interact(mercId));
+        assertEquals(0, TestUtils.getInventory(res, "treasure").size());
+        // The mercenary should now be in the Players previous distinct position
+        assertEquals(new Position(7, 2), getPlayerPos(res));
+        assertEquals(new Position(6, 2), getMercPos(res));
+
+    }
+
     private Position getMercPos(DungeonResponse res) {
         return TestUtils.getEntities(res, "mercenary").get(0).getPosition();
     }
