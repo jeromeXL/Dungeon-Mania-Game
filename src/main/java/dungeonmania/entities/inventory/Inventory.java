@@ -34,13 +34,13 @@ public class Inventory {
         int arrows = count(Arrow.class);
         int treasure = count(Treasure.class);
         int keys = count(Key.class);
-        int sun_stones = count(SunStone.class);
+        int sunStones = count(SunStone.class);
         List<String> result = new ArrayList<>();
 
         if (wood >= 1 && arrows >= 3) {
             result.add("bow");
         }
-        if (wood >= 2 && (treasure >= 1 || keys >= 1) || sun_stones >= 1) {
+        if (wood >= 2 && (treasure >= 1 || keys >= 1) || sunStones >= 1) {
             result.add("shield");
         }
         return result;
@@ -52,7 +52,7 @@ public class Inventory {
         List<Arrow> arrows = getEntities(Arrow.class);
         List<Treasure> treasure = getEntities(Treasure.class);
         List<Key> keys = getEntities(Key.class);
-        List<SunStone> sun_stones = getEntities(SunStone.class);
+        List<SunStone> sunStones = getEntities(SunStone.class);
 
         if (wood.size() >= 1 && arrows.size() >= 3 && !forceShield) {
             if (remove) {
@@ -63,11 +63,11 @@ public class Inventory {
             }
             return factory.buildBow();
 
-        } else if (wood.size() >= 2 && (sun_stones.size() >= 1 || treasure.size() >= 1 || keys.size() >= 1)) {
+        } else if (wood.size() >= 2 && (sunStones.size() >= 1 || treasure.size() >= 1 || keys.size() >= 1)) {
             if (remove) {
                 items.remove(wood.get(0));
                 items.remove(wood.get(1));
-                if (sun_stones.size() >= 1) {
+                if (sunStones.size() >= 1) {
                     return factory.buildShield();
                 } else if (treasure.size() >= 1) {
                     items.remove(treasure.get(0));

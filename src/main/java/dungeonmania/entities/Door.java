@@ -37,8 +37,7 @@ public class Door extends Entity {
         if (hasKey(player)) {
             inventory.remove(key);
             open();
-        }
-        else if (hasSunStone(player)) {
+        } else if (hasSunStone(player)) {
             open();
         }
     }
