@@ -59,7 +59,7 @@ public class SunStoneTest {
     public void buildShieldWithSunStone() {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
-        DungeonResponse res = dmc.newGame("d_SunStoneTest_BuildShieldWithSunStone", 
+        DungeonResponse res = dmc.newGame("d_SunStoneTest_BuildShieldWithSunStone",
         "c_SunStoneTest_BuildShieldWithSunStone");
 
         assertEquals(0, TestUtils.getInventory(res, "wood").size());
