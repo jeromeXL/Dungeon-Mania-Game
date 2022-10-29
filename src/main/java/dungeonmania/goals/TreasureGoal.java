@@ -1,6 +1,7 @@
 package dungeonmania.goals;
 
 import dungeonmania.Game;
+import dungeonmania.entities.collectables.SunStone;
 import dungeonmania.entities.collectables.Treasure;
 
 public class TreasureGoal implements Goal {
@@ -14,7 +15,7 @@ public class TreasureGoal implements Goal {
     public boolean achieved(Game game) {
         // if (game.getPlayer() == null)
         // return false;
-        return game.getInitialTreasureCount() - game.getMap().getEntities(Treasure.class).size() >= target;
+        return game.getInitialTreasureCount() - game.getMap().getEntities(Treasure.class).size() - game.getMap().getEntities(SunStone.class).size() >= target;
     }
 
     @Override
