@@ -76,4 +76,8 @@ public abstract class Enemy extends Entity implements Battleable {
     public void isAdjacentToPlayer(GameMap map) {
         return;
     }
+
+    protected void changeBattleStatistics(BattleStatistics b) {
+        this.battleStatistics = b;
+    }
 }
