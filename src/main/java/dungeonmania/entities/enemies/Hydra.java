@@ -9,7 +9,7 @@ public class Hydra extends Enemy {
     public static final double DEFAULT_ATTACK = 10.0;
     public static final double DEFAULT_HEAL_RATE = 0;
     public static final double DEFAULT_HEAL_AMOUNT = 1;
-    public Hydra(Position position, double health, double attack, double healRate, double healAmount) {        
+    public Hydra(Position position, double health, double attack, double healRate, double healAmount) {
         super(position, health, attack);
         super.changeMovement(new RandomMovement(this));
         super.changeBattleStatistics(new BattleStatistics(
@@ -21,5 +21,4 @@ public class Hydra extends Enemy {
             healRate,
             healAmount));
     }
-    
 }

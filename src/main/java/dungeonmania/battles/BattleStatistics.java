@@ -81,7 +81,6 @@ public class BattleStatistics {
             return rounds;
         }
 
-        
         Random rand = new Random();
         while (self.getHealth() > 0 && target.getHealth() > 0) {
             // Player takes damage
@@ -99,7 +98,6 @@ public class BattleStatistics {
                 target.setHealth(target.getHealth() - damageOnTarget);
                 rounds.add(new BattleRound(-damageOnSelf, -damageOnTarget));
             }
-            
         }
         return rounds;
     }
