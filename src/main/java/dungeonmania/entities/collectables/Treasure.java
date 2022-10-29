@@ -7,13 +7,10 @@ public class Treasure extends Collectables implements InventoryItem, TreasureInt
     public Treasure(Position position) {
         super(position);
     }
-
     public boolean bribable() {
         return true;
     }
-    
     public boolean retains() {
         return false;
     }
-
 }

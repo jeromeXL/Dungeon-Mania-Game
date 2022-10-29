@@ -7,11 +7,9 @@ public class SunStone extends Collectables implements InventoryItem, TreasureInt
     public SunStone(Position position) {
         super(position);
     }
-
     public boolean bribable() {
         return false;
     }
-    
     public boolean retains() {
         return true;
     }
