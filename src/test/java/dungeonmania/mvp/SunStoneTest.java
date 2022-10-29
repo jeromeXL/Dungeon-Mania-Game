@@ -4,18 +4,17 @@ import dungeonmania.DungeonManiaController;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
-import dungeonmania.exceptions.*;
+//import dungeonmania.exceptions.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
+//import java.util.ArrayList;
+//import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SunStoneTest {
-    
     @Test
     @Tag("17-1")
     @DisplayName("Test player can pick up a SunStone and add to inventory")
@@ -60,7 +59,8 @@ public class SunStoneTest {
     public void buildShieldWithSunStone() {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
-        DungeonResponse res = dmc.newGame("d_SunStoneTest_BuildShieldWithSunStone", "c_SunStoneTest_BuildShieldWithSunStone");
+        DungeonResponse res = dmc.newGame("d_SunStoneTest_BuildShieldWithSunStone", 
+        "c_SunStoneTest_BuildShieldWithSunStone");
 
         assertEquals(0, TestUtils.getInventory(res, "wood").size());
         assertEquals(0, TestUtils.getInventory(res, "sun_stone").size());
