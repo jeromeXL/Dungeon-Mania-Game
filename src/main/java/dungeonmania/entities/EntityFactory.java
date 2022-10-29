@@ -113,6 +113,14 @@ public class EntityFactory {
         return new Shield(shieldDurability, shieldDefence);
     }
 
+    public Hydra buildHydra(Position pos) {
+        double hydraHealth = config.optDouble("hydra_health", Hydra.DEFAULT_HEALTH);
+        double hydraAttack = config.optDouble("hydra_attack", Hydra.DEFAULT_ATTACK);
+        double hydraHealRate = config.optDouble("hydra_health_increase_rate", Hydra.DEFAULT_HEAL_RATE);
+        double hydraHealAmount = config.optDouble("hydra_health_increase_amount", Hydra.DEFAULT_HEAL_AMOUNT);
+        return new Hydra(pos, hydraHealth, hydraAttack, hydraHealRate, hydraHealAmount);
+    }
+
     private Entity constructEntity(JSONObject jsonEntity, JSONObject config) {
         Position pos = new Position(jsonEntity.getInt("x"), jsonEntity.getInt("y"));
 
@@ -165,6 +173,8 @@ public class EntityFactory {
             return new Door(pos, jsonEntity.getInt("key"));
         case "key":
             return new Key(pos, jsonEntity.getInt("key"));
+        case "hydra":
+            return buildHydra(pos);
         default:
             return null;
         }

@@ -2,6 +2,7 @@ package dungeonmania.battles;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class BattleStatistics {
     public static final double DEFAULT_DAMAGE_MAGNIFIER = 1.0;
@@ -15,6 +16,8 @@ public class BattleStatistics {
     private double reducer;
     private boolean invincible;
     private boolean enabled;
+    private double healRate = 0;
+    private double healAmount = 0;
 
     public BattleStatistics(
             double health,
@@ -48,6 +51,25 @@ public class BattleStatistics {
         this.enabled = isEnabled;
     }
 
+    public BattleStatistics(
+            double health,
+            double attack,
+            double defence,
+            double attackMagnifier,
+            double damageReducer,
+            double healRate,
+            double healAmount) {
+        this.health = health;
+        this.attack = attack;
+        this.defence = defence;
+        this.magnifier = attackMagnifier;
+        this.reducer = damageReducer;
+        this.invincible = false;
+        this.enabled = true;
+        this.healRate = healRate;
+        this.healAmount = healAmount;
+    }
+
     public static List<BattleRound> battle(BattleStatistics self, BattleStatistics target) {
         List<BattleRound> rounds = new ArrayList<>();
         if (self.invincible ^ target.invincible) {
@@ -59,13 +81,23 @@ public class BattleStatistics {
             return rounds;
         }
 
+        Random rand = new Random();
         while (self.getHealth() > 0 && target.getHealth() > 0) {
+            // Player takes damage
             double damageOnSelf = target.getMagnifier() * (target.getAttack() - self.getDefence()) / self.getReducer();
-            double damageOnTarget = self.getMagnifier() * (self.getAttack() - target.getDefence())
-                    / target.getReducer();
             self.setHealth(self.getHealth() - damageOnSelf);
-            target.setHealth(target.getHealth() - damageOnTarget);
-            rounds.add(new BattleRound(-damageOnSelf, -damageOnTarget));
+
+            // Enemy takes damage
+            // If the target is a Hydra and it is healing/not taking damage
+            if (target.healRate != 0 && target.healAmount >= 0 && rand.nextDouble() <= target.healRate) {
+                target.setHealth(target.getHealth() + target.healAmount);
+                rounds.add(new BattleRound(-damageOnSelf, target.healAmount));
+            } else {
+                double damageOnTarget = self.getMagnifier() * (self.getAttack() - target.getDefence())
+                / target.getReducer();
+                target.setHealth(target.getHealth() - damageOnTarget);
+                rounds.add(new BattleRound(-damageOnSelf, -damageOnTarget));
+            }
         }
         return rounds;
     }

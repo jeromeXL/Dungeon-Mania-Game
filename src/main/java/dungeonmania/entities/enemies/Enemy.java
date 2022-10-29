@@ -64,4 +64,20 @@ public abstract class Enemy extends Entity implements Battleable {
     public double getHealth() {
         return getBattleStatistics().getHealth();
     }
+
+    public boolean isAllied() {
+        return false;
+    }
+
+    protected void setAllied() {
+        return;
+    }
+
+    public void isAdjacentToPlayer(GameMap map) {
+        return;
+    }
+
+    protected void changeBattleStatistics(BattleStatistics b) {
+        this.battleStatistics = b;
+    }
 }

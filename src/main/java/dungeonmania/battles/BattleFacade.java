@@ -37,12 +37,6 @@ public class BattleFacade {
                 playerBuff = item.applyBuff(playerBuff);
                 battleItems.add(item);
             }
-
-            // player.getItems(BattleItem.class).stream().forEach(i -> {
-            // playerBuff = i.applyBuff(playerBuff);
-            // battleItems.add(i);
-            // });
-
         }
 
         // 2. Battle the two stats

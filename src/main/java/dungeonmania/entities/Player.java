@@ -8,6 +8,7 @@ import dungeonmania.battles.BattleStatistics;
 import dungeonmania.battles.Battleable;
 import dungeonmania.entities.collectables.Bomb;
 import dungeonmania.entities.collectables.Collectables;
+import dungeonmania.entities.collectables.Sword;
 import dungeonmania.entities.collectables.potions.InvincibilityPotion;
 import dungeonmania.entities.collectables.potions.Potion;
 import dungeonmania.entities.enemies.Enemy;
@@ -27,6 +28,7 @@ public class Player extends Entity implements Battleable {
     private Queue<Potion> queue = new LinkedList<>();
     private Potion inEffective = null;
     private int nextTrigger = 0;
+    private int killCount = 0;
 
     private PlayerState state;
 
@@ -64,6 +66,8 @@ public class Player extends Entity implements Battleable {
     public void move(GameMap map, Direction direction) {
         this.setFacing(direction);
         map.moveTo(this, Position.translateBy(this.getPosition(), direction));
+        map.getEntities(Enemy.class).stream().forEach(e -> e.isAdjacentToPlayer(map));
+
     }
 
     @Override
@@ -75,7 +79,8 @@ public class Player extends Entity implements Battleable {
             }
             map.getGame().battle(this, (Enemy) entity);
         } else if (entity instanceof Collectables) {
-            if (!(this.pickUp(entity))) return;
+            if (!(this.pickUp(entity)))
+                return;
             map.destroyEntity(entity);
         }
     }
@@ -184,5 +189,15 @@ public class Player extends Entity implements Battleable {
         return getInventory().getEntities(clz);
     }
 
+    public void incrementKillCount() {
+        killCount++;
+    }
 
+    public int getKillCount() {
+        return killCount;
+    }
+
+    public void use(Sword sword, GameMap map) {
+        sword.destroySpawners(map, getPosition());
+    }
 }

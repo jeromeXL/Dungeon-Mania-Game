@@ -16,5 +16,6 @@ public class ShortestPathMovement implements Movement {
     public void move(Game game, GameMap map) {
         Position nextPos = map.dijkstraPathFind(enemy.getPosition(), map.getPlayerCurrPos(), enemy);
         map.moveTo(enemy, nextPos);
+        enemy.isAdjacentToPlayer(map);
     }
 }
