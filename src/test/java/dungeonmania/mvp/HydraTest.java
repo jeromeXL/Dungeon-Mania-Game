@@ -28,7 +28,8 @@ public class HydraTest {
                 "c_HydraTest_hydraMovement");
         assertEquals(1, getHydras(res).size());
 
-        // Teams may assume that random movement includes choosing to stay still, so we should just
+        // Teams may assume that random movement includes choosing to stay still, so we
+        // should just
         // check that they do move at least once in a few turns
         boolean hydraMoved = false;
         Position prevPosition = getHydras(res).get(0).getPosition();
@@ -75,7 +76,8 @@ public class HydraTest {
         DungeonResponse res = dmc.newGame("d_HydraTest_hydraGainHealth",
                 "c_HydraTest_hydraGainHealth");
 
-        // The Hydra will always gain health after being attacked, so the health should not change.
+        // The Hydra will always gain health after being attacked, so the health should
+        // not change.
         // The Hydra will defeat the Player
         assertEquals(1, getHydras(res).size());
         DungeonResponse postBattleResponse = dmc.tick(Direction.RIGHT);
@@ -90,7 +92,8 @@ public class HydraTest {
         // (Attack = 1000, Damage Dealt = (1000 - 0) / 10 = 100, Player Health = 50)
         // It will always gain 10 health per round, so,
         // deltaEnemyHealth should = +10
-        int playerHealth = Integer.parseInt(TestUtils.getValueFromConfigFile("player_health", "c_HydraTest_hydraGainHealth"));
+        int playerHealth = Integer
+                .parseInt(TestUtils.getValueFromConfigFile("player_health", "c_HydraTest_hydraGainHealth"));
         assertEquals(10, battle.getRounds().get(0).getDeltaEnemyHealth(), 0.001);
         // Delta health is negative so take negative here
         System.out.println("Change in Player health is: " + -battle.getRounds().get(0).getDeltaCharacterHealth());
@@ -117,8 +120,8 @@ public class HydraTest {
         assertEquals(0, TestUtils.countEntityOfType(entities, "hydra"));
         assertEquals(1, TestUtils.countEntityOfType(entities, "player"));
 
-        int hydraHealth = Integer.parseInt(TestUtils.getValueFromConfigFile
-        ("hydra_health", "c_HydraTest_hydraNeverGainHealth"));
+        int hydraHealth = Integer
+                .parseInt(TestUtils.getValueFromConfigFile("hydra_health", "c_HydraTest_hydraNeverGainHealth"));
         // Delta health is negative so take negative here
         System.out.println("Change in Hydra health is: " + -battle.getRounds().get(0).getDeltaEnemyHealth());
         assertTrue(-battle.getRounds().get(0).getDeltaEnemyHealth() >= hydraHealth);
@@ -148,8 +151,8 @@ public class HydraTest {
         // (Attack = 100, Damage Dealt = (100 - 0) / 10 = 10, Player Health = 50)
         // Hydra will always gain 15 health per round, so,
         // deltaEnemyHealth should = +15
-        int healing = Integer.parseInt(TestUtils.getValueFromConfigFile
-        ("hydra_health_increase_amount", "c_HydraTest_hydraGainHealthMultiple"));
+        int healing = Integer.parseInt(TestUtils.getValueFromConfigFile("hydra_health_increase_amount",
+                "c_HydraTest_hydraGainHealthMultiple"));
         for (int i = 0; i < 5; i++) {
             assertEquals(healing, battle.getRounds().get(i).getDeltaEnemyHealth(), 0.001);
             assertEquals(-10, battle.getRounds().get(i).getDeltaCharacterHealth(), 0.001);
