@@ -41,6 +41,7 @@ public class EnemyGoalsTest {
         DungeonResponse res = dmc.newGame("d_enemyGoalsTest_KillAnEnemyThenDestroySpawner",
                 "c_enemyGoalsTest_KillAnEnemyThenDestroySpawner");
 
+        String spawnerId = TestUtils.getEntitiesStream(res, "zombie_toast_spawner").findFirst().get().getId();
         // assert goal not met
         assertTrue(TestUtils.getGoals(res).contains(":enemies"));
 
@@ -52,13 +53,17 @@ public class EnemyGoalsTest {
         // assert goal not met
         assertTrue(TestUtils.getGoals(res).contains(":enemies"));
 
-        // Move right 3 times, pick up the sword and use it whilst next to the spawner,
-        // destroying it.
+        // Move right 3 times, pick up the sword and end up on the left of
+        // the spawner
         for (int i = 0; i < 3; i++) {
             res = dmc.tick(Direction.RIGHT);
         }
-        // use the sword whilst next to the Spawner
-        res = dmc.tick(TestUtils.getInventory(res, "sword").get(0).getId());
+        res = dmc.tick(Direction.UP);
+        // Can't interact with the spawner since we are diagonal:
+        assertThrows(InvalidActionException.class, () -> dmc.interact(spawnerId));
+        res = dmc.tick(Direction.DOWN);
+        // Interact with the spawner
+        res = assertDoesNotThrow(() -> dmc.interact(spawnerId));
 
         // assert goal met
         assertEquals("", TestUtils.getGoals(res));

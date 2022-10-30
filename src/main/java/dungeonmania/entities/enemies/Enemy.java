@@ -73,7 +73,7 @@ public abstract class Enemy extends Entity implements Battleable {
         return;
     }
 
-    public void isAdjacentToPlayer(GameMap map) {
+    public void isAdjacentToPlayer(Player player) {
         return;
     }
 

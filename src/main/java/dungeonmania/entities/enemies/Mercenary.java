@@ -1,7 +1,5 @@
 package dungeonmania.entities.enemies;
 
-import java.util.List;
-
 import dungeonmania.Game;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.Interactable;
@@ -46,6 +44,12 @@ public class Mercenary extends Enemy implements Interactable {
         super.onOverlap(map, entity);
     }
 
+    @Override
+    public boolean canMoveOnto(GameMap map, Entity entity) {
+        if (isAllied()) return entity instanceof Mercenary || entity instanceof Player;
+        else return entity instanceof Player;
+    }
+
     /**
      * check whether the current merc can be bribed
      *
@@ -70,7 +74,7 @@ public class Mercenary extends Enemy implements Interactable {
     public void interact(Player player, Game game) {
         setAllied();
         bribe(player);
-        isAdjacentToPlayer(game.getMap());
+        isAdjacentToPlayer(player);
     }
 
     @Override
@@ -79,12 +83,9 @@ public class Mercenary extends Enemy implements Interactable {
     }
 
     @Override
-    public void isAdjacentToPlayer(GameMap map) {
-        if (allied) {
-            List<Player> p = getCardAdjEntities(Player.class, map, getPosition());
-            if (p.size() == 1) {
-                this.changeMovement(new FollowPlayerMovement(this, map.getPlayer()));
-            }
+    public void isAdjacentToPlayer(Player player) {
+        if (allied && Position.isAdjacent(player.getPosition(), getPosition())) {
+            this.changeMovement(new FollowPlayerMovement(this, player));
         }
     }
 }

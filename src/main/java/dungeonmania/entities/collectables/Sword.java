@@ -1,16 +1,12 @@
 package dungeonmania.entities.collectables;
 
-import java.util.List;
-
 import dungeonmania.Game;
 import dungeonmania.battles.BattleStatistics;
 import dungeonmania.entities.BattleItem;
-import dungeonmania.entities.enemies.ZombieToastSpawner;
 import dungeonmania.entities.inventory.InventoryItem;
-import dungeonmania.map.GameMap;
 import dungeonmania.util.Position;
 
-public class Sword extends Collectables implements InventoryItem, BattleItem, Useable {
+public class Sword extends Collectables implements InventoryItem, BattleItem {
     public static final double DEFAULT_ATTACK = 1;
     public static final double DEFAULT_ATTACK_SCALE_FACTOR = 1;
     public static final int DEFAULT_DURABILITY = 5;
@@ -49,12 +45,4 @@ public class Sword extends Collectables implements InventoryItem, BattleItem, Us
         return durability;
     }
 
-    // When a sword is used, look at cardinally adjacent positions, and destroy any
-    // spawners.
-    public void destroySpawners(GameMap map, Position p) {
-        List<ZombieToastSpawner> destroy = getCardAdjEntities(ZombieToastSpawner.class, map, p);
-        for (ZombieToastSpawner z : destroy) {
-            map.destroyEntity(z);
-        }
-    }
 }

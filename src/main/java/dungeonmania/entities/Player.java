@@ -8,11 +8,11 @@ import dungeonmania.battles.BattleStatistics;
 import dungeonmania.battles.Battleable;
 import dungeonmania.entities.collectables.Bomb;
 import dungeonmania.entities.collectables.Collectables;
-import dungeonmania.entities.collectables.Sword;
 import dungeonmania.entities.collectables.potions.InvincibilityPotion;
 import dungeonmania.entities.collectables.potions.Potion;
 import dungeonmania.entities.enemies.Enemy;
 import dungeonmania.entities.enemies.Mercenary;
+import dungeonmania.entities.enemies.ZombieToastSpawner;
 import dungeonmania.entities.inventory.Inventory;
 import dungeonmania.entities.inventory.InventoryItem;
 import dungeonmania.entities.playerState.PlayerState;
@@ -66,7 +66,7 @@ public class Player extends Entity implements Battleable {
     public void move(GameMap map, Direction direction) {
         this.setFacing(direction);
         map.moveTo(this, Position.translateBy(this.getPosition(), direction));
-        map.getEntities(Enemy.class).stream().forEach(e -> e.isAdjacentToPlayer(map));
+        map.getEntities(Enemy.class).stream().forEach(e -> e.isAdjacentToPlayer(this));
 
     }
 
@@ -197,7 +197,7 @@ public class Player extends Entity implements Battleable {
         return killCount;
     }
 
-    public void use(Sword sword, GameMap map) {
-        sword.destroySpawners(map, getPosition());
+    public void destroySpawner(ZombieToastSpawner spawner, GameMap map) {
+        map.destroyEntity((Entity) spawner);
     }
 }
