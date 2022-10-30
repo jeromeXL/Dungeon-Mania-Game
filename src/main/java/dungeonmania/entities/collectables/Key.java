@@ -15,4 +15,7 @@ public class Key extends Collectables implements InventoryItem {
         return number;
     }
 
+    public boolean retains() {
+        return false;
+    }
 }

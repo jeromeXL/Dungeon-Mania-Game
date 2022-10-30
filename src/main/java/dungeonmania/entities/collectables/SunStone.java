@@ -3,14 +3,14 @@ package dungeonmania.entities.collectables;
 import dungeonmania.entities.inventory.InventoryItem;
 import dungeonmania.util.Position;
 
-public class Treasure extends Collectables implements InventoryItem, TreasureInterface {
-    public Treasure(Position position) {
+public class SunStone extends Collectables implements InventoryItem, TreasureInterface, KeyInterface {
+    public SunStone(Position position) {
         super(position);
     }
     public boolean bribable() {
-        return true;
+        return false;
     }
     public boolean retains() {
-        return false;
+        return true;
     }
 }
