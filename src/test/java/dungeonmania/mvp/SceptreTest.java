@@ -191,6 +191,46 @@ public class SceptreTest {
 
     @Test
     @Tag("19-5")
+    @DisplayName("Test player can build sceptre with 1 x wood, 1 x Sunstone, 1 x Sunstone")
+    public void buildSceptreWoodSunStone() {
+        DungeonManiaController dmc;
+        dmc = new DungeonManiaController();
+        DungeonResponse res = dmc.newGame("d_SceptreTest_buildSceptreWoodSunStone", "c_SceptreTest_buildSceptre");
+
+        // Pick up wood
+        assertEquals(1, TestUtils.getEntities(res, "wood").size());
+        assertEquals(0, TestUtils.getInventory(res, "wood").size());
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(0, TestUtils.getEntities(res, "wood").size());
+        assertEquals(1, TestUtils.getInventory(res, "wood").size());
+
+        // pick up key
+        assertEquals(2, TestUtils.getEntities(res, "sun_stone").size());
+        assertEquals(0, TestUtils.getInventory(res, "sun_stone").size());
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(1, TestUtils.getEntities(res, "sun_stone").size());
+        assertEquals(1, TestUtils.getInventory(res, "sun_stone").size());
+
+        // pick up sunstone
+        assertEquals(1, TestUtils.getEntities(res, "sun_stone").size());
+        assertEquals(1, TestUtils.getInventory(res, "sun_stone").size());
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(0, TestUtils.getEntities(res, "sun_stone").size());
+        assertEquals(2, TestUtils.getInventory(res, "sun_stone").size());
+
+        // Build sceptre
+        assertEquals(0, TestUtils.getInventory(res, "sceptre").size());
+        res = assertDoesNotThrow(() -> dmc.build("sceptre"));
+        assertEquals(1, TestUtils.getInventory(res, "sceptre").size());
+
+        // Check materials are removed from inventory
+        // SunStone used to replace the key/treasure should be retained
+        assertEquals(0, TestUtils.getInventory(res, "wood").size());
+        assertEquals(1, TestUtils.getInventory(res, "sun_stone").size());
+    }
+
+    @Test
+    @Tag("19-6")
     @DisplayName("Test Player can mind control Mercenary using sceptre")
     public void MindControl() {
         DungeonManiaController dmc;

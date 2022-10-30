@@ -76,36 +76,40 @@ public class Inventory {
                 }
             }
             return factory.buildShield();
+        } else if ((wood.size() >= 1 || arrows.size() >= 2)
+                && (keys.size() >= 1 || treasure.size() >= 1 || sunStones.size() >= 2) && sunStones.size() >= 1) {
+            if (remove) {
+                if (wood.size() >= 1) {
+                    items.remove(wood.get(0));
+                } else {
+                    items.remove(arrows.get(0));
+                    items.remove(arrows.get(1));
+                }
+                if (sunStones.size() >= 2) {
+                    // Do not remove as it is retained
+                } else if (keys.size() >= 1) {
+                    items.remove(keys.get(0));
+                } else {
+                    items.remove(treasure.get(0));
+                }
+                items.remove(sunStones.get(0));
+            }
+            return factory.buildSceptre();
         }
         return null;
     }
 
     public <T extends InventoryItem> T getFirst(Class<T> itemType) {
-        // for (InventoryItem item : items)
-        // if (itemType.isInstance(item))
-        // return itemType.cast(item);
-        // return null;
-
         InventoryItem first = items.stream().filter(i -> itemType.isInstance(i)).findFirst().orElse(null);
         return first == null ? null : itemType.cast(first);
     }
 
     public <T extends InventoryItem> int count(Class<T> itemType) {
-        // int count = 0;
-        // for (InventoryItem item : items)
-        // if (itemType.isInstance(item))
-        // count++;
-
         long count = items.stream().filter(i -> itemType.isInstance(i)).count();
         return (int) count;
     }
 
     public Entity getEntity(String itemUsedId) {
-        // for (InventoryItem item : items)
-        // if (((Entity) item).getId().equals(itemUsedId))
-        // return (Entity) item;
-        // return null;
-
         InventoryItem first = items.stream().filter(i -> ((Entity) i).getId().equals(itemUsedId)).findFirst()
                 .orElse(null);
         return first == null ? null : (Entity) first;
