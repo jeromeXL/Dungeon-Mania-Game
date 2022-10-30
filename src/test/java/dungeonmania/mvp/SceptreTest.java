@@ -241,8 +241,8 @@ public class SceptreTest {
         res = dmc.tick(Direction.RIGHT);
         res = dmc.tick(Direction.RIGHT);
         res = dmc.tick(Direction.RIGHT);
-        assertEquals(1, TestUtils.getInventory(res, "key").size());
-        assertEquals(1, TestUtils.getInventory(res, "arrow").size());
+        assertEquals(1, TestUtils.getInventory(res, "treasure").size());
+        assertEquals(1, TestUtils.getInventory(res, "wood").size());
         assertEquals(1, TestUtils.getInventory(res, "sun_stone").size());
         // attempt interaction
         assertThrows(InvalidActionException.class, () ->

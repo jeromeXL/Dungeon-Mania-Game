@@ -43,6 +43,10 @@ public class Inventory {
         if (wood >= 2 && (treasure >= 1 || keys >= 1) || sunStones >= 1) {
             result.add("shield");
         }
+        if ((wood >= 1 || arrows >= 2)
+                && (keys >= 1 || treasure >= 1 || sunStones >= 2) && sunStones >= 1) {
+            result.add("sceptre");
+        }
         return result;
     }
 
