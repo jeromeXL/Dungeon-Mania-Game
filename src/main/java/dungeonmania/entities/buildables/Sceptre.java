@@ -23,8 +23,7 @@ public class Sceptre extends Buildable {
 
     @Override
     public BattleStatistics applyBuff(BattleStatistics origin) {
-        // TODO Auto-generated method stub
-        return null;
+        return new BattleStatistics(0, 0, 0, 0, 0); // No buff
     }
 
     public int getMindControlDuration() {

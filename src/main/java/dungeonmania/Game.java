@@ -113,7 +113,7 @@ public class Game {
             throw new InvalidActionException("Entity cannot be interacted");
         }
         registerOnce(
-                () -> ((Interactable) e).interact(player, this), PLAYER_MOVEMENT, "playerBuildsItem");
+                () -> ((Interactable) e).interact(player, this), PLAYER_MOVEMENT, "playerInteractsWithEntity");
         tick();
         return this;
     }

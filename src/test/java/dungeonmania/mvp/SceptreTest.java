@@ -253,28 +253,28 @@ public class SceptreTest {
         res = assertDoesNotThrow(() -> dmc.build("sceptre"));
         assertEquals(1, TestUtils.getInventory(res, "sceptre").size());
         // Can now mind control
-        assertDoesNotThrow(() -> dmc.interact(mercId));
+        assertDoesNotThrow(() -> dmc.interact(mercId)); // tick 1
 
         // Check that the Mercenary is allied and now follows the player
-        res = dmc.tick(Direction.RIGHT);
+        res = dmc.tick(Direction.RIGHT); // tick 2
         assertEquals(new Position(5, 1), getPlayerPos(res));
         assertEquals(new Position(6, 1), getMercPos(res));
 
-        res = dmc.tick(Direction.UP);
-        assertEquals(new Position(5, 2), getPlayerPos(res));
+        res = dmc.tick(Direction.UP); // tick 3
+        assertEquals(new Position(5, 0), getPlayerPos(res));
         assertEquals(new Position(5, 1), getMercPos(res));
 
-        res = dmc.tick(Direction.LEFT);
-        assertEquals(new Position(4, 2), getPlayerPos(res));
-        assertEquals(new Position(5, 2), getMercPos(res));
+        res = dmc.tick(Direction.LEFT); // tick 4
+        assertEquals(new Position(4, 0), getPlayerPos(res));
+        assertEquals(new Position(5, 0), getMercPos(res));
 
-        res = dmc.tick(Direction.LEFT);
-        assertEquals(new Position(3, 2), getPlayerPos(res));
-        assertEquals(new Position(4, 2), getMercPos(res));
+        res = dmc.tick(Direction.LEFT); // tick 5
+        assertEquals(new Position(3, 0), getPlayerPos(res));
+        assertEquals(new Position(4, 0), getMercPos(res));
 
-        res = dmc.tick(Direction.LEFT);
-        assertEquals(new Position(2, 2), getPlayerPos(res));
-        assertEquals(new Position(3, 2), getMercPos(res));
+        res = dmc.tick(Direction.LEFT); // enemy again
+        assertEquals(new Position(2, 0), getPlayerPos(res));
+        assertEquals(new Position(3, 0), getMercPos(res));
 
         // Now the mercenary isn't mind controlled anymore, so they can battle
         // The player should win

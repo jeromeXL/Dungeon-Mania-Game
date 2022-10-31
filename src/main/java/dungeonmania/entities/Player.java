@@ -6,6 +6,7 @@ import java.util.Queue;
 
 import dungeonmania.battles.BattleStatistics;
 import dungeonmania.battles.Battleable;
+import dungeonmania.entities.buildables.Sceptre;
 import dungeonmania.entities.collectables.Bomb;
 import dungeonmania.entities.collectables.Collectables;
 import dungeonmania.entities.collectables.potions.InvincibilityPotion;
@@ -199,5 +200,17 @@ public class Player extends Entity implements Battleable {
 
     public void destroySpawner(ZombieToastSpawner spawner, GameMap map) {
         map.destroyEntity((Entity) spawner);
+    }
+
+    public boolean hasSceptre() {
+        return inventory.getFirst(Sceptre.class) != null;
+    }
+
+    public int getMindControlDuration() {
+        if (hasSceptre()) {
+            return inventory.getFirst(Sceptre.class).getMindControlDuration();
+        } else {
+            return 0;
+        }
     }
 }
