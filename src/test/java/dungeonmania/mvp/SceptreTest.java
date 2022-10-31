@@ -232,7 +232,7 @@ public class SceptreTest {
     @Test
     @Tag("19-6")
     @DisplayName("Test Player can mind control Mercenary using sceptre")
-    public void MindControl() {
+    public void mindControl() {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
         DungeonResponse res = dmc.newGame("d_SceptreTest_mindControl", "c_SceptreTest_buildSceptre");
@@ -245,9 +245,7 @@ public class SceptreTest {
         assertEquals(1, TestUtils.getInventory(res, "wood").size());
         assertEquals(1, TestUtils.getInventory(res, "sun_stone").size());
         // attempt interaction
-        assertThrows(InvalidActionException.class, () ->
-                dmc.interact(mercId)
-        );
+        assertThrows(InvalidActionException.class, () -> dmc.interact(mercId));
         // Build sceptre
         assertEquals(0, TestUtils.getInventory(res, "sceptre").size());
         res = assertDoesNotThrow(() -> dmc.build("sceptre"));
