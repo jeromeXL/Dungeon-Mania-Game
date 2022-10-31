@@ -2,6 +2,7 @@ package dungeonmania.entities;
 
 import dungeonmania.Game;
 import dungeonmania.entities.buildables.Bow;
+import dungeonmania.entities.buildables.MidnightArmour;
 import dungeonmania.entities.buildables.Shield;
 import dungeonmania.entities.collectables.*;
 import dungeonmania.entities.enemies.*;
@@ -111,6 +112,12 @@ public class EntityFactory {
         int shieldDurability = config.optInt("shield_durability");
         double shieldDefence = config.optInt("shield_defence");
         return new Shield(shieldDurability, shieldDefence);
+    }
+
+    public MidnightArmour buildMidnightArmour() {
+        double midnightArmourAttack = config.optInt("midnight_armour_attack");
+        double midnightArmourDefence = config.optInt("midnight_armour_defence");
+        return new MidnightArmour(midnightArmourAttack, midnightArmourDefence);
     }
 
     public Hydra buildHydra(Position pos) {

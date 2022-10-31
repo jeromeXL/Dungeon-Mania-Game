@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class SunStoneTest {
     @Test
-    @Tag("17-1")
+    @Tag("18-1")
     @DisplayName("Test player can pick up a SunStone and add to inventory")
     public void pickUpSunStone() {
         DungeonManiaController dmc;
@@ -34,7 +34,7 @@ public class SunStoneTest {
     }
 
     @Test
-    @Tag("17-2")
+    @Tag("18-2")
     @DisplayName("Test player can use a SunStone to open and walk through a door")
     public void useSunStoneWalkThroughOpenDoor() {
         DungeonManiaController dmc;
@@ -54,7 +54,7 @@ public class SunStoneTest {
     }
 
     @Test
-    @Tag("17-3")
+    @Tag("18-3")
     @DisplayName("Test building a shield with a Sun Stone")
     public void buildShieldWithSunStone() {
         DungeonManiaController dmc;
@@ -86,7 +86,7 @@ public class SunStoneTest {
 
 
     @Test
-    @Tag("17-4")
+    @Tag("18-4")
     @DisplayName("Test achieving treasure goal with SunStone")
     public void treasureGoal() {
         DungeonManiaController dmc;
@@ -101,21 +101,21 @@ public class SunStoneTest {
 
         // collect treasure
         res = dmc.tick(Direction.RIGHT);
-        assertEquals(1, TestUtils.getInventory(res, "treasure").size());
+        assertEquals(1, TestUtils.getInventory(res, "sun_stone").size());
 
         // assert goal not met
         assertTrue(TestUtils.getGoals(res).contains(":treasure"));
 
         // collect treasure
         res = dmc.tick(Direction.RIGHT);
-        assertEquals(2, TestUtils.getInventory(res, "treasure").size());
+        assertEquals(2, TestUtils.getInventory(res, "sun_stone").size());
 
         // assert goal not met
         assertTrue(TestUtils.getGoals(res).contains(":treasure"));
 
         // collect SunStone
         res = dmc.tick(Direction.RIGHT);
-        assertEquals(1, TestUtils.getInventory(res, "sun_stone").size());
+        assertEquals(3, TestUtils.getInventory(res, "sun_stone").size());
 
         // assert goal met
         assertEquals("", TestUtils.getGoals(res));
