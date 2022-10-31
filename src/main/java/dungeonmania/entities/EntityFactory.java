@@ -115,8 +115,8 @@ public class EntityFactory {
     }
 
     public Sceptre buildSceptre() {
-        int mind_control_duration = config.optInt("mind_control_duration");
-        return new Sceptre(mind_control_duration);
+        int mindControlDuration = config.optInt("mind_control_duration");
+        return new Sceptre(mindControlDuration);
     }
 
     public Hydra buildHydra(Position pos) {
