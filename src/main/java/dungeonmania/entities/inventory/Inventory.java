@@ -89,13 +89,12 @@ public class Inventory {
                     items.remove(arrows.get(0));
                     items.remove(arrows.get(1));
                 }
-                if (sunStones.size() >= 2) {
-                    // Do not remove as it is retained
+                if (treasure.size() >= 1) {
+                    items.remove(treasure.get(0));
                 } else if (keys.size() >= 1) {
                     items.remove(keys.get(0));
-                } else {
-                    items.remove(treasure.get(0));
                 }
+                // We don't remove the first suntone since it is retained
                 items.remove(sunStones.get(0));
             }
             return factory.buildSceptre();
