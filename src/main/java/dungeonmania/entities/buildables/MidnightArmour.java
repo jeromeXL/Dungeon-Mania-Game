@@ -14,7 +14,7 @@ public class MidnightArmour extends Buildable {
         this.defence = defence;
         this.durability = Integer.MAX_VALUE;
     }
-    
+
     @Override
     public void use(Game game) {
     }

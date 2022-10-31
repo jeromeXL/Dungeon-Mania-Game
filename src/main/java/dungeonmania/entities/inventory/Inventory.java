@@ -85,7 +85,7 @@ public class Inventory {
         } else if (swords.size() >= 1 && sunStones.size() >= 1) {
             if (remove) {
                 items.remove(swords.get(0));
-                items.remove(sunStones.get(0));  
+                items.remove(sunStones.get(0));
             }
             return factory.buildMidnightArmour();
 
