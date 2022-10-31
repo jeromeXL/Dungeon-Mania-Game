@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class MidnightArmourTest {
-    
+
     @Test
     @Tag("20-1")
     @DisplayName("Test building midnight armour")
