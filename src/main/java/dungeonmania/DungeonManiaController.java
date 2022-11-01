@@ -1,10 +1,15 @@
 package dungeonmania;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
+import dungeonmania.entities.Entity;
 import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.response.models.ResponseBuilder;
@@ -21,6 +26,8 @@ public class DungeonManiaController {
     public String getLocalisation() {
         return "en_US";
     }
+
+    private static String defaultDirectory = "/src/main/resources/savedGames/";
 
     /**
      * /dungeons
@@ -99,8 +106,30 @@ public class DungeonManiaController {
 
     /**
      * /game/save
+     * @throws IOException
      */
     public DungeonResponse saveGame(String name) throws IllegalArgumentException {
+        // Simple persistence
+        JSONObject save = new JSONObject();
+        JSONArray arr = new JSONArray();
+        List<Entity> entities = game.getMap().getEntities();
+        for (Entity e: entities) {
+            JSONObject eJSON = new JSONObject();
+            eJSON.put("type", e.getClass().getSimpleName().toLowerCase());
+            eJSON.put("x", e.getPosition().getX());
+            eJSON.put("y", e.getPosition().getY());
+            arr.put(eJSON);
+        }
+        save.put("entities", arr);
+        JSONObject goals = new JSONObject();
+        goals.put("goal", game.getGoals());
+        FileWriter file;
+        try {
+            file = new FileWriter(defaultDirectory + name + ".json");
+            file.close();
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
         return null;
     }
 
