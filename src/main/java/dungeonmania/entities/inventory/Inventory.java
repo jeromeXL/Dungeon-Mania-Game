@@ -50,7 +50,7 @@ public class Inventory {
         return result;
     }
 
-    public InventoryItem checkBuildCriteria(Player p, boolean remove, boolean forceShield, EntityFactory factory) {
+    public InventoryItem checkBuildCriteria(Player p, boolean remove, String entity, EntityFactory factory) {
 
         List<Wood> wood = getEntities(Wood.class);
         List<Arrow> arrows = getEntities(Arrow.class);
@@ -58,7 +58,7 @@ public class Inventory {
         List<Key> keys = getEntities(Key.class);
         List<SunStone> sunStones = getEntities(SunStone.class);
 
-        if (wood.size() >= 1 && arrows.size() >= 3 && !forceShield) {
+        if (wood.size() >= 1 && arrows.size() >= 3 && entity.equals("bow")) {
             if (remove) {
                 items.remove(wood.get(0));
                 items.remove(arrows.get(0));
@@ -67,7 +67,8 @@ public class Inventory {
             }
             return factory.buildBow();
 
-        } else if (wood.size() >= 2 && (sunStones.size() >= 1 || treasure.size() >= 1 || keys.size() >= 1)) {
+        } else if (wood.size() >= 2 && (sunStones.size() >= 1 || treasure.size() >= 1 || keys.size() >= 1)
+                && entity.equals("shield")) {
             if (remove) {
                 items.remove(wood.get(0));
                 items.remove(wood.get(1));
@@ -81,7 +82,8 @@ public class Inventory {
             }
             return factory.buildShield();
         } else if ((wood.size() >= 1 || arrows.size() >= 2)
-                && (keys.size() >= 1 || treasure.size() >= 1 || sunStones.size() >= 2) && sunStones.size() >= 1) {
+                && (keys.size() >= 1 || treasure.size() >= 1 || sunStones.size() >= 2) && sunStones.size() >= 1
+                && entity.equals("sceptre")) {
             if (remove) {
                 if (wood.size() >= 1) {
                     items.remove(wood.get(0));
