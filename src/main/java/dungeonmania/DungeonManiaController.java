@@ -1,5 +1,6 @@
 package dungeonmania;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -121,14 +122,25 @@ public class DungeonManiaController {
             arr.put(eJSON);
         }
         save.put("entities", arr);
-        JSONObject goals = new JSONObject();
-        goals.put("goal", game.getGoals());
+        // JSONObject goals = new JSONObject();
+        // goals.put("goal", game.getGoals());
+        File newFile = new File(defaultDirectory + name + ".json");
         FileWriter file;
         try {
+            newFile.createNewFile();
+        } catch (IOException e2) {
+            // e2.printStackTrace();
+            System.out.println("Failed to create");
+        }
+        try {
             file = new FileWriter(defaultDirectory + name + ".json");
+            file.write(save.toString());
+            System.out.println("Sucessfully copied to JSON file");
+            System.out.println("JSON object: " + save);
             file.close();
         } catch (IOException e1) {
-            e1.printStackTrace();
+            // e1.printStackTrace();
+            System.out.println("Failed to write");
         }
         return null;
     }
