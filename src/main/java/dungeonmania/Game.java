@@ -53,7 +53,10 @@ public class Game {
         this.tickCount = 0;
         player = map.getPlayer();
         register(() -> player.onTick(tickCount), PLAYER_MOVEMENT, "potionQueue");
-        initialTreasureCount = map.getEntities(Treasure.class).size() + map.getEntities(SunStone.class).size();
+        initialTreasureCount = map.getEntities(Treasure.class).size() + map.getEntities(SunStone.class).size()
+                + player.countEntityOfType(Treasure.class) + player.countEntityOfType(SunStone.class);
+        // If we load in a new game, we want previously collected loot to still count
+        // toward the treasure goal
     }
 
     public Game tick(Direction movementDirection) {
