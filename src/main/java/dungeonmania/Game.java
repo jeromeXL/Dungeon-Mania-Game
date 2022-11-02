@@ -11,7 +11,6 @@ import dungeonmania.entities.Interactable;
 import dungeonmania.entities.Player;
 import dungeonmania.entities.collectables.Bomb;
 import dungeonmania.entities.collectables.SunStone;
-import dungeonmania.entities.collectables.Sword;
 import dungeonmania.entities.collectables.Treasure;
 import dungeonmania.entities.collectables.Useable;
 import dungeonmania.entities.collectables.potions.Potion;
@@ -74,8 +73,6 @@ public class Game {
                 player.use((Bomb) item, map);
             if (item instanceof Potion)
                 player.use((Potion) item, tickCount);
-            if (item instanceof Sword)
-                player.use((Sword) item, map);
         }, PLAYER_MOVEMENT, "playerUsesItem");
         tick();
         return this;
@@ -116,7 +113,7 @@ public class Game {
             throw new InvalidActionException("Entity cannot be interacted");
         }
         registerOnce(
-                () -> ((Interactable) e).interact(player, this), PLAYER_MOVEMENT, "playerBuildsItem");
+                () -> ((Interactable) e).interact(player, this), PLAYER_MOVEMENT, "playerInteractsWithEntity");
         tick();
         return this;
     }

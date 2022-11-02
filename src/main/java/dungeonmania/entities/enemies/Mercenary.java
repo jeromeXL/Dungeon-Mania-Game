@@ -1,7 +1,5 @@
 package dungeonmania.entities.enemies;
 
-import java.util.List;
-
 import dungeonmania.Game;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.Interactable;
@@ -18,6 +16,9 @@ public class Mercenary extends Enemy implements Interactable {
     public static final double DEFAULT_ATTACK = 5.0;
     public static final double DEFAULT_HEALTH = 10.0;
     private boolean allied = false;
+    private boolean mindControlled = false;
+    private int startTick;
+    private int mindControlDuration;
 
     private int bribeAmount = Mercenary.DEFAULT_BRIBE_AMOUNT;
     private int bribeRadius = Mercenary.DEFAULT_BRIBE_RADIUS;
@@ -31,7 +32,7 @@ public class Mercenary extends Enemy implements Interactable {
 
     @Override
     public boolean isAllied() {
-        return allied;
+        return allied || mindControlled;
     }
 
     @Override
@@ -44,6 +45,12 @@ public class Mercenary extends Enemy implements Interactable {
         if (isAllied())
             return;
         super.onOverlap(map, entity);
+    }
+
+    @Override
+    public boolean canMoveOnto(GameMap map, Entity entity) {
+        if (isAllied()) return entity instanceof Mercenary || entity instanceof Player;
+        else return entity instanceof Player;
     }
 
     /**
@@ -63,28 +70,47 @@ public class Mercenary extends Enemy implements Interactable {
         for (int i = 0; i < bribeAmount; i++) {
             player.use(Treasure.class);
         }
-
     }
 
     @Override
     public void interact(Player player, Game game) {
-        setAllied();
-        bribe(player);
-        isAdjacentToPlayer(game.getMap());
+        if (player.hasSceptre()) {
+            mindControlled = true;
+            mindControlDuration = player.getMindControlDuration();
+            startTick = game.getTick();
+        } else {
+            setAllied();
+            bribe(player);
+        }
+        isAdjacentToPlayer(player);
     }
 
     @Override
     public boolean isInteractable(Player player) {
-        return !isAllied() && canBeBribed(player);
+        return (!isAllied() && canBeBribed(player)) || player.hasSceptre();
     }
 
     @Override
-    public void isAdjacentToPlayer(GameMap map) {
-        if (allied) {
-            List<Player> p = getCardAdjEntities(Player.class, map, getPosition());
-            if (p.size() == 1) {
-                this.changeMovement(new FollowPlayerMovement(this, map.getPlayer()));
-            }
+    public void isAdjacentToPlayer(Player player) {
+        if (isAllied() && Position.isAdjacent(player.getPosition(), getPosition())) {
+            this.changeMovement(new FollowPlayerMovement(this, player));
         }
+    }
+
+    private void stopMindControl() {
+        mindControlled = false;
+        this.changeMovement(new ShortestPathMovement(this));
+    }
+
+    private boolean hasMindControlledFinished(Game game) {
+        return mindControlled && game.getTick() - startTick >= mindControlDuration - 1;
+    }
+
+    @Override
+    public void move(Game game) {
+        if (hasMindControlledFinished(game)) {
+            stopMindControl();
+        }
+        getMovement().move(game, game.getMap());
     }
 }

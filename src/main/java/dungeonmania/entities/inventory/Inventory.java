@@ -47,10 +47,14 @@ public class Inventory {
         if (swords >= 1 && sunStones >= 1) {
             result.add("midnight_armour");
         }
+        if ((wood >= 1 || arrows >= 2)
+                && (keys >= 1 || treasure >= 1 || sunStones >= 2) && sunStones >= 1) {
+            result.add("sceptre");
+        }
         return result;
     }
 
-    public InventoryItem checkBuildCriteria(Player p, boolean remove, boolean forceShield, EntityFactory factory) {
+    public InventoryItem checkBuildCriteria(Player p, boolean remove, String entity, EntityFactory factory) {
 
         List<Wood> wood = getEntities(Wood.class);
         List<Arrow> arrows = getEntities(Arrow.class);
@@ -59,7 +63,7 @@ public class Inventory {
         List<SunStone> sunStones = getEntities(SunStone.class);
         List<Sword> swords = getEntities(Sword.class);
 
-        if (wood.size() >= 1 && arrows.size() >= 3 && !forceShield) {
+        if (wood.size() >= 1 && arrows.size() >= 3 && entity.equals("bow")) {
             if (remove) {
                 items.remove(wood.get(0));
                 items.remove(arrows.get(0));
@@ -68,7 +72,8 @@ public class Inventory {
             }
             return factory.buildBow();
 
-        } else if (wood.size() >= 2 && (sunStones.size() >= 1 || treasure.size() >= 1 || keys.size() >= 1)) {
+        } else if (wood.size() >= 2 && (sunStones.size() >= 1 || treasure.size() >= 1 || keys.size() >= 1)
+                && entity.equals("shield")) {
             if (remove) {
                 items.remove(wood.get(0));
                 items.remove(wood.get(1));
@@ -89,36 +94,40 @@ public class Inventory {
             }
             return factory.buildMidnightArmour();
 
+        } else if ((wood.size() >= 1 || arrows.size() >= 2)
+                && (keys.size() >= 1 || treasure.size() >= 1 || sunStones.size() >= 2) && sunStones.size() >= 1
+                && entity.equals("sceptre")) {
+            if (remove) {
+                if (wood.size() >= 1) {
+                    items.remove(wood.get(0));
+                } else {
+                    items.remove(arrows.get(0));
+                    items.remove(arrows.get(1));
+                }
+                if (treasure.size() >= 1) {
+                    items.remove(treasure.get(0));
+                } else if (keys.size() >= 1) {
+                    items.remove(keys.get(0));
+                }
+                // We don't remove the first suntone since it is retained
+                items.remove(sunStones.get(0));
+            }
+            return factory.buildSceptre();
         }
         return null;
     }
 
     public <T extends InventoryItem> T getFirst(Class<T> itemType) {
-        // for (InventoryItem item : items)
-        // if (itemType.isInstance(item))
-        // return itemType.cast(item);
-        // return null;
-
         InventoryItem first = items.stream().filter(i -> itemType.isInstance(i)).findFirst().orElse(null);
         return first == null ? null : itemType.cast(first);
     }
 
     public <T extends InventoryItem> int count(Class<T> itemType) {
-        // int count = 0;
-        // for (InventoryItem item : items)
-        // if (itemType.isInstance(item))
-        // count++;
-
         long count = items.stream().filter(i -> itemType.isInstance(i)).count();
         return (int) count;
     }
 
     public Entity getEntity(String itemUsedId) {
-        // for (InventoryItem item : items)
-        // if (((Entity) item).getId().equals(itemUsedId))
-        // return (Entity) item;
-        // return null;
-
         InventoryItem first = items.stream().filter(i -> ((Entity) i).getId().equals(itemUsedId)).findFirst()
                 .orElse(null);
         return first == null ? null : (Entity) first;
