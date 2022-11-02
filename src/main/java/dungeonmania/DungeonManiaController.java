@@ -140,7 +140,7 @@ public class DungeonManiaController {
         save.put("entities", entitiesOnMap);
         save.put("config", game.getConfigName());
         // Goals
-        JSONObject goals = game.getGoals().goalsToConfig();
+        JSONObject goals = game.getGoals().goalsToJSON();
         save.put("goal-condition", goals);
 
         // Inventory Items

@@ -9,5 +9,5 @@ public interface Goal {
 
     public String toString(Game game);
 
-    public JSONObject goalsToConfig();
+    public JSONObject goalsToJSON();
 }

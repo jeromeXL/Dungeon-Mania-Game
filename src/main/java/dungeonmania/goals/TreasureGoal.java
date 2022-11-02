@@ -30,7 +30,7 @@ public class TreasureGoal implements Goal {
     }
 
     @Override
-    public JSONObject goalsToConfig() {
+    public JSONObject goalsToJSON() {
         JSONObject j = new JSONObject();
         j.put("goal", "treasure");
         return j;

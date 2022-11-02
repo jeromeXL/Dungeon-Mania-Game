@@ -29,12 +29,12 @@ public class OrGoal implements Goal {
     }
 
     @Override
-    public JSONObject goalsToConfig() {
+    public JSONObject goalsToJSON() {
         JSONObject j = new JSONObject();
         j.put("goal", "OR");
         JSONArray subgoals = new JSONArray();
-        subgoals.put(goal1.goalsToConfig());
-        subgoals.put(goal2.goalsToConfig());
+        subgoals.put(goal1.goalsToJSON());
+        subgoals.put(goal2.goalsToJSON());
         j.put("subgoals", subgoals);
         return j;
     }

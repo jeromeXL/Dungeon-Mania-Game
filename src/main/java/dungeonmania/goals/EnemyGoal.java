@@ -27,7 +27,7 @@ public class EnemyGoal implements Goal {
     }
 
     @Override
-    public JSONObject goalsToConfig() {
+    public JSONObject goalsToJSON() {
         JSONObject j = new JSONObject();
         j.put("goal", "enemies");
         return j;

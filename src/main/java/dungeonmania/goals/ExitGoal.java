@@ -34,7 +34,7 @@ public class ExitGoal implements Goal {
     }
 
     @Override
-    public JSONObject goalsToConfig() {
+    public JSONObject goalsToJSON() {
         JSONObject j = new JSONObject();
         j.put("goal", "exit");
         return j;
