@@ -45,4 +45,8 @@ public class Sword extends Collectables implements InventoryItem, BattleItem {
         return durability;
     }
 
+    @Override
+    public String getEntityField() {
+        return "sword";
+    }
 }

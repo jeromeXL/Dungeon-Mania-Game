@@ -18,4 +18,9 @@ public class Key extends Collectables implements InventoryItem {
     public boolean retains() {
         return false;
     }
+
+    @Override
+    public String getEntityField() {
+        return "key";
+    }
 }

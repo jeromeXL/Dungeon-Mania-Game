@@ -213,4 +213,9 @@ public class Player extends Entity implements Battleable {
             return 0;
         }
     }
+
+    @Override
+    public String getEntityField() {
+        return "player";
+    }
 }

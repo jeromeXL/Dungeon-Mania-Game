@@ -95,4 +95,5 @@ public abstract class Entity {
         return this.facing;
     }
 
+    abstract public String getEntityField();
 }

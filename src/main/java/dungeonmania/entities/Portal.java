@@ -77,4 +77,8 @@ public class Portal extends Entity {
         }
     }
 
+    @Override
+    public String getEntityField() {
+        return "portal";
+    }
 }

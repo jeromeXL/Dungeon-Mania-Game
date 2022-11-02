@@ -11,4 +11,9 @@ public class ZombieToast extends Enemy {
         super(position, health, attack);
         super.changeMovement(new RandomMovement(this));
     }
+
+    @Override
+    public String getEntityField() {
+        return "zombie_toast";
+    }
 }

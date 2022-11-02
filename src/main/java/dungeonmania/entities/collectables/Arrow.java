@@ -8,4 +8,8 @@ public class Arrow extends Collectables implements InventoryItem {
         super(position);
     }
 
+    @Override
+    public String getEntityField() {
+        return "arrow";
+    }
 }

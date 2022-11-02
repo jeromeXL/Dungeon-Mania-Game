@@ -64,4 +64,8 @@ public class Door extends Entity {
         open = true;
     }
 
+    @Override
+    public String getEntityField() {
+        return "door";
+    }
 }

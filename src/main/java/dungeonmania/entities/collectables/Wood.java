@@ -8,4 +8,8 @@ public class Wood extends Collectables implements InventoryItem {
         super(position);
     }
 
+    @Override
+    public String getEntityField() {
+        return "wood";
+    }
 }

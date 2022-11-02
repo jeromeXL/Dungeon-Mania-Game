@@ -14,4 +14,8 @@ public class Wall extends Entity {
         return entity instanceof Spider;
     }
 
+    @Override
+    public String getEntityField() {
+        return "wall";
+    }
 }

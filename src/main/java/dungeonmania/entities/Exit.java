@@ -7,4 +7,8 @@ public class Exit extends Entity {
         super(position.asLayer(Entity.ITEM_LAYER));
     }
 
+    @Override
+    public String getEntityField() {
+        return "exit";
+    }
 }

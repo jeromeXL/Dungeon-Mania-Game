@@ -15,4 +15,8 @@ public class Spider extends Enemy {
         super.changeMovement(new SpiderMovement(this, position));
     };
 
+    @Override
+    public String getEntityField() {
+        return "spider";
+    }
 }

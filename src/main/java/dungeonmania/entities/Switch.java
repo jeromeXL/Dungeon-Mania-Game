@@ -49,4 +49,8 @@ public class Switch extends Entity {
         return activated;
     }
 
+    @Override
+    public String getEntityField() {
+        return "switch";
+    }
 }

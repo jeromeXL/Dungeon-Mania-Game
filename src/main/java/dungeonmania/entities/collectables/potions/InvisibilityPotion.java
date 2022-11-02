@@ -22,4 +22,8 @@ public class InvisibilityPotion extends Potion {
                 false));
     }
 
+    @Override
+    public String getEntityField() {
+        return "invisibility_potion";
+    }
 }

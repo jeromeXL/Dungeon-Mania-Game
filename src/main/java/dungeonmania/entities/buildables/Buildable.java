@@ -16,4 +16,9 @@ public abstract class Buildable extends Entity implements InventoryItem, BattleI
     public boolean canMoveOnto(GameMap map, Entity entity) {
         return false;
     }
+
+    @Override
+    public String getEntityField() {
+        return "";
+    }
 }

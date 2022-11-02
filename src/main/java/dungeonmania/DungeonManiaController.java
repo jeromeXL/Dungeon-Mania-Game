@@ -1,14 +1,11 @@
 package dungeonmania;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
-
-import com.google.gson.JsonParser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -144,6 +141,7 @@ public class DungeonManiaController {
         } catch (IOException e2) {
             // e2.printStackTrace();
             System.out.println("Failed to create");
+            return null;
         }
         try {
             file = new FileWriter(path);
@@ -151,11 +149,12 @@ public class DungeonManiaController {
             System.out.println("Sucessfully copied to JSON file");
             System.out.println("JSON object: " + save);
             file.close();
+            return ResponseBuilder.getDungeonResponse(game);
         } catch (IOException e1) {
             // e1.printStackTrace();
             System.out.println("Failed to write");
+            return null;
         }
-        return null;
     }
 
     /**
@@ -168,14 +167,13 @@ public class DungeonManiaController {
 
         String path = String.format("%s%s%s.json", workingDirec, defaultDirectory, name);
         try {
-            FileReader fileReader = new FileReader(path);
-            Object obj = JsonParser.parseReader(fileReader);
-            JSONObject contents = (JSONObject) obj;
+            String jsonText = Files.readString(Path.of(path));
+            JSONObject contents = new JSONObject(jsonText);
             String configName = (String) contents.get("config");
             GameBuilder builder = new GameBuilder();
             game = builder.setConfigName(configName).setDungeonName(name).buildGame(false);
             return ResponseBuilder.getDungeonResponse(game);
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             return null;
         }
     }
