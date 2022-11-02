@@ -1,5 +1,7 @@
 package dungeonmania.goals;
 
+import org.json.JSONObject;
+
 import dungeonmania.Game;
 
 public class AndGoal implements Goal {
@@ -23,5 +25,11 @@ public class AndGoal implements Goal {
         if (this.achieved(game))
             return "";
         return "(" + goal1.toString(game) + " AND " + goal2.toString(game) + ")";
+    }
+
+    @Override
+    public JSONObject goalsToConfig() {
+        JSONObject j = new JSONObject();
+        return j;
     }
 }

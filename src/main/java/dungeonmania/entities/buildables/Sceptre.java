@@ -5,6 +5,7 @@ import dungeonmania.battles.BattleStatistics;
 
 public class Sceptre extends Buildable {
     private int mindControlDuration;
+
     public Sceptre(int mindControlDuration) {
         super(null);
         this.mindControlDuration = mindControlDuration;
@@ -28,5 +29,10 @@ public class Sceptre extends Buildable {
 
     public int getMindControlDuration() {
         return mindControlDuration;
+    }
+
+    @Override
+    public String getEntityField() {
+        return "sceptre";
     }
 }

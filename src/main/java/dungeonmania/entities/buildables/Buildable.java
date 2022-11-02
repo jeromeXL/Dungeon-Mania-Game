@@ -17,8 +17,4 @@ public abstract class Buildable extends Entity implements InventoryItem, BattleI
         return false;
     }
 
-    @Override
-    public String getEntityField() {
-        return "";
-    }
 }

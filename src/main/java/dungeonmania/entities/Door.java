@@ -68,4 +68,8 @@ public class Door extends Entity {
     public String getEntityField() {
         return "door";
     }
+
+    public int getKey() {
+        return number;
+    }
 }

@@ -1,5 +1,7 @@
 package dungeonmania.entities.collectables.potions;
 
+import org.json.JSONObject;
+
 import dungeonmania.battles.BattleStatistics;
 import dungeonmania.util.Position;
 

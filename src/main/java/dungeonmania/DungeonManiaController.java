@@ -11,7 +11,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import dungeonmania.entities.Door;
 import dungeonmania.entities.Entity;
+import dungeonmania.entities.collectables.Key;
 import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.response.models.ResponseBuilder;
@@ -122,9 +124,16 @@ public class DungeonManiaController {
         List<Entity> entities = game.getMap().getEntities();
         for (Entity e : entities) {
             JSONObject eJSON = new JSONObject();
-            eJSON.put("type", e.getClass().getSimpleName().toLowerCase());
+            eJSON.put("type", e.getEntityField());
             eJSON.put("x", e.getPosition().getX());
             eJSON.put("y", e.getPosition().getY());
+            if (e instanceof Key) {
+                Key k = (Key) e;
+                eJSON.put("key", k.getnumber());
+            } else if (e instanceof Door) {
+                Door d = (Door) e;
+                eJSON.put("key", d.getKey());
+            }
             arr.put(eJSON);
         }
         save.put("entities", arr);

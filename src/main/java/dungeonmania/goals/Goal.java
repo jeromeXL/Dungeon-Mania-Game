@@ -1,5 +1,7 @@
 package dungeonmania.goals;
 
+import org.json.JSONObject;
+
 import dungeonmania.Game;
 
 public interface Goal {
@@ -7,4 +9,5 @@ public interface Goal {
 
     public String toString(Game game);
 
+    public JSONObject goalsToConfig();
 }
