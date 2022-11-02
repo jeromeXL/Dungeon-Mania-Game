@@ -1,17 +1,17 @@
 package dungeonmania.entities;
 
 import dungeonmania.util.Position;
-import dungeonmania.Game;
+//import dungeonmania.Game;
 
-import java.util.List;
-import java.util.stream.Collectors;
+//import java.util.List;
+//import java.util.stream.Collectors;
 
 import dungeonmania.entities.enemies.Enemy;
-import dungeonmania.entities.enemies.Mercenary;
-import dungeonmania.entities.enemies.ZombieToast;
+//import dungeonmania.entities.enemies.Mercenary;
+//import dungeonmania.entities.enemies.ZombieToast;
 import dungeonmania.entities.enemies.MovementBehaviour.SwampTileMovement;
 import dungeonmania.map.GameMap;
-import dungeonmania.util.Position;
+//import dungeonmania.util.Position;
 import dungeonmania.entities.enemies.MovementBehaviour.*;;
 
 public class SwampTile extends Entity {
