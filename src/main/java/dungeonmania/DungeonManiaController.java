@@ -1,10 +1,14 @@
 package dungeonmania;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.google.gson.JsonParser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,6 +32,7 @@ public class DungeonManiaController {
         return "en_US";
     }
 
+    private String workingDirec = System.getProperty("user.dir");
     private static String defaultDirectory = "/src/main/resources/savedGames/";
 
     /**
@@ -58,7 +63,7 @@ public class DungeonManiaController {
 
         try {
             GameBuilder builder = new GameBuilder();
-            game = builder.setConfigName(configName).setDungeonName(dungeonName).buildGame();
+            game = builder.setConfigName(configName).setDungeonName(dungeonName).buildGame(true);
             return ResponseBuilder.getDungeonResponse(game);
         } catch (JSONException e) {
             return null;
@@ -107,14 +112,18 @@ public class DungeonManiaController {
 
     /**
      * /game/save
+     * 
      * @throws IOException
      */
     public DungeonResponse saveGame(String name) throws IllegalArgumentException {
+        if (FileLoader.listFileNamesInResourceDirectory("savedGames").contains(name)) {
+            throw new IllegalArgumentException(name + " already exists");
+        }
         // Simple persistence
         JSONObject save = new JSONObject();
         JSONArray arr = new JSONArray();
         List<Entity> entities = game.getMap().getEntities();
-        for (Entity e: entities) {
+        for (Entity e : entities) {
             JSONObject eJSON = new JSONObject();
             eJSON.put("type", e.getClass().getSimpleName().toLowerCase());
             eJSON.put("x", e.getPosition().getX());
@@ -122,9 +131,13 @@ public class DungeonManiaController {
             arr.put(eJSON);
         }
         save.put("entities", arr);
-        // JSONObject goals = new JSONObject();
-        // goals.put("goal", game.getGoals());
-        File newFile = new File(defaultDirectory + name + ".json");
+        save.put("config", game.getConfigName());
+        // Change this
+        JSONObject goals = new JSONObject();
+        goals.put("goal", "enemies");
+        save.put("goal-condition", goals);
+        String path = String.format("%s%s%s.json", workingDirec, defaultDirectory, name);
+        File newFile = new File(path);
         FileWriter file;
         try {
             newFile.createNewFile();
@@ -133,7 +146,7 @@ public class DungeonManiaController {
             System.out.println("Failed to create");
         }
         try {
-            file = new FileWriter(defaultDirectory + name + ".json");
+            file = new FileWriter(path);
             file.write(save.toString());
             System.out.println("Sucessfully copied to JSON file");
             System.out.println("JSON object: " + save);
@@ -149,14 +162,29 @@ public class DungeonManiaController {
      * /game/load
      */
     public DungeonResponse loadGame(String name) throws IllegalArgumentException {
-        return null;
+        if (!FileLoader.listFileNamesInResourceDirectory("savedGames").contains(name)) {
+            throw new IllegalArgumentException(name + " doesn't exist");
+        }
+
+        String path = String.format("%s%s%s.json", workingDirec, defaultDirectory, name);
+        try {
+            FileReader fileReader = new FileReader(path);
+            Object obj = JsonParser.parseReader(fileReader);
+            JSONObject contents = (JSONObject) obj;
+            String configName = (String) contents.get("config");
+            GameBuilder builder = new GameBuilder();
+            game = builder.setConfigName(configName).setDungeonName(name).buildGame(false);
+            return ResponseBuilder.getDungeonResponse(game);
+        } catch (FileNotFoundException e) {
+            return null;
+        }
     }
 
     /**
      * /games/all
      */
     public List<String> allGames() {
-        return new ArrayList<>();
+        return FileLoader.listFileNamesInResourceDirectory("savedGames");
     }
 
     /**

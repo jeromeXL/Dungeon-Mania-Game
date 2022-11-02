@@ -34,13 +34,15 @@ public class Game {
     public static final int PLAYER_MOVEMENT_CALLBACK = 1;
     public static final int AI_MOVEMENT = 2;
     public static final int AI_MOVEMENT_CALLBACK = 3;
+    private String configName;
 
     private int tickCount = 0;
     private PriorityQueue<ComparableCallback> sub = new PriorityQueue<>();
     private PriorityQueue<ComparableCallback> addingSub = new PriorityQueue<>();
 
-    public Game(String dungeonName) {
+    public Game(String dungeonName, String config) {
         this.name = dungeonName;
+        this.configName = config;
         this.map = new GameMap();
         this.battleFacade = new BattleFacade();
     }
@@ -225,4 +227,7 @@ public class Game {
         return initialTreasureCount;
     }
 
+    public String getConfigName() {
+        return configName;
+    }
 }

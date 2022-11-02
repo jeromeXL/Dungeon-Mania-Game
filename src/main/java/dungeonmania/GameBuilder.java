@@ -16,8 +16,9 @@ import dungeonmania.util.FileLoader;
 
 /**
  * GameBuilder -- A builder to build up the whole game
- * @author      Webster Zhang
- * @author      Tina Ji
+ * 
+ * @author Webster Zhang
+ * @author Tina Ji
  */
 public class GameBuilder {
     private String configName;
@@ -36,14 +37,18 @@ public class GameBuilder {
         return this;
     }
 
-    public Game buildGame() {
+    public Game buildGame(boolean newGame) {
         loadConfig();
-        loadDungeon();
+        if (newGame) {
+            loadDungeon();
+        } else {
+            loadSavedDungeon();
+        }
         if (dungeon == null && config == null) {
             return null; // something went wrong
         }
 
-        Game game = new Game(dungeonName);
+        Game game = new Game(dungeonName, configName);
         EntityFactory factory = new EntityFactory(config);
         game.setEntityFactory(factory);
         buildMap(game);
@@ -65,6 +70,15 @@ public class GameBuilder {
 
     private void loadDungeon() {
         String dungeonFile = String.format("/dungeons/%s.json", dungeonName);
+        try {
+            dungeon = new JSONObject(FileLoader.loadResourceFile(dungeonFile));
+        } catch (IOException e) {
+            dungeon = null;
+        }
+    }
+
+    private void loadSavedDungeon() {
+        String dungeonFile = String.format("/savedGames/%s.json", dungeonName);
         try {
             dungeon = new JSONObject(FileLoader.loadResourceFile(dungeonFile));
         } catch (IOException e) {
