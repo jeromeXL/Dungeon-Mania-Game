@@ -1,5 +1,7 @@
 package dungeonmania.goals;
 
+import org.json.JSONObject;
+
 import dungeonmania.Game;
 import dungeonmania.entities.Switch;
 
@@ -16,5 +18,12 @@ public class BoulderGoal implements Goal {
         if (this.achieved(game))
             return "";
         return ":boulders";
+    }
+
+    @Override
+    public JSONObject goalsToConfig() {
+        JSONObject j = new JSONObject();
+        j.put("goal", "boulders");
+        return j;
     }
 }

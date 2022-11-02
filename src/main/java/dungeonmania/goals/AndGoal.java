@@ -1,5 +1,6 @@
 package dungeonmania.goals;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import dungeonmania.Game;
@@ -30,6 +31,11 @@ public class AndGoal implements Goal {
     @Override
     public JSONObject goalsToConfig() {
         JSONObject j = new JSONObject();
+        j.put("goal", "AND");
+        JSONArray subgoals = new JSONArray();
+        subgoals.put(goal1.goalsToConfig());
+        subgoals.put(goal2.goalsToConfig());
+        j.put("subgoals", subgoals);
         return j;
     }
 }

@@ -11,6 +11,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import dungeonmania.entities.BattleItem;
 import dungeonmania.entities.Door;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.collectables.Key;
@@ -118,9 +119,9 @@ public class DungeonManiaController {
         if (FileLoader.listFileNamesInResourceDirectory("savedGames").contains(name)) {
             throw new IllegalArgumentException(name + " already exists");
         }
-        // Simple persistence
+        // Entities
         JSONObject save = new JSONObject();
-        JSONArray arr = new JSONArray();
+        JSONArray entitiesOnMap = new JSONArray();
         List<Entity> entities = game.getMap().getEntities();
         for (Entity e : entities) {
             JSONObject eJSON = new JSONObject();
@@ -134,14 +135,31 @@ public class DungeonManiaController {
                 Door d = (Door) e;
                 eJSON.put("key", d.getKey());
             }
-            arr.put(eJSON);
+            entitiesOnMap.put(eJSON);
         }
-        save.put("entities", arr);
+        save.put("entities", entitiesOnMap);
         save.put("config", game.getConfigName());
-        // Change this
-        JSONObject goals = new JSONObject();
-        goals.put("goal", "enemies");
+        // Goals
+        JSONObject goals = game.getGoals().goalsToConfig();
         save.put("goal-condition", goals);
+
+        // Inventory Items
+        JSONArray items = new JSONArray();
+        List<Entity> inventoryItems = game.getPlayer().getInventory().getEntities();
+        for (Entity e : inventoryItems) {
+            JSONObject iJSON = new JSONObject();
+            iJSON.put("type", e.getEntityField());
+            if (e instanceof Key) {
+                Key k = (Key) e;
+                iJSON.put("key", k.getnumber());
+            }
+            if (e instanceof BattleItem) {
+                BattleItem i = (BattleItem) e;
+                iJSON.put("durability", i.getDurability());
+            }
+            items.put(iJSON);
+        }
+
         String path = String.format("%s%s%s.json", workingDirec, defaultDirectory, name);
         File newFile = new File(path);
         FileWriter file;

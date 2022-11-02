@@ -2,6 +2,8 @@ package dungeonmania.goals;
 
 import java.util.List;
 
+import org.json.JSONObject;
+
 import dungeonmania.Game;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.Exit;
@@ -29,5 +31,12 @@ public class ExitGoal implements Goal {
         if (this.achieved(game))
             return "";
         return ":exit";
+    }
+
+    @Override
+    public JSONObject goalsToConfig() {
+        JSONObject j = new JSONObject();
+        j.put("goal", "exit");
+        return j;
     }
 }

@@ -1,5 +1,7 @@
 package dungeonmania.goals;
 
+import org.json.JSONObject;
+
 import dungeonmania.Game;
 import dungeonmania.entities.enemies.ZombieToastSpawner;
 
@@ -22,5 +24,12 @@ public class EnemyGoal implements Goal {
         if (this.achieved(game))
             return "";
         return ":enemies";
+    }
+
+    @Override
+    public JSONObject goalsToConfig() {
+        JSONObject j = new JSONObject();
+        j.put("goal", "enemies");
+        return j;
     }
 }
