@@ -200,4 +200,5 @@ public class Player extends Entity implements Battleable {
     public void use(Sword sword, GameMap map) {
         sword.destroySpawners(map, getPosition());
     }
+
 }

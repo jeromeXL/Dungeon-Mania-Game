@@ -1,10 +1,11 @@
 package dungeonmania.mvp;
 
 import dungeonmania.DungeonManiaController;
+import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
-//import dungeonmania.exceptions.*;
+import dungeonmania.exceptions.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -119,5 +120,55 @@ public class SunStoneTest {
 
         // assert goal met
         assertEquals("", TestUtils.getGoals(res));
+    }
+
+    @Test
+    @Tag("18-5")
+    @DisplayName("Testing a mercenary cannot be bribed with Sun Stones")
+    public void notBribeable() {
+        //                                                          Wall     Wall     Wall    Wall    Wall
+        // P1       P2/SunStone      P3/SunStone    P4/SunStone      M4       M3       M2     M1      Wall
+        //                                                          Wall     Wall     Wall    Wall    Wall
+        DungeonManiaController dmc = new DungeonManiaController();
+        DungeonResponse res = dmc.newGame("d_SunStoneTest_notBribeable", "c_SunStoneTest_notBribeable");
+
+        String mercId = TestUtils.getEntitiesStream(res, "mercenary").findFirst().get().getId();
+
+        // pick up first sun stone
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(1, TestUtils.getInventory(res, "sun_stone").size());
+        assertEquals(new Position(7, 1), getMercPos(res));
+
+        // attempt bribe - fails
+        assertThrows(InvalidActionException.class, () ->
+                dmc.interact(mercId)
+        );
+        assertEquals(1, TestUtils.getInventory(res, "sun_stone").size());
+
+        // pick up second sun stone
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(2, TestUtils.getInventory(res, "sun_stone").size());
+        assertEquals(new Position(6, 1), getMercPos(res));
+
+        // attempt bribe - fails
+        assertThrows(InvalidActionException.class, () ->
+                dmc.interact(mercId)
+        );
+        assertEquals(2, TestUtils.getInventory(res, "sun_stone").size());
+
+        // pick up third sun stone
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(3, TestUtils.getInventory(res, "sun_stone").size());
+        assertEquals(new Position(5, 1), getMercPos(res));
+
+        // attempt bribe - fails
+        assertThrows(InvalidActionException.class, () ->
+        dmc.interact(mercId)
+        );
+        assertEquals(3, TestUtils.getInventory(res, "sun_stone").size());
+    }
+
+    private Position getMercPos(DungeonResponse res) {
+        return TestUtils.getEntities(res, "mercenary").get(0).getPosition();
     }
 }

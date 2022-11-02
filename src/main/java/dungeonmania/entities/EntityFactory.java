@@ -180,6 +180,8 @@ public class EntityFactory {
             return new Door(pos, jsonEntity.getInt("key"));
         case "key":
             return new Key(pos, jsonEntity.getInt("key"));
+        case "swamp_tile":
+            return new SwampTile(pos, jsonEntity.getInt("movement_factor"));
         case "hydra":
             return buildHydra(pos);
         default:
