@@ -159,6 +159,7 @@ public class DungeonManiaController {
             }
             items.put(iJSON);
         }
+        save.put("inventory_items", items);
 
         String path = String.format("%s%s%s.json", workingDirec, defaultDirectory, name);
         File newFile = new File(path);
@@ -198,6 +199,10 @@ public class DungeonManiaController {
             JSONObject contents = new JSONObject(jsonText);
             String configName = (String) contents.get("config");
             GameBuilder builder = new GameBuilder();
+
+            // Call method inside builder which passes in inventoryItems and Game.
+            JSONArray inventoryItems = (JSONArray) contents.get("inventory_items");
+
             game = builder.setConfigName(configName).setDungeonName(name).buildGame(false);
             return ResponseBuilder.getDungeonResponse(game);
         } catch (IOException e) {

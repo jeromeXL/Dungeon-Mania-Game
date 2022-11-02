@@ -16,7 +16,7 @@ import dungeonmania.util.FileLoader;
 
 /**
  * GameBuilder -- A builder to build up the whole game
- * 
+ *
  * @author Webster Zhang
  * @author Tina Ji
  */
@@ -109,5 +109,8 @@ public class GameBuilder {
             Goal goal = GoalFactory.createGoal(dungeon.getJSONObject("goal-condition"), config);
             game.setGoals(goal);
         }
+    }
+
+    public void addExistingInventoryItems() {
     }
 }

@@ -1,1 +1,44 @@
-{"entities":[{"x":1,"y":1,"type":"player"},{"x":5,"y":1,"type":"switch"},{"x":4,"y":1,"type":"boulder"},{"x":3,"y":1,"type":"exit"}],"goal-condition":{"goal":"AND","subgoals":[{"goal":"boulders"},{"goal":"AND","subgoals":[{"goal":"exit"},{"goal":"treasure"}]}]},"config":"simple"}
+{
+    "entities": [
+        {
+            "x": 1,
+            "y": 1,
+            "type": "player"
+        },
+        {
+            "x": 5,
+            "y": 1,
+            "type": "switch"
+        },
+        {
+            "x": 4,
+            "y": 1,
+            "type": "boulder"
+        },
+        {
+            "x": 3,
+            "y": 1,
+            "type": "exit"
+        }
+    ],
+    "goal-condition": {
+        "goal": "AND",
+        "subgoals": [
+            {
+                "goal": "boulders"
+            },
+            {
+                "goal": "AND",
+                "subgoals": [
+                    {
+                        "goal": "exit"
+                    },
+                    {
+                        "goal": "treasure"
+                    }
+                ]
+            }
+        ]
+    },
+    "config": "simple"
+}
