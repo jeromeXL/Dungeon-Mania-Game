@@ -27,5 +27,5 @@
     "hydra_health": 50,
     "hydra_health_increase_rate": 1,
     "hydra_health_increase_amount": 10,
-    "mind_control_duration": 5
+    "mind_control_duration": 1
 }
