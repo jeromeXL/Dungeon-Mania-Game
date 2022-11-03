@@ -1,7 +1,5 @@
 package dungeonmania.entities.collectables.potions;
 
-import org.json.JSONObject;
-
 import dungeonmania.battles.BattleStatistics;
 import dungeonmania.util.Position;
 
@@ -24,8 +22,4 @@ public class InvisibilityPotion extends Potion {
                 false));
     }
 
-    @Override
-    public String getEntityField() {
-        return "invisibility_potion";
-    }
 }

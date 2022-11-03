@@ -115,9 +115,4 @@ public class Mercenary extends Enemy implements Interactable {
         }
         getMovement().move(game, game.getMap());
     }
-
-    @Override
-    public String getEntityField() {
-        return "mercenary";
-    }
 }

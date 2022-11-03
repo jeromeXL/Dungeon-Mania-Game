@@ -15,9 +15,4 @@ public class SunStone extends Collectables implements InventoryItem, TreasureInt
     public boolean retains() {
         return true;
     }
-
-    @Override
-    public String getEntityField() {
-        return "sun_stone";
-    }
 }

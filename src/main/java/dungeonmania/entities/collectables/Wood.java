@@ -7,9 +7,4 @@ public class Wood extends Collectables implements InventoryItem {
     public Wood(Position position) {
         super(position);
     }
-
-    @Override
-    public String getEntityField() {
-        return "wood";
-    }
 }

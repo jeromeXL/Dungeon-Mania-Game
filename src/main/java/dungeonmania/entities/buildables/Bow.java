@@ -34,9 +34,4 @@ public class Bow extends Buildable {
     public int getDurability() {
         return durability;
     }
-
-    @Override
-    public String getEntityField() {
-        return "bow";
-    }
 }

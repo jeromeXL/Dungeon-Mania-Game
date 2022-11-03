@@ -35,9 +35,4 @@ public class Shield extends Buildable {
     public int getDurability() {
         return durability;
     }
-
-    @Override
-    public String getEntityField() {
-        return "shield";
-    }
 }

@@ -113,9 +113,9 @@ public class PersistenceTest {
         res = assertDoesNotThrow(() -> dmc.interact(mercId));
         assertEquals(0, TestUtils.getInventory(res, "treasure").size());
         dmc.saveGame("PersistenceTest_allied");
-        // Wait 5 seconds for data to load into the file
+        // Wait 2 seconds for data to load into the file
 
-        TimeUnit.SECONDS.sleep(5);
+        TimeUnit.SECONDS.sleep(2);
         res = dmc.loadGame("PersistenceTest_allied");
         res = dmc.tick(Direction.RIGHT);
         res = dmc.tick(Direction.RIGHT);

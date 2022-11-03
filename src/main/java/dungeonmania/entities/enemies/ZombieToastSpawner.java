@@ -38,9 +38,4 @@ public class ZombieToastSpawner extends Entity implements Interactable {
     public boolean canMoveOnto(GameMap map, Entity entity) {
         return false;
     }
-
-    @Override
-    public String getEntityField() {
-        return "zombie_toast_spawner";
-    }
 }

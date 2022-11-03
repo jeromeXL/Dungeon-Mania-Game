@@ -95,9 +95,4 @@ public class Bomb extends Collectables implements InventoryItem, Useable {
     public State getState() {
         return state;
     }
-
-    @Override
-    public String getEntityField() {
-        return "bomb";
-    }
 }

@@ -22,9 +22,4 @@ public class Hydra extends Enemy {
                 healRate,
                 healAmount));
     }
-
-    @Override
-    public String getEntityField() {
-        return "hydra";
-    }
 }

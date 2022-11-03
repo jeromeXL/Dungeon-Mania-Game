@@ -21,9 +21,4 @@ public class InvincibilityPotion extends Potion {
                 true,
                 true));
     }
-
-    @Override
-    public String getEntityField() {
-        return "invincibility_potion";
-    }
 }

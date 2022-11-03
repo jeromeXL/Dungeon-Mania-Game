@@ -30,9 +30,4 @@ public class Sceptre extends Buildable {
     public int getMindControlDuration() {
         return mindControlDuration;
     }
-
-    @Override
-    public String getEntityField() {
-        return "sceptre";
-    }
 }

@@ -82,7 +82,7 @@ public final class Position implements Serializable {
     /**
      * Calculates the position vector of b relative to a (ie. the direction from a
      * to b)
-     * 
+     *
      * @return The relative position vector
      */
 
@@ -119,7 +119,7 @@ public final class Position implements Serializable {
 
     /**
      * Get cardinally adjacent positions only
-     * 
+     *
      * @return
      */
     public List<Position> getCardinallyAdjacentPositions() {

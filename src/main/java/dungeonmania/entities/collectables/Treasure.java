@@ -15,9 +15,4 @@ public class Treasure extends Collectables implements InventoryItem, TreasureInt
     public boolean retains() {
         return false;
     }
-
-    @Override
-    public String getEntityField() {
-        return "treasure";
-    }
 }

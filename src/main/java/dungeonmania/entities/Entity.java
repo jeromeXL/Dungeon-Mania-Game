@@ -95,6 +95,4 @@ public abstract class Entity implements Serializable {
     public Direction getFacing() {
         return this.facing;
     }
-
-    abstract public String getEntityField();
 }
