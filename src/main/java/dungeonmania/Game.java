@@ -1,5 +1,6 @@
 package dungeonmania;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.UUID;
@@ -20,7 +21,7 @@ import dungeonmania.goals.Goal;
 import dungeonmania.map.GameMap;
 import dungeonmania.util.Direction;
 
-public class Game {
+public class Game implements Serializable {
     private String id;
     private String name;
     private Goal goals;
@@ -34,15 +35,13 @@ public class Game {
     public static final int PLAYER_MOVEMENT_CALLBACK = 1;
     public static final int AI_MOVEMENT = 2;
     public static final int AI_MOVEMENT_CALLBACK = 3;
-    private String configName;
 
     private int tickCount = 0;
     private PriorityQueue<ComparableCallback> sub = new PriorityQueue<>();
     private PriorityQueue<ComparableCallback> addingSub = new PriorityQueue<>();
 
-    public Game(String dungeonName, String config) {
+    public Game(String dungeonName) {
         this.name = dungeonName;
-        this.configName = config;
         this.map = new GameMap();
         this.battleFacade = new BattleFacade();
     }
@@ -227,7 +226,4 @@ public class Game {
         return initialTreasureCount;
     }
 
-    public String getConfigName() {
-        return configName;
-    }
 }

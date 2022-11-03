@@ -37,18 +37,14 @@ public class GameBuilder {
         return this;
     }
 
-    public Game buildGame(boolean newGame) {
+    public Game buildGame() {
         loadConfig();
-        if (newGame) {
-            loadDungeon();
-        } else {
-            loadSavedDungeon();
-        }
+        loadDungeon();
         if (dungeon == null && config == null) {
             return null; // something went wrong
         }
 
-        Game game = new Game(dungeonName, configName);
+        Game game = new Game(dungeonName);
         EntityFactory factory = new EntityFactory(config);
         game.setEntityFactory(factory);
         buildMap(game);
@@ -70,15 +66,6 @@ public class GameBuilder {
 
     private void loadDungeon() {
         String dungeonFile = String.format("/dungeons/%s.json", dungeonName);
-        try {
-            dungeon = new JSONObject(FileLoader.loadResourceFile(dungeonFile));
-        } catch (IOException e) {
-            dungeon = null;
-        }
-    }
-
-    private void loadSavedDungeon() {
-        String dungeonFile = String.format("/savedGames/%s.json", dungeonName);
         try {
             dungeon = new JSONObject(FileLoader.loadResourceFile(dungeonFile));
         } catch (IOException e) {

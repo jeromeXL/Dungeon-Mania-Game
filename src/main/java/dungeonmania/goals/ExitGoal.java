@@ -2,19 +2,17 @@ package dungeonmania.goals;
 
 import java.util.List;
 
-import org.json.JSONObject;
-
 import dungeonmania.Game;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.Exit;
 import dungeonmania.entities.Player;
 import dungeonmania.util.Position;
 
-public class ExitGoal implements Goal {
+public class ExitGoal extends Goal {
     @Override
     public boolean achieved(Game game) {
-        // if (game.getPlayer() == null)
-        // return false;
+        if (game.getPlayer() == null)
+            return false;
         Player character = game.getPlayer();
         Position pos = character.getPosition();
         List<Exit> es = game.getMap().getEntities(Exit.class);
@@ -33,10 +31,4 @@ public class ExitGoal implements Goal {
         return ":exit";
     }
 
-    @Override
-    public JSONObject goalsToConfig() {
-        JSONObject j = new JSONObject();
-        j.put("goal", "exit");
-        return j;
-    }
 }

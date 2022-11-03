@@ -1,20 +1,12 @@
 package dungeonmania;
 
-import java.io.File;
-import java.io.FileWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.List;
-
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
-
-import dungeonmania.entities.BattleItem;
-import dungeonmania.entities.Door;
-import dungeonmania.entities.Entity;
-import dungeonmania.entities.collectables.Key;
 import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.response.models.ResponseBuilder;
@@ -63,7 +55,7 @@ public class DungeonManiaController {
 
         try {
             GameBuilder builder = new GameBuilder();
-            game = builder.setConfigName(configName).setDungeonName(dungeonName).buildGame(true);
+            game = builder.setConfigName(configName).setDungeonName(dungeonName).buildGame();
             return ResponseBuilder.getDungeonResponse(game);
         } catch (JSONException e) {
             return null;
@@ -116,91 +108,45 @@ public class DungeonManiaController {
      * @throws IOException
      */
     public DungeonResponse saveGame(String name) throws IllegalArgumentException {
-        if (FileLoader.listFileNamesInResourceDirectory("savedGames").contains(name)) {
-            throw new IllegalArgumentException(name + " already exists");
-        }
-        // Entities
-        JSONObject save = new JSONObject();
-        JSONArray entitiesOnMap = new JSONArray();
-        List<Entity> entities = game.getMap().getEntities();
-        for (Entity e : entities) {
-            JSONObject eJSON = new JSONObject();
-            eJSON.put("type", e.getEntityField());
-            eJSON.put("x", e.getPosition().getX());
-            eJSON.put("y", e.getPosition().getY());
-            if (e instanceof Key) {
-                Key k = (Key) e;
-                eJSON.put("key", k.getnumber());
-            } else if (e instanceof Door) {
-                Door d = (Door) e;
-                eJSON.put("key", d.getKey());
-            }
-            entitiesOnMap.put(eJSON);
-        }
-        save.put("entities", entitiesOnMap);
-        save.put("config", game.getConfigName());
-        // Goals
-        JSONObject goals = game.getGoals().goalsToConfig();
-        save.put("goal-condition", goals);
-
-        // Inventory Items
-        JSONArray items = new JSONArray();
-        List<Entity> inventoryItems = game.getPlayer().getInventory().getEntities();
-        for (Entity e : inventoryItems) {
-            JSONObject iJSON = new JSONObject();
-            iJSON.put("type", e.getEntityField());
-            if (e instanceof Key) {
-                Key k = (Key) e;
-                iJSON.put("key", k.getnumber());
-            }
-            if (e instanceof BattleItem) {
-                BattleItem i = (BattleItem) e;
-                iJSON.put("durability", i.getDurability());
-            }
-            items.put(iJSON);
-        }
-
-        String path = String.format("%s%s%s.json", workingDirec, defaultDirectory, name);
-        File newFile = new File(path);
-        FileWriter file;
+        String path = String.format("%s%s%s.ser", workingDirec, defaultDirectory, name);
+        System.setProperty("sun.io.serialization.extendedDebugInfo", "true");
         try {
-            newFile.createNewFile();
-        } catch (IOException e2) {
-            // e2.printStackTrace();
-            System.out.println("Failed to create");
-            return null;
-        }
-        try {
-            file = new FileWriter(path);
-            file.write(save.toString());
-            System.out.println("Sucessfully copied to JSON file");
-            System.out.println("JSON object: " + save);
-            file.close();
+            FileOutputStream fileOut = new FileOutputStream(path);
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(game);
+            out.close();
+            fileOut.close();
+            System.out.printf("Serialized data is saved in %s.ser", name);
             return ResponseBuilder.getDungeonResponse(game);
-        } catch (IOException e1) {
-            // e1.printStackTrace();
-            System.out.println("Failed to write");
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error in saving game");
             return null;
         }
+
     }
 
     /**
      * /game/load
      */
     public DungeonResponse loadGame(String name) throws IllegalArgumentException {
-        if (!FileLoader.listFileNamesInResourceDirectory("savedGames").contains(name)) {
-            throw new IllegalArgumentException(name + " doesn't exist");
+        if (!FileLoader.listFileNamesInSavedGamesDirectory("savedGames").contains(name)) {
+            throw new IllegalArgumentException(name + " could not be found");
         }
-
-        String path = String.format("%s%s%s.json", workingDirec, defaultDirectory, name);
+        String path = String.format("%s%s%s.ser", workingDirec, defaultDirectory, name);
         try {
-            String jsonText = Files.readString(Path.of(path));
-            JSONObject contents = new JSONObject(jsonText);
-            String configName = (String) contents.get("config");
-            GameBuilder builder = new GameBuilder();
-            game = builder.setConfigName(configName).setDungeonName(name).buildGame(false);
+            FileInputStream fileIn = new FileInputStream(path);
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            this.game = (Game) in.readObject();
+            in.close();
+            fileIn.close();
             return ResponseBuilder.getDungeonResponse(game);
-        } catch (IOException e) {
+        } catch (IOException i) {
+            i.printStackTrace();
+            return null;
+        } catch (ClassNotFoundException c) {
+            System.out.println("Game class not found");
+            c.printStackTrace();
             return null;
         }
     }
@@ -209,7 +155,7 @@ public class DungeonManiaController {
      * /games/all
      */
     public List<String> allGames() {
-        return FileLoader.listFileNamesInResourceDirectory("savedGames");
+        return FileLoader.listFileNamesInSavedGamesDirectory("savedGames");
     }
 
     /**

@@ -43,4 +43,12 @@ public final class FileLoader {
                 .map(s -> s.replace(directory + "/", "").replace(".json", ""))
                 .collect(Collectors.toList());
     }
+
+    public static List<String> listFileNamesInSavedGamesDirectory(String directory) {
+        Reflections reflections = new Reflections(directory, Scanners.Resources);
+        return reflections.getResources(".*\\.ser")
+                .stream()
+                .map(s -> s.replace(directory + "/", "").replace(".ser", ""))
+                .collect(Collectors.toList());
+    }
 }

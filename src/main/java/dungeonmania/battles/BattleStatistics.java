@@ -1,10 +1,11 @@
 package dungeonmania.battles;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class BattleStatistics {
+public class BattleStatistics implements Serializable {
     public static final double DEFAULT_DAMAGE_MAGNIFIER = 1.0;
     public static final double DEFAULT_PLAYER_DAMAGE_REDUCER = 10.0;
     public static final double DEFAULT_ENEMY_DAMAGE_REDUCER = 5.0;
@@ -94,7 +95,7 @@ public class BattleStatistics {
                 rounds.add(new BattleRound(-damageOnSelf, target.healAmount));
             } else {
                 double damageOnTarget = self.getMagnifier() * (self.getAttack() - target.getDefence())
-                / target.getReducer();
+                        / target.getReducer();
                 target.setHealth(target.getHealth() - damageOnTarget);
                 rounds.add(new BattleRound(-damageOnSelf, -damageOnTarget));
             }

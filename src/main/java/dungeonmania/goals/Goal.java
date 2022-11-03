@@ -1,13 +1,12 @@
 package dungeonmania.goals;
 
-import org.json.JSONObject;
+import java.io.Serializable;
 
 import dungeonmania.Game;
 
-public interface Goal {
-    public boolean achieved(Game game);
+public abstract class Goal implements Serializable {
+    public abstract boolean achieved(Game game);
 
-    public String toString(Game game);
+    public abstract String toString(Game game);
 
-    public JSONObject goalsToConfig();
 }

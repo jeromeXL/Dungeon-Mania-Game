@@ -1,15 +1,13 @@
 package dungeonmania.goals;
 
-import org.json.JSONObject;
-
 import dungeonmania.Game;
 import dungeonmania.entities.Switch;
 
-public class BoulderGoal implements Goal {
+public class BoulderGoal extends Goal {
     @Override
     public boolean achieved(Game game) {
-        // if (game.getPlayer() == null)
-        // return false;
+        if (game.getPlayer() == null)
+            return false;
         return game.getMap().getEntities(Switch.class).stream().allMatch(s -> s.isActivated());
     }
 
@@ -18,12 +16,5 @@ public class BoulderGoal implements Goal {
         if (this.achieved(game))
             return "";
         return ":boulders";
-    }
-
-    @Override
-    public JSONObject goalsToConfig() {
-        JSONObject j = new JSONObject();
-        j.put("goal", "boulders");
-        return j;
     }
 }

@@ -1,10 +1,11 @@
 package dungeonmania.util;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public final class Position {
+public final class Position implements Serializable {
     public static final int FLOOR_LAYER = 0;
     public static final int ITEM_LAYER = 1;
     public static final int DOOR_LAYER = 2;
@@ -81,6 +82,7 @@ public final class Position {
     /**
      * Calculates the position vector of b relative to a (ie. the direction from a
      * to b)
+     * 
      * @return The relative position vector
      */
 
@@ -117,6 +119,7 @@ public final class Position {
 
     /**
      * Get cardinally adjacent positions only
+     * 
      * @return
      */
     public List<Position> getCardinallyAdjacentPositions() {

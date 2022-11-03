@@ -1,12 +1,10 @@
 package dungeonmania.goals;
 
-import org.json.JSONObject;
-
 import dungeonmania.Game;
 import dungeonmania.entities.collectables.SunStone;
 import dungeonmania.entities.collectables.Treasure;
 
-public class TreasureGoal implements Goal {
+public class TreasureGoal extends Goal {
     private int target;
 
     public TreasureGoal(int target) {
@@ -15,8 +13,8 @@ public class TreasureGoal implements Goal {
 
     @Override
     public boolean achieved(Game game) {
-        // if (game.getPlayer() == null)
-        // return false;
+        if (game.getPlayer() == null)
+            return false;
         return game.getInitialTreasureCount()
                 - game.getMap().getEntities(Treasure.class).size()
                 - game.getMap().getEntities(SunStone.class).size() >= target;
@@ -27,12 +25,5 @@ public class TreasureGoal implements Goal {
         if (this.achieved(game))
             return "";
         return ":treasure";
-    }
-
-    @Override
-    public JSONObject goalsToConfig() {
-        JSONObject j = new JSONObject();
-        j.put("goal", "treasure");
-        return j;
     }
 }
