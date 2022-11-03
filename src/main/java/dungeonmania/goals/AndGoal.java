@@ -1,6 +1,7 @@
 package dungeonmania.goals;
 
 import dungeonmania.Game;
+import dungeonmania.map.GameMap;
 
 public class AndGoal implements Goal {
     private Goal goal1;

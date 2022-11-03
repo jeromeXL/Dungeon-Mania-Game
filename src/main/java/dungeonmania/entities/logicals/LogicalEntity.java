@@ -2,13 +2,11 @@ package dungeonmania.entities.logicals;
 
 import dungeonmania.map.GameMap;
 
-import java.util.ArrayList;
+//import java.util.ArrayList;
 import java.util.List;
 
 import dungeonmania.entities.Entity;
 import dungeonmania.util.Position;
-
-import dungeonmania.map.GameMap;;
 
 public class LogicalEntity extends Entity {
 
@@ -30,4 +28,7 @@ public class LogicalEntity extends Entity {
         return false;
     }
 
+    public void updateStatus(GameMap map) {
+        return;
+    }
 }

@@ -47,7 +47,7 @@ public class Switch extends LogicalEntity {
     }
 
     @Override
-    public boolean isActivated() {
+    public boolean isActivated(GameMap map) {
         return activated;
     }
 

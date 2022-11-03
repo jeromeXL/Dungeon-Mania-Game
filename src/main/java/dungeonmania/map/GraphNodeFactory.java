@@ -32,6 +32,10 @@ public class GraphNodeFactory {
         case "key":
         case "sun_stone":
         case "hydra":
+        case "light_bulb_off":
+        case "light_bulb_on":
+        case "wire":
+        case "switch_door":
             return new GraphNode(factory.createEntity(jsonEntity));
         default:
             return null;

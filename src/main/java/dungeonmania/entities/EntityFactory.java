@@ -7,6 +7,9 @@ import dungeonmania.entities.buildables.Sceptre;
 import dungeonmania.entities.buildables.Shield;
 import dungeonmania.entities.collectables.*;
 import dungeonmania.entities.enemies.*;
+import dungeonmania.entities.logicals.Lightbulb;
+import dungeonmania.entities.logicals.SwitchDoor;
+import dungeonmania.entities.logicals.Wire;
 import dungeonmania.map.GameMap;
 import dungeonmania.entities.collectables.potions.InvincibilityPotion;
 import dungeonmania.entities.collectables.potions.InvisibilityPotion;
@@ -190,6 +193,12 @@ public class EntityFactory {
             return new SwampTile(pos, jsonEntity.getInt("movement_factor"));
         case "hydra":
             return buildHydra(pos);
+        case "light_bulb_off":
+            return new Lightbulb(pos);
+        case "wire":
+            return new Wire(pos);
+        case "switch_door":
+            return new SwitchDoor(pos);
         default:
             return null;
         }

@@ -9,6 +9,7 @@ import dungeonmania.battles.BattleRound;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.Interactable;
 import dungeonmania.entities.inventory.Inventory;
+import dungeonmania.map.GameMap;
 import dungeonmania.util.NameConverter;
 
 public class ResponseBuilder {
