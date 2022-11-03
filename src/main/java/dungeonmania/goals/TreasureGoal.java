@@ -4,7 +4,7 @@ import dungeonmania.Game;
 import dungeonmania.entities.collectables.SunStone;
 import dungeonmania.entities.collectables.Treasure;
 
-public class TreasureGoal extends Goal {
+public class TreasureGoal implements Goal {
     private int target;
 
     public TreasureGoal(int target) {

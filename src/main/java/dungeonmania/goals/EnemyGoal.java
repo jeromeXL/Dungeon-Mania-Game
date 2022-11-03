@@ -3,7 +3,7 @@ package dungeonmania.goals;
 import dungeonmania.Game;
 import dungeonmania.entities.enemies.ZombieToastSpawner;
 
-public class EnemyGoal extends Goal {
+public class EnemyGoal implements Goal {
     private int target;
 
     public EnemyGoal(int target) {

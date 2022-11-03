@@ -37,8 +37,8 @@ public class Game implements Serializable {
     public static final int AI_MOVEMENT_CALLBACK = 3;
 
     private int tickCount = 0;
-    private PriorityQueue<ComparableCallback> sub = new PriorityQueue<>();
-    private PriorityQueue<ComparableCallback> addingSub = new PriorityQueue<>();
+    private transient PriorityQueue<ComparableCallback> sub = new PriorityQueue<>();
+    private transient PriorityQueue<ComparableCallback> addingSub = new PriorityQueue<>();
 
     public Game(String dungeonName) {
         this.name = dungeonName;
@@ -226,4 +226,8 @@ public class Game implements Serializable {
         return initialTreasureCount;
     }
 
+    public void loadOldGame() {
+        this.sub = new PriorityQueue<>();
+        this.addingSub = new PriorityQueue<>();
+    }
 }

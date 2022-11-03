@@ -2,7 +2,7 @@ package dungeonmania.goals;
 
 import dungeonmania.Game;
 
-public class AndGoal extends Goal {
+public class AndGoal implements Goal {
     private Goal goal1;
     private Goal goal2;
 

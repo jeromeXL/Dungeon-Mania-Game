@@ -8,7 +8,7 @@ import dungeonmania.entities.Exit;
 import dungeonmania.entities.Player;
 import dungeonmania.util.Position;
 
-public class ExitGoal extends Goal {
+public class ExitGoal implements Goal {
     @Override
     public boolean achieved(Game game) {
         if (game.getPlayer() == null)

@@ -3,7 +3,7 @@ package dungeonmania.goals;
 import dungeonmania.Game;
 import dungeonmania.entities.Switch;
 
-public class BoulderGoal extends Goal {
+public class BoulderGoal implements Goal {
     @Override
     public boolean achieved(Game game) {
         if (game.getPlayer() == null)

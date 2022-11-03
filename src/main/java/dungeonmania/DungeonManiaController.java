@@ -140,6 +140,7 @@ public class DungeonManiaController {
             this.game = (Game) in.readObject();
             in.close();
             fileIn.close();
+            game.loadOldGame();
             return ResponseBuilder.getDungeonResponse(game);
         } catch (IOException i) {
             i.printStackTrace();
