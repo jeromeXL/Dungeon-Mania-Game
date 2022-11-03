@@ -37,8 +37,8 @@ public class Game implements Serializable {
     public static final int AI_MOVEMENT_CALLBACK = 3;
 
     private int tickCount = 0;
-    private transient PriorityQueue<ComparableCallback> sub = new PriorityQueue<>();
-    private transient PriorityQueue<ComparableCallback> addingSub = new PriorityQueue<>();
+    private PriorityQueue<ComparableCallback> sub = new PriorityQueue<>();
+    private PriorityQueue<ComparableCallback> addingSub = new PriorityQueue<>();
     private String configName;
 
     public Game(String dungeonName) {
