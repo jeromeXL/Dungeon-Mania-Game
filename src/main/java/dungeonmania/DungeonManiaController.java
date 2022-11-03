@@ -104,7 +104,7 @@ public class DungeonManiaController {
 
     /**
      * /game/save
-     * 
+     *
      * @throws IOException
      */
     public DungeonResponse saveGame(String name) throws IllegalArgumentException {
@@ -140,7 +140,7 @@ public class DungeonManiaController {
             this.game = (Game) in.readObject();
             in.close();
             fileIn.close();
-            game.loadOldGame();
+            // game.loadOldGame();
             game.setConfigFileEntityFactory();
             return ResponseBuilder.getDungeonResponse(game);
         } catch (IOException i) {

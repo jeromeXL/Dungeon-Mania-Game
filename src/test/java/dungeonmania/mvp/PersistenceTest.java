@@ -98,33 +98,33 @@ public class PersistenceTest {
         assertEquals("", TestUtils.getGoals(res));
     }
 
-    // @Test
-    // @Tag("22-5")
-    // @DisplayName("Test mercenary is still allied")
-    // public void allied() throws InterruptedException {
-    // DungeonManiaController dmc = new DungeonManiaController();
-    // DungeonResponse res = dmc.newGame("d_PersistenceTest_allied",
-    // "c_PersistenceTest_allied");
-    // String mercId = TestUtils.getEntitiesStream(res,
-    // "mercenary").findFirst().get().getId();
-    // res = dmc.tick(Direction.RIGHT); // Pick up treasure
+    @Test
+    @Tag("22-5")
+    @DisplayName("Test mercenary is still allied")
+    public void allied() throws InterruptedException {
+        DungeonManiaController dmc = new DungeonManiaController();
+        DungeonResponse res = dmc.newGame("d_PersistenceTest_allied",
+                "c_PersistenceTest_allied");
+        String mercId = TestUtils.getEntitiesStream(res,
+                "mercenary").findFirst().get().getId();
+        res = dmc.tick(Direction.RIGHT); // Pick up treasure
 
-    // // achieve bribe
-    // res = assertDoesNotThrow(() -> dmc.interact(mercId));
-    // assertEquals(0, TestUtils.getInventory(res, "treasure").size());
-    // dmc.saveGame("PersistenceTest_allied");
-    // // Wait 5 seconds for data to load into the file
+        // achieve bribe
+        res = assertDoesNotThrow(() -> dmc.interact(mercId));
+        assertEquals(0, TestUtils.getInventory(res, "treasure").size());
+        dmc.saveGame("PersistenceTest_allied");
+        // Wait 5 seconds for data to load into the file
 
-    // TimeUnit.SECONDS.sleep(5);
-    // res = dmc.loadGame("PersistenceTest_inventoryTest");
-    // res = dmc.tick(Direction.RIGHT);
-    // res = dmc.tick(Direction.RIGHT);
-    // res = dmc.tick(Direction.RIGHT);
+        TimeUnit.SECONDS.sleep(5);
+        res = dmc.loadGame("PersistenceTest_allied");
+        res = dmc.tick(Direction.RIGHT);
+        res = dmc.tick(Direction.RIGHT);
+        res = dmc.tick(Direction.RIGHT);
 
-    // // Assert that the mercenary didn't fight the player, and both still exist
-    // assertEquals(1, TestUtils.getEntities(res, "player").size());
-    // assertEquals(1, TestUtils.getEntities(res, "mercenary").size());
-    // }
+        // Assert that the mercenary didn't fight the player, and both still exist
+        assertEquals(1, TestUtils.getEntities(res, "player").size());
+        assertEquals(1, TestUtils.getEntities(res, "mercenary").size());
+    }
 
     @Test
     @Tag("22-6")

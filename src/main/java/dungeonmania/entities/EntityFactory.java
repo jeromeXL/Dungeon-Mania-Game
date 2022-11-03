@@ -68,7 +68,7 @@ public class EntityFactory implements Serializable {
         Position initPosition = availablePos.get(ranGen.nextInt(availablePos.size()));
         Spider spider = buildSpider(initPosition);
         map.addEntity(spider);
-        game.register(() -> spider.move(game), Game.AI_MOVEMENT, spider.getId());
+        game.register((Runnable & Serializable) () -> spider.move(game), Game.AI_MOVEMENT, spider.getId());
     }
 
     public void spawnZombie(Game game, ZombieToastSpawner spawner) {
@@ -87,7 +87,7 @@ public class EntityFactory implements Serializable {
             return;
         ZombieToast zt = buildZombieToast(pos.get(randGen.nextInt(pos.size())));
         map.addEntity(zt);
-        game.register(() -> zt.move(game), Game.AI_MOVEMENT, zt.getId());
+        game.register((Runnable & Serializable) () -> zt.move(game), Game.AI_MOVEMENT, zt.getId());
     }
 
     public Spider buildSpider(Position pos) {

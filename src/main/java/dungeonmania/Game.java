@@ -52,13 +52,14 @@ public class Game implements Serializable {
         map.init();
         this.tickCount = 0;
         player = map.getPlayer();
-        register(() -> player.onTick(tickCount), PLAYER_MOVEMENT, "potionQueue");
+        register((Runnable & Serializable) () -> player.onTick(tickCount), PLAYER_MOVEMENT, "potionQueue");
         initialTreasureCount = map.getEntities(Treasure.class).size() + map.getEntities(SunStone.class).size();
     }
 
     public Game tick(Direction movementDirection) {
         registerOnce(
-                () -> player.move(this.getMap(), movementDirection), PLAYER_MOVEMENT, "playerMoves");
+                (Runnable & Serializable) () -> player.move(this.getMap(), movementDirection), PLAYER_MOVEMENT,
+                "playerMoves");
         tick();
         return this;
     }
@@ -70,7 +71,7 @@ public class Game implements Serializable {
         if (!(item instanceof Useable))
             throw new IllegalArgumentException(String.format("%s cannot be used", item.getClass()));
 
-        registerOnce(() -> {
+        registerOnce((Runnable & Serializable) () -> {
             if (item instanceof Bomb)
                 player.use((Bomb) item, map);
             if (item instanceof Potion)
@@ -102,7 +103,8 @@ public class Game implements Serializable {
         if (!buildables.contains(buildable)) {
             throw new InvalidActionException(String.format("%s cannot be built", buildable));
         }
-        registerOnce(() -> player.build(buildable, entityFactory), PLAYER_MOVEMENT, "playerBuildsItem");
+        registerOnce((Runnable & Serializable) () -> player.build(buildable, entityFactory), PLAYER_MOVEMENT,
+                "playerBuildsItem");
         tick();
         return this;
     }
@@ -115,7 +117,8 @@ public class Game implements Serializable {
             throw new InvalidActionException("Entity cannot be interacted");
         }
         registerOnce(
-                () -> ((Interactable) e).interact(player, this), PLAYER_MOVEMENT, "playerInteractsWithEntity");
+                (Runnable & Serializable) () -> ((Interactable) e).interact(player, this), PLAYER_MOVEMENT,
+                "playerInteractsWithEntity");
         tick();
         return this;
     }
