@@ -2,6 +2,8 @@ package dungeonmania.mvp;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.concurrent.TimeUnit;
 
@@ -211,5 +213,21 @@ public class PersistenceTest {
         res = dmc.tick(Direction.RIGHT); // Go through the door
         res = dmc.tick(Direction.RIGHT); // Reach exit
         assertEquals("", TestUtils.getGoals(res));
+    }
+
+    @Test
+    @Tag("22-10")
+    @DisplayName("Test can't load a non existent file")
+    public void doesntExist() throws InterruptedException {
+        DungeonManiaController dmc = new DungeonManiaController();
+        assertThrows(IllegalArgumentException.class, () -> dmc.loadGame("nonExistent File"));
+    }
+
+    @Test
+    @Tag("22-11")
+    @DisplayName("Test saved file exists in directory")
+    public void fileInDirectory() throws InterruptedException {
+        DungeonManiaController dmc = new DungeonManiaController();
+        assertTrue(dmc.allGames().contains("PersistenceTest_saving"));
     }
 }
