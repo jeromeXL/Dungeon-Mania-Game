@@ -2,6 +2,7 @@ package dungeonmania.entities;
 
 import dungeonmania.Game;
 import dungeonmania.entities.buildables.Bow;
+import dungeonmania.entities.buildables.MidnightArmour;
 import dungeonmania.entities.buildables.Sceptre;
 import dungeonmania.entities.buildables.Shield;
 import dungeonmania.entities.collectables.*;
@@ -132,6 +133,12 @@ public class EntityFactory implements Serializable {
         return new Shield(shieldDurability, shieldDefence);
     }
 
+    public MidnightArmour buildMidnightArmour() {
+        double midnightArmourAttack = config.optInt("midnight_armour_attack");
+        double midnightArmourDefence = config.optInt("midnight_armour_defence");
+        return new MidnightArmour(midnightArmourAttack, midnightArmourDefence);
+    }
+
     public Sceptre buildSceptre() {
         int mindControlDuration = config.optInt("mind_control_duration");
         return new Sceptre(mindControlDuration);
@@ -197,6 +204,8 @@ public class EntityFactory implements Serializable {
                 return new Door(pos, jsonEntity.getInt("key"));
             case "key":
                 return new Key(pos, jsonEntity.getInt("key"));
+            case "swamp_tile":
+                return new SwampTile(pos, jsonEntity.getInt("movement_factor"));
             case "hydra":
                 return buildHydra(pos);
             default:

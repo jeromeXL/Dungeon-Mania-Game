@@ -213,4 +213,5 @@ public class Player extends Entity implements Battleable {
             return 0;
         }
     }
+
 }

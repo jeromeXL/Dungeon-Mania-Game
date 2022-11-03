@@ -169,29 +169,29 @@ public class PersistenceTest {
         assertEquals(1, TestUtils.getInventory(res, "sceptre").size());
     }
 
-    // @Test
-    // @Tag("22-8")
-    // @DisplayName("Test buildable can be used to mind control mercenary")
-    // public void useBuildable() throws InterruptedException {
-    // DungeonManiaController dmc = new DungeonManiaController();
-    // DungeonResponse res = dmc.newGame("d_PersistenceTest_useBuildable",
-    // "c_PersistenceTest_buildable");
-    // String mercId = TestUtils.getEntitiesStream(res,
-    // "mercenary").findFirst().get().getId();
-    // res = dmc.tick(Direction.RIGHT); // Pick up wood
-    // res = dmc.tick(Direction.RIGHT); // Pick up key
-    // res = dmc.tick(Direction.RIGHT); // Pick up sunstone
-    // res = assertDoesNotThrow(() -> dmc.build("sceptre"));
-    // assertEquals(1, TestUtils.getInventory(res, "sceptre").size());
+    @Test
+    @Tag("22-8")
+    @DisplayName("Test buildable can be used to mind control mercenary")
+    public void useBuildable() throws InterruptedException {
+        DungeonManiaController dmc = new DungeonManiaController();
+        DungeonResponse res = dmc.newGame("d_PersistenceTest_useBuildable",
+                "c_PersistenceTest_buildable");
+        String mercId = TestUtils.getEntitiesStream(res,
+                "mercenary").findFirst().get().getId();
+        res = dmc.tick(Direction.RIGHT); // Pick up wood
+        res = dmc.tick(Direction.RIGHT); // Pick up key
+        res = dmc.tick(Direction.RIGHT); // Pick up sunstone
+        res = assertDoesNotThrow(() -> dmc.build("sceptre"));
+        assertEquals(1, TestUtils.getInventory(res, "sceptre").size());
 
-    // dmc.saveGame("PersistenceTest_buildable");
+        dmc.saveGame("PersistenceTest_buildable");
 
-    // // Wait 2 seconds for data to load into the file
-    // TimeUnit.SECONDS.sleep(2);
-    // res = dmc.loadGame("PersistenceTest_buildable");
-    // assertEquals(1, TestUtils.getInventory(res, "sceptre").size());
-    // assertDoesNotThrow(() -> dmc.interact(mercId));
-    // }
+        // Wait 2 seconds for data to load into the file
+        TimeUnit.SECONDS.sleep(2);
+        res = dmc.loadGame("PersistenceTest_buildable");
+        assertEquals(1, TestUtils.getInventory(res, "sceptre").size());
+        assertDoesNotThrow(() -> dmc.interact(mercId));
+    }
 
     @Test
     @Tag("22-9")

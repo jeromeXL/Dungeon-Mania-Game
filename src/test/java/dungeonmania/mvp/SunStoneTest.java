@@ -1,10 +1,11 @@
 package dungeonmania.mvp;
 
 import dungeonmania.DungeonManiaController;
+import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
-//import dungeonmania.exceptions.*;
+import dungeonmania.exceptions.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class SunStoneTest {
     @Test
-    @Tag("17-1")
+    @Tag("18-1")
     @DisplayName("Test player can pick up a SunStone and add to inventory")
     public void pickUpSunStone() {
         DungeonManiaController dmc;
@@ -34,7 +35,7 @@ public class SunStoneTest {
     }
 
     @Test
-    @Tag("17-2")
+    @Tag("18-2")
     @DisplayName("Test player can use a SunStone to open and walk through a door")
     public void useSunStoneWalkThroughOpenDoor() {
         DungeonManiaController dmc;
@@ -54,7 +55,7 @@ public class SunStoneTest {
     }
 
     @Test
-    @Tag("17-3")
+    @Tag("18-3")
     @DisplayName("Test building a shield with a Sun Stone")
     public void buildShieldWithSunStone() {
         DungeonManiaController dmc;
@@ -86,7 +87,7 @@ public class SunStoneTest {
 
 
     @Test
-    @Tag("17-4")
+    @Tag("18-4")
     @DisplayName("Test achieving treasure goal with SunStone")
     public void treasureGoal() {
         DungeonManiaController dmc;
@@ -101,23 +102,73 @@ public class SunStoneTest {
 
         // collect treasure
         res = dmc.tick(Direction.RIGHT);
-        assertEquals(1, TestUtils.getInventory(res, "treasure").size());
+        assertEquals(1, TestUtils.getInventory(res, "sun_stone").size());
 
         // assert goal not met
         assertTrue(TestUtils.getGoals(res).contains(":treasure"));
 
         // collect treasure
         res = dmc.tick(Direction.RIGHT);
-        assertEquals(2, TestUtils.getInventory(res, "treasure").size());
+        assertEquals(2, TestUtils.getInventory(res, "sun_stone").size());
 
         // assert goal not met
         assertTrue(TestUtils.getGoals(res).contains(":treasure"));
 
         // collect SunStone
         res = dmc.tick(Direction.RIGHT);
-        assertEquals(1, TestUtils.getInventory(res, "sun_stone").size());
+        assertEquals(3, TestUtils.getInventory(res, "sun_stone").size());
 
         // assert goal met
         assertEquals("", TestUtils.getGoals(res));
+    }
+
+    @Test
+    @Tag("18-5")
+    @DisplayName("Testing a mercenary cannot be bribed with Sun Stones")
+    public void notBribeable() {
+        //                                                          Wall     Wall     Wall    Wall    Wall
+        // P1       P2/SunStone      P3/SunStone    P4/SunStone      M4       M3       M2     M1      Wall
+        //                                                          Wall     Wall     Wall    Wall    Wall
+        DungeonManiaController dmc = new DungeonManiaController();
+        DungeonResponse res = dmc.newGame("d_SunStoneTest_notBribeable", "c_SunStoneTest_notBribeable");
+
+        String mercId = TestUtils.getEntitiesStream(res, "mercenary").findFirst().get().getId();
+
+        // pick up first sun stone
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(1, TestUtils.getInventory(res, "sun_stone").size());
+        assertEquals(new Position(7, 1), getMercPos(res));
+
+        // attempt bribe - fails
+        assertThrows(InvalidActionException.class, () ->
+                dmc.interact(mercId)
+        );
+        assertEquals(1, TestUtils.getInventory(res, "sun_stone").size());
+
+        // pick up second sun stone
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(2, TestUtils.getInventory(res, "sun_stone").size());
+        assertEquals(new Position(6, 1), getMercPos(res));
+
+        // attempt bribe - fails
+        assertThrows(InvalidActionException.class, () ->
+                dmc.interact(mercId)
+        );
+        assertEquals(2, TestUtils.getInventory(res, "sun_stone").size());
+
+        // pick up third sun stone
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(3, TestUtils.getInventory(res, "sun_stone").size());
+        assertEquals(new Position(5, 1), getMercPos(res));
+
+        // attempt bribe - fails
+        assertThrows(InvalidActionException.class, () ->
+        dmc.interact(mercId)
+        );
+        assertEquals(3, TestUtils.getInventory(res, "sun_stone").size());
+    }
+
+    private Position getMercPos(DungeonResponse res) {
+        return TestUtils.getEntities(res, "mercenary").get(0).getPosition();
     }
 }
