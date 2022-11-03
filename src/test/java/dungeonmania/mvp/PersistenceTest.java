@@ -37,7 +37,7 @@ public class PersistenceTest {
     }
 
     @Test
-    @Tag("22-3")
+    @Tag("22-2")
     @DisplayName("Test saving game then reopening in succession")
     public void moveThenSaveAndReopen() throws InterruptedException {
         DungeonManiaController dmc = new DungeonManiaController();
@@ -60,7 +60,7 @@ public class PersistenceTest {
     }
 
     @Test
-    @Tag("22-4")
+    @Tag("22-3")
     @DisplayName("Test saving, loading then achieving goal")
     public void saveLoadThenAchieveGoal() throws InterruptedException {
         DungeonManiaController dmc = new DungeonManiaController();
@@ -76,7 +76,7 @@ public class PersistenceTest {
     }
 
     @Test
-    @Tag("22-5")
+    @Tag("22-4")
     @DisplayName("Test inventory is saved")
     public void inventoryTest() throws InterruptedException {
         DungeonManiaController dmc = new DungeonManiaController();
@@ -125,4 +125,92 @@ public class PersistenceTest {
     // assertEquals(1, TestUtils.getEntities(res, "player").size());
     // assertEquals(1, TestUtils.getEntities(res, "mercenary").size());
     // }
+
+    @Test
+    @Tag("22-6")
+    @DisplayName("Test buildable entity is saved")
+    public void buildable() throws InterruptedException {
+        DungeonManiaController dmc = new DungeonManiaController();
+        DungeonResponse res = dmc.newGame("d_PersistenceTest_buildable",
+                "c_PersistenceTest_buildable");
+
+        res = dmc.tick(Direction.RIGHT); // Pick up wood
+        res = dmc.tick(Direction.RIGHT); // Pick up key
+        res = dmc.tick(Direction.RIGHT); // Pick up sunstone
+        res = assertDoesNotThrow(() -> dmc.build("sceptre"));
+        assertEquals(1, TestUtils.getInventory(res, "sceptre").size());
+
+        dmc.saveGame("PersistenceTest_buildable");
+
+        // Wait 2 seconds for data to load into the file
+        TimeUnit.SECONDS.sleep(2);
+        res = dmc.loadGame("PersistenceTest_buildable");
+        assertEquals(1, TestUtils.getInventory(res, "sceptre").size());
+    }
+
+    // @Test
+    // @Tag("22-7")
+    // @DisplayName("Test inventory can be used to build things even after
+    // persistence")
+    // public void saveThenBuild() throws InterruptedException {
+    // DungeonManiaController dmc = new DungeonManiaController();
+    // DungeonResponse res = dmc.newGame("d_PersistenceTest_buildable",
+    // "c_PersistenceTest_buildable");
+
+    // res = dmc.tick(Direction.RIGHT); // Pick up wood
+    // res = dmc.tick(Direction.RIGHT); // Pick up key
+    // assertEquals(0, TestUtils.getInventory(res, "sceptre").size());
+    // dmc.saveGame("PersistenceTest_buildable");
+    // // Wait 2 seconds for data to load into the file
+    // TimeUnit.SECONDS.sleep(2);
+    // res = dmc.loadGame("PersistenceTest_buildable");
+
+    // res = dmc.tick(Direction.RIGHT); // Pick up sunstone
+    // res = assertDoesNotThrow(() -> dmc.build("sceptre"));
+    // assertEquals(1, TestUtils.getInventory(res, "sceptre").size());
+    // }
+
+    // @Test
+    // @Tag("22-8")
+    // @DisplayName("Test buildable can be used to mind control mercenary")
+    // public void useBuildable() throws InterruptedException {
+    // DungeonManiaController dmc = new DungeonManiaController();
+    // DungeonResponse res = dmc.newGame("d_PersistenceTest_useBuildable",
+    // "c_PersistenceTest_buildable");
+    // String mercId = TestUtils.getEntitiesStream(res,
+    // "mercenary").findFirst().get().getId();
+    // res = dmc.tick(Direction.RIGHT); // Pick up wood
+    // res = dmc.tick(Direction.RIGHT); // Pick up key
+    // res = dmc.tick(Direction.RIGHT); // Pick up sunstone
+    // res = assertDoesNotThrow(() -> dmc.build("sceptre"));
+    // assertEquals(1, TestUtils.getInventory(res, "sceptre").size());
+
+    // dmc.saveGame("PersistenceTest_buildable");
+
+    // // Wait 2 seconds for data to load into the file
+    // TimeUnit.SECONDS.sleep(2);
+    // res = dmc.loadGame("PersistenceTest_buildable");
+    // assertEquals(1, TestUtils.getInventory(res, "sceptre").size());
+    // assertDoesNotThrow(() -> dmc.interact(mercId));
+    // }
+
+    @Test
+    @Tag("22-9")
+    @DisplayName("Test key can still be used after persistence")
+    public void keys() throws InterruptedException {
+        DungeonManiaController dmc = new DungeonManiaController();
+        DungeonResponse res = dmc.newGame("d_PersistenceTest_keys",
+                "c_PersistenceTest_buildable");
+
+        res = dmc.tick(Direction.RIGHT); // Pick up key
+        dmc.saveGame("PersistenceTest_keys");
+
+        // Wait 2 seconds for data to load into the file
+        TimeUnit.SECONDS.sleep(2);
+        res = dmc.loadGame("PersistenceTest_keys");
+        res = dmc.tick(Direction.RIGHT); // Pick up key
+        res = dmc.tick(Direction.RIGHT); // Go through the door
+        res = dmc.tick(Direction.RIGHT); // Reach exit
+        assertEquals("", TestUtils.getGoals(res));
+    }
 }
