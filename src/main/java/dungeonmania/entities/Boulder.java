@@ -31,9 +31,4 @@ public class Boulder extends Entity {
         Position newPosition = Position.translateBy(this.getPosition(), direction);
         return map.getEntities(newPosition).stream().allMatch(e -> e.canMoveOnto(map, this));
     }
-
-    @Override
-    public String getEntityField() {
-        return "boulder";
-    }
 }
