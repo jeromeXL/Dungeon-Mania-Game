@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dungeonmania.entities.collectables.Bomb;
+import dungeonmania.entities.logicals.LogicalEntity;
 import dungeonmania.map.GameMap;
 import dungeonmania.util.Position;
 
-public class Switch extends Entity {
+public class Switch extends LogicalEntity {
     private boolean activated;
     private List<Bomb> bombs = new ArrayList<>();
 
@@ -45,6 +46,7 @@ public class Switch extends Entity {
         }
     }
 
+    @Override
     public boolean isActivated() {
         return activated;
     }
