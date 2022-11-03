@@ -140,7 +140,6 @@ public class DungeonManiaController {
             this.game = (Game) in.readObject();
             in.close();
             fileIn.close();
-            // game.loadOldGame();
             game.setConfigFileEntityFactory();
             return ResponseBuilder.getDungeonResponse(game);
         } catch (IOException i) {

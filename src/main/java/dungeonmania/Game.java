@@ -230,11 +230,6 @@ public class Game implements Serializable {
         return initialTreasureCount;
     }
 
-    public void loadOldGame() {
-        this.sub = new PriorityQueue<>();
-        this.addingSub = new PriorityQueue<>();
-    }
-
     public void setConfigName(String configName) {
         this.configName = configName;
     }
