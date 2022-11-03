@@ -141,6 +141,7 @@ public class DungeonManiaController {
             in.close();
             fileIn.close();
             game.loadOldGame();
+            game.setConfigFileEntityFactory();
             return ResponseBuilder.getDungeonResponse(game);
         } catch (IOException i) {
             i.printStackTrace();

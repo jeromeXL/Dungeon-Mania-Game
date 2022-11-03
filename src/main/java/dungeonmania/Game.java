@@ -39,6 +39,7 @@ public class Game implements Serializable {
     private int tickCount = 0;
     private transient PriorityQueue<ComparableCallback> sub = new PriorityQueue<>();
     private transient PriorityQueue<ComparableCallback> addingSub = new PriorityQueue<>();
+    private String configName;
 
     public Game(String dungeonName) {
         this.name = dungeonName;
@@ -229,5 +230,13 @@ public class Game implements Serializable {
     public void loadOldGame() {
         this.sub = new PriorityQueue<>();
         this.addingSub = new PriorityQueue<>();
+    }
+
+    public void setConfigName(String configName) {
+        this.configName = configName;
+    }
+
+    public void setConfigFileEntityFactory() {
+        entityFactory.loadConfig(configName);
     }
 }

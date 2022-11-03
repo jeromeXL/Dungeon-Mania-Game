@@ -9,8 +9,10 @@ import dungeonmania.entities.enemies.*;
 import dungeonmania.map.GameMap;
 import dungeonmania.entities.collectables.potions.InvincibilityPotion;
 import dungeonmania.entities.collectables.potions.InvisibilityPotion;
+import dungeonmania.util.FileLoader;
 import dungeonmania.util.Position;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +31,16 @@ public class EntityFactory implements Serializable {
 
     public Entity createEntity(JSONObject jsonEntity) {
         return constructEntity(jsonEntity, config);
+    }
+
+    public void loadConfig(String configName) {
+        String configFile = String.format("/configs/%s.json", configName);
+        try {
+            config = new JSONObject(FileLoader.loadResourceFile(configFile));
+        } catch (IOException e) {
+            e.printStackTrace();
+            config = null;
+        }
     }
 
     public void spawnSpider(Game game) {

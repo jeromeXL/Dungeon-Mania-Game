@@ -148,27 +148,26 @@ public class PersistenceTest {
         assertEquals(1, TestUtils.getInventory(res, "sceptre").size());
     }
 
-    // @Test
-    // @Tag("22-7")
-    // @DisplayName("Test inventory can be used to build things even after
-    // persistence")
-    // public void saveThenBuild() throws InterruptedException {
-    // DungeonManiaController dmc = new DungeonManiaController();
-    // DungeonResponse res = dmc.newGame("d_PersistenceTest_buildable",
-    // "c_PersistenceTest_buildable");
+    @Test
+    @Tag("22-7")
+    @DisplayName("Test inventory can be used to build things even after persistence")
+    public void saveThenBuild() throws InterruptedException {
+        DungeonManiaController dmc = new DungeonManiaController();
+        DungeonResponse res = dmc.newGame("d_PersistenceTest_buildable",
+                "c_PersistenceTest_buildable");
 
-    // res = dmc.tick(Direction.RIGHT); // Pick up wood
-    // res = dmc.tick(Direction.RIGHT); // Pick up key
-    // assertEquals(0, TestUtils.getInventory(res, "sceptre").size());
-    // dmc.saveGame("PersistenceTest_buildable");
-    // // Wait 2 seconds for data to load into the file
-    // TimeUnit.SECONDS.sleep(2);
-    // res = dmc.loadGame("PersistenceTest_buildable");
+        res = dmc.tick(Direction.RIGHT); // Pick up wood
+        res = dmc.tick(Direction.RIGHT); // Pick up key
+        assertEquals(0, TestUtils.getInventory(res, "sceptre").size());
+        dmc.saveGame("PersistenceTest_buildable");
+        // Wait 2 seconds for data to load into the file
+        TimeUnit.SECONDS.sleep(2);
+        res = dmc.loadGame("PersistenceTest_buildable");
 
-    // res = dmc.tick(Direction.RIGHT); // Pick up sunstone
-    // res = assertDoesNotThrow(() -> dmc.build("sceptre"));
-    // assertEquals(1, TestUtils.getInventory(res, "sceptre").size());
-    // }
+        res = dmc.tick(Direction.RIGHT); // Pick up sunstone
+        res = assertDoesNotThrow(() -> dmc.build("sceptre"));
+        assertEquals(1, TestUtils.getInventory(res, "sceptre").size());
+    }
 
     // @Test
     // @Tag("22-8")
