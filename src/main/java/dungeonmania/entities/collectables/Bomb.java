@@ -9,10 +9,9 @@ import java.util.stream.Collectors;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.Player;
 import dungeonmania.entities.Switch;
-import dungeonmania.entities.inventory.InventoryItem;
 import dungeonmania.map.GameMap;
 
-public class Bomb extends Collectables implements InventoryItem, Useable {
+public class Bomb extends Collectables implements Useable {
     public enum State {
         SPAWNED,
         INVENTORY,

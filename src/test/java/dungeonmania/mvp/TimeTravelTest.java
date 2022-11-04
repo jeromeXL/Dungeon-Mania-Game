@@ -1,8 +1,8 @@
 package dungeonmania.mvp;
-/* 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+
+// import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+// import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -11,28 +11,44 @@ import org.junit.jupiter.api.Test;
 import dungeonmania.DungeonManiaController;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.util.Direction;
-import dungeonmania.util.Position; */
+// import dungeonmania.util.Position;
 
 public class TimeTravelTest {
+
+    @Test
+    @Tag("23-1")
+    @DisplayName("Can pick up Time Turner")
+    public void PickUpTimeTurner() {
+        DungeonManiaController dmc = new DungeonManiaController();
+        DungeonResponse res = dmc.newGame("d_TimeTravelTest_PickUpTimeTurner",
+                "c_TimeTravelTest_PickUpTimeTurner");
+
+        assertEquals(1, TestUtils.getEntities(res, "time_turner").size());
+        assertEquals(0, TestUtils.getInventory(res, "time_turner").size());
+
+        // pick up Time Turner
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(1, TestUtils.getInventory(res, "time_turner").size());
+        assertEquals(0, TestUtils.getEntities(res, "time_turner").size());
+    }
+
+    @Test
+    @Tag("23-2")
+    @DisplayName("Can pick up Time Turner")
+    public void overlapPortal() {
+        DungeonManiaController dmc = new DungeonManiaController();
+        DungeonResponse res = dmc.newGame("d_TimeTravelTest_portal",
+                "c_TimeTravelTest_PickUpTimeTurner");
+
+        res = dmc.tick(Direction.RIGHT);
+        res = dmc.tick(Direction.RIGHT);
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(1, TestUtils.getEntities(res, "time_travelling_portal").size());
+        assertEquals(TestUtils.getEntities(res, "player").get(0).getPosition(),
+                TestUtils.getEntities(res, "time_travelling_portal").get(0).getPosition());
+    }
+
     /*
-     * @Test
-     * 
-     * @Tag("23-1")
-     * 
-     * @DisplayName("Can pick up Time Turner")
-     * public void PickUpTimeTurner() {
-     * DungeonManiaController dmc = new DungeonManiaController();
-     * DungeonResponse res = dmc.newGame("d_TimeTravelTest_PickUpTimeTurner",
-     * "c_TimeTravelTest_PickUpTimeTurner");
-     * 
-     * assertEquals(1, TestUtils.getEntities(res, "time_turner").size());
-     * assertEquals(0, TestUtils.getInventory(res, "time_turner").size());
-     * 
-     * // pick up Time Turner
-     * res = dmc.tick(Direction.RIGHT);
-     * assertEquals(1, TestUtils.getInventory(res, "time_turner").size());
-     * assertEquals(0, TestUtils.getEntities(res, "time_turner").size());
-     * }
      * 
      * @Test
      * 

@@ -1,9 +1,8 @@
 package dungeonmania.entities.collectables;
 
-import dungeonmania.entities.inventory.InventoryItem;
 import dungeonmania.util.Position;
 
-public class SunStone extends Collectables implements InventoryItem, TreasureInterface, KeyInterface {
+public class SunStone extends Collectables implements TreasureInterface, KeyInterface {
     public SunStone(Position position) {
         super(position);
     }
