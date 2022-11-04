@@ -1,6 +1,7 @@
 package dungeonmania.mvp;
 
 import dungeonmania.DungeonManiaController;
+import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.response.models.EntityResponse;
 import dungeonmania.util.Direction;
@@ -65,9 +66,9 @@ public class SwampTileTest {
     }
 
     @Test
-    @Tag("21-2")
-    @DisplayName("Test an enemy mercenary is affected")
-    public void AllyAffected() {
+    @Tag("21-3")
+    @DisplayName("Test an allied mercenary is still affected")
+    public void AllyAffected() throws IllegalArgumentException, InvalidActionException {
         DungeonManiaController dmc = new DungeonManiaController();
         DungeonResponse res = dmc.newGame(
                 "d_SwampTileTest_enemyAffected", "c_SwampTileTest_testPlayerUnaffected");
@@ -77,7 +78,7 @@ public class SwampTileTest {
         res = dmc.tick(Direction.RIGHT);
         assertEquals(1, TestUtils.getInventory(res, "treasure").size());
         // bribe mercenary
-        assertDoesNotThrow(() -> dmc.interact(mercId));
+        res = dmc.interact(mercId);
         // The allied mercenary gets moves onto the swamp tile
         assertEquals(TestUtils.getEntities(res, "mercenary").get(0).getPosition(),
                 TestUtils.getEntities(res, "swamp_tile").get(0).getPosition());
@@ -94,5 +95,40 @@ public class SwampTileTest {
         res = dmc.tick(Direction.RIGHT);
         assertNotEquals(TestUtils.getEntities(res, "mercenary").get(0).getPosition(),
                 TestUtils.getEntities(res, "swamp_tile").get(0).getPosition());
+    }
+
+    @Test
+    @Tag("21-4")
+    @DisplayName("Test an allied mercenary is still affected")
+    public void AdjacentAllyUnaffected() throws IllegalArgumentException, InvalidActionException {
+        DungeonManiaController dmc = new DungeonManiaController();
+        DungeonResponse res = dmc.newGame(
+                "d_SwampTileTest_AllyUnaffected", "c_SwampTileTest_testPlayerUnaffected");
+
+        String mercId = TestUtils.getEntitiesStream(res, "mercenary").findFirst().get().getId();
+        // Pick up treasure
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(1, TestUtils.getInventory(res, "treasure").size());
+        // bribe mercenary
+        res = dmc.interact(mercId);
+        // They should now be adjacent.
+        assertEquals(TestUtils.getEntities(res, "player").get(0).getPosition(), new Position(2, 0));
+        assertEquals(TestUtils.getEntities(res, "mercenary").get(0).getPosition(), new Position(3, 0));
+
+        // Shouldn't get stuck
+        res = dmc.tick(Direction.LEFT);
+        assertEquals(TestUtils.getEntities(res, "player").get(0).getPosition(), new Position(1, 0));
+        assertEquals(TestUtils.getEntities(res, "mercenary").get(0).getPosition(), new Position(2, 0));
+        res = dmc.tick(Direction.LEFT);
+        assertEquals(TestUtils.getEntities(res, "player").get(0).getPosition(), new Position(0, 0));
+        assertEquals(TestUtils.getEntities(res, "mercenary").get(0).getPosition(), new Position(1, 0));
+        // Mercenary on swamp tile, but it is allied
+        res = dmc.tick(Direction.LEFT);
+        assertEquals(TestUtils.getEntities(res, "player").get(0).getPosition(), new Position(-1, 0));
+        assertEquals(TestUtils.getEntities(res, "mercenary").get(0).getPosition(), new Position(0, 0));
+        // Should move off it
+        res = dmc.tick(Direction.LEFT);
+        assertEquals(TestUtils.getEntities(res, "player").get(0).getPosition(), new Position(-2, 0));
+        assertEquals(TestUtils.getEntities(res, "mercenary").get(0).getPosition(), new Position(-1, 0));
     }
 }
