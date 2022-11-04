@@ -7,7 +7,8 @@ import dungeonmania.entities.buildables.Sceptre;
 import dungeonmania.entities.buildables.Shield;
 import dungeonmania.entities.collectables.*;
 import dungeonmania.entities.enemies.*;
-import dungeonmania.entities.logicals.Lightbulb;
+import dungeonmania.entities.logicals.LightBulbOff;
+import dungeonmania.entities.logicals.LightBulbOn;
 import dungeonmania.entities.logicals.SwitchDoor;
 import dungeonmania.entities.logicals.Wire;
 import dungeonmania.map.GameMap;
@@ -194,7 +195,9 @@ public class EntityFactory {
         case "hydra":
             return buildHydra(pos);
         case "light_bulb_off":
-            return new Lightbulb(pos);
+            return new LightBulbOff(pos);
+        case "light_bulb_on":
+            return new LightBulbOn(pos);
         case "wire":
             return new Wire(pos);
         case "switch_door":

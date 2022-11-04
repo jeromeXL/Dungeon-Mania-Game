@@ -9,7 +9,6 @@ import dungeonmania.battles.BattleRound;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.Interactable;
 import dungeonmania.entities.inventory.Inventory;
-import dungeonmania.map.GameMap;
 import dungeonmania.util.NameConverter;
 
 public class ResponseBuilder {
@@ -24,7 +23,7 @@ public class ResponseBuilder {
                 entityResponse,
                 (game.getPlayer() != null) ? getInventoryResponse(game.getPlayer().getInventory()) : null,
                 game.getBattleFacade().getBattleResponses(),
-                (game.getPlayer() != null) ? game.getPlayer().getBuildables() : null,
+                (game.getPlayer() != null) ? game.getPlayer().getBuildables(game.getMap()) : null,
                 (game.getGoals().achieved(game)) ? ""
                         : game.getGoals().toString(game));
     }

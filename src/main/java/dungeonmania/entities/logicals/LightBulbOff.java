@@ -13,7 +13,7 @@ public class LightBulbOff extends LogicalEntity {
     @Override
     public void updateStatus(GameMap map) {
         if (this.isActivated(map)) {
-            map.addEntity(new LightBulbOn(getPosition()));
+            map.addEntity(new LightBulbOn(this.getPosition()));
             map.removeNode(this);
        } else {
        }

@@ -2,6 +2,7 @@ package dungeonmania.mvp;
 
 import dungeonmania.DungeonManiaController;
 import dungeonmania.response.models.DungeonResponse;
+import dungeonmania.response.models.EntityResponse;
 import dungeonmania.util.Direction;
 //import dungeonmania.util.Position;
 import dungeonmania.exceptions.*;
@@ -115,5 +116,80 @@ public class MidnightArmourTest {
         RoundResponse firstRound = battle.getRounds().get(0);
 
         assertEquals((playerBaseAttack + mArmourAttack) / 5, -firstRound.getDeltaEnemyHealth(), 0.001);
+    }
+
+    @Test
+    @Tag("20-4")
+    @DisplayName("Test cant build midnight armour due to zombies on map")
+    public void cantBuildMidnightArmourZombiesPresent() {
+        DungeonManiaController dmc;
+        dmc = new DungeonManiaController();
+        DungeonResponse res = dmc.newGame("d_MidnightArmourTest_ZombiesPresent",
+        "c_MidnightArmourTest_ZombiesPresent");
+
+        // Check there is 1 zombie
+        assertEquals(1, getZombies(res).size());
+
+        // Empty Inventory
+        assertEquals(0, TestUtils.getInventory(res, "sword").size());
+        assertEquals(0, TestUtils.getInventory(res, "sun_stone").size());
+        assertEquals(0, TestUtils.getInventory(res, "midnight_armour").size());
+
+        // Pick up Sword x2
+        res = dmc.tick(Direction.RIGHT);
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(2, TestUtils.getInventory(res, "sword").size());
+
+        // Pick up Sun Stone
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(1, TestUtils.getInventory(res, "sun_stone").size());
+
+        // Cannot Build Midnight Armour
+        assertEquals(0, TestUtils.getInventory(res, "midnight_armour").size());
+
+        // Sunstone and sword not used
+        assertEquals(2, TestUtils.getInventory(res, "sword").size());
+        assertEquals(1, TestUtils.getInventory(res, "sun_stone").size());
+    }
+
+    @Test
+    @Tag("20-5")
+    @DisplayName("Test cant build midnight armour due to Hydra on map")
+    public void cantBuildMidnightArmourHydraPresent() {
+        DungeonManiaController dmc;
+        dmc = new DungeonManiaController();
+        DungeonResponse res = dmc.newGame("d_MidnightArmourTest_HydraPresent",
+        "c_MidnightArmourTest_HydraPresent");
+
+        // Check there is 1 zombie (Hydra is a subclass of zombie)
+        assertEquals(1, getHydras(res).size());
+
+        // Empty Inventory
+        assertEquals(0, TestUtils.getInventory(res, "sword").size());
+        assertEquals(0, TestUtils.getInventory(res, "sun_stone").size());
+        assertEquals(0, TestUtils.getInventory(res, "midnight_armour").size());
+
+        // Pick up Sword x2
+        res = dmc.tick(Direction.RIGHT);
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(2, TestUtils.getInventory(res, "sword").size());
+
+        // Pick up Sun Stone
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(1, TestUtils.getInventory(res, "sun_stone").size());
+
+        // Cannot Build Midnight Armour
+        assertEquals(0, TestUtils.getInventory(res, "midnight_armour").size());
+
+        // Sunstone and sword not used
+        assertEquals(2, TestUtils.getInventory(res, "sword").size());
+        assertEquals(1, TestUtils.getInventory(res, "sun_stone").size());
+    }
+
+    private List<EntityResponse> getZombies(DungeonResponse res) {
+        return TestUtils.getEntities(res, "zombie_toast");
+    }
+    private List<EntityResponse> getHydras(DungeonResponse res) {
+        return TestUtils.getEntities(res, "hydra");
     }
 }
