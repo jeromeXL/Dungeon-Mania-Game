@@ -1,5 +1,6 @@
 package dungeonmania.entities.logicals;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,17 +16,27 @@ public class LogicalCOAND implements LogicalStrategy {
 
     @Override
     public boolean isActivated(GameMap map) {
-        // Adjacent Logical Entities
-        List<LogicalEntity> AdjacentLogEnt = map.getEntities(LogicalEntity.class).stream()
-                .filter(l -> l != e && Position.isAdjacent(e.getPosition(), l.getPosition()) && l instanceof Conductor)
-                .collect(Collectors.toList());
+        // All logical Entities
+        List<LogicalEntity> LogicalEntities = map.getEntities(LogicalEntity.class);
+        List<LogicalEntity> visited = new ArrayList<>();
+        List<LogicalEntity> on = new ArrayList<>();
+        List<LogicalEntity> adj = new ArrayList<>();
 
-        int numLogEntActive = (int) AdjacentLogEnt.stream().filter(l -> l.isActivated(map)).count();
-        if (numLogEntActive < 2) {
+        // Check if they are adjacent and are activated
+        for (LogicalEntity l : LogicalEntities) {
+            if (l != e && Position.isAdjacent(e.getPosition(), l.getPosition()) && l instanceof Conductor
+                    && !visited.contains(e)) {
+                visited.add(e);
+                if (l.isActivated(map)) {
+                    on.add(e);
+                }
+            }
+        }
+        if (on.size() == 0 || on.size() != visited.size()) {
             return false;
         }
-        int tickActivated = AdjacentLogEnt.get(0).getActivatedTick();
-        return AdjacentLogEnt.stream().allMatch(l -> l.getActivatedTick() == tickActivated);
+        int onTick = on.get(0).getActivatedTick();
+        return on.stream().allMatch(e -> e.getActivatedTick() == onTick);
     }
 
     @Override
