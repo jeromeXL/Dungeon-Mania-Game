@@ -208,6 +208,10 @@ public class EntityFactory implements Serializable {
                 return new SwampTile(pos, jsonEntity.getInt("movement_factor"));
             case "hydra":
                 return buildHydra(pos);
+            case "time_turner":
+                return new TimeTurner(pos);
+            case "time_travelling_portal":
+                return new TimeTravellingPortal(pos);
             default:
                 return null;
         }
