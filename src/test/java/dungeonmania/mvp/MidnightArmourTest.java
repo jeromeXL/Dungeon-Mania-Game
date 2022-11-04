@@ -145,7 +145,7 @@ public class MidnightArmourTest {
         assertEquals(1, TestUtils.getInventory(res, "sun_stone").size());
 
         // Cannot Build Midnight Armour
-        assertThrows(InvalidActionException.class ,() -> dmc.build("midnight_armour"));
+        assertThrows(InvalidActionException.class, () -> dmc.build("midnight_armour"));
         assertEquals(0, TestUtils.getInventory(res, "midnight_armour").size());
 
         // Sunstone and sword not used
