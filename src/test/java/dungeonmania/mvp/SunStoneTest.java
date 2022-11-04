@@ -40,7 +40,7 @@ public class SunStoneTest {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
         DungeonResponse res = dmc.newGame(
-            "d_SunStoneTest_useSunStoneWalkThroughOpenDoor", "c_SunStoneTest_useSunStoneWalkThroughOpenDoor");
+                "d_SunStoneTest_useSunStoneWalkThroughOpenDoor", "c_SunStoneTest_useSunStoneWalkThroughOpenDoor");
 
         // pick up SunStone
         res = dmc.tick(Direction.RIGHT);
@@ -60,7 +60,7 @@ public class SunStoneTest {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
         DungeonResponse res = dmc.newGame("d_SunStoneTest_BuildShieldWithSunStone",
-        "c_SunStoneTest_BuildShieldWithSunStone");
+                "c_SunStoneTest_BuildShieldWithSunStone");
 
         assertEquals(0, TestUtils.getInventory(res, "wood").size());
         assertEquals(0, TestUtils.getInventory(res, "sun_stone").size());
@@ -83,7 +83,6 @@ public class SunStoneTest {
         assertEquals(0, TestUtils.getInventory(res, "wood").size());
         assertEquals(1, TestUtils.getInventory(res, "sun_stone").size());
     }
-
 
     @Test
     @Tag("18-4")
@@ -125,9 +124,9 @@ public class SunStoneTest {
     @Tag("18-5")
     @DisplayName("Testing a mercenary cannot be bribed with Sun Stones")
     public void notBribeable() {
-        //                                                          Wall     Wall     Wall    Wall    Wall
-        // P1       P2/SunStone      P3/SunStone    P4/SunStone      M4       M3       M2     M1      Wall
-        //                                                          Wall     Wall     Wall    Wall    Wall
+        // Wall Wall Wall Wall Wall
+        // P1 P2/SunStone P3/SunStone P4/SunStone M4 M3 M2 M1 Wall
+        // Wall Wall Wall Wall Wall
         DungeonManiaController dmc = new DungeonManiaController();
         DungeonResponse res = dmc.newGame("d_SunStoneTest_notBribeable", "c_SunStoneTest_notBribeable");
 
@@ -139,9 +138,7 @@ public class SunStoneTest {
         assertEquals(new Position(7, 1), getMercPos(res));
 
         // attempt bribe - fails
-        assertThrows(InvalidActionException.class, () ->
-                dmc.interact(mercId)
-        );
+        assertThrows(InvalidActionException.class, () -> dmc.interact(mercId));
         assertEquals(1, TestUtils.getInventory(res, "sun_stone").size());
 
         // pick up second sun stone
@@ -150,9 +147,7 @@ public class SunStoneTest {
         assertEquals(new Position(6, 1), getMercPos(res));
 
         // attempt bribe - fails
-        assertThrows(InvalidActionException.class, () ->
-                dmc.interact(mercId)
-        );
+        assertThrows(InvalidActionException.class, () -> dmc.interact(mercId));
         assertEquals(2, TestUtils.getInventory(res, "sun_stone").size());
 
         // pick up third sun stone
@@ -161,9 +156,7 @@ public class SunStoneTest {
         assertEquals(new Position(5, 1), getMercPos(res));
 
         // attempt bribe - fails
-        assertThrows(InvalidActionException.class, () ->
-        dmc.interact(mercId)
-        );
+        assertThrows(InvalidActionException.class, () -> dmc.interact(mercId));
         assertEquals(3, TestUtils.getInventory(res, "sun_stone").size());
     }
 

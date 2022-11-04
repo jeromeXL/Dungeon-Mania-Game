@@ -7,6 +7,9 @@ import dungeonmania.entities.buildables.Sceptre;
 import dungeonmania.entities.buildables.Shield;
 import dungeonmania.entities.collectables.*;
 import dungeonmania.entities.enemies.*;
+import dungeonmania.entities.logicals.LightBulbOff;
+import dungeonmania.entities.logicals.SwitchDoor;
+import dungeonmania.entities.logicals.Wire;
 import dungeonmania.map.GameMap;
 import dungeonmania.entities.collectables.potions.InvincibilityPotion;
 import dungeonmania.entities.collectables.potions.InvisibilityPotion;
@@ -208,6 +211,12 @@ public class EntityFactory implements Serializable {
                 return new SwampTile(pos, jsonEntity.getInt("movement_factor"));
             case "hydra":
                 return buildHydra(pos);
+            case "light_bulb_off":
+                return new LightBulbOff(pos, jsonEntity.getString("logic"));
+            case "wire":
+                return new Wire(pos);
+            case "switch_door":
+                return new SwitchDoor(pos, jsonEntity.getString("logic"));
             case "time_turner":
                 return new TimeTurner(pos);
             case "time_travelling_portal":

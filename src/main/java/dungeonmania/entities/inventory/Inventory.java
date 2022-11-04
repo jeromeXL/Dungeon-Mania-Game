@@ -16,6 +16,8 @@ import dungeonmania.entities.collectables.SunStone;
 import dungeonmania.entities.collectables.Sword;
 import dungeonmania.entities.collectables.Treasure;
 import dungeonmania.entities.collectables.Wood;
+import dungeonmania.entities.enemies.ZombieToast;
+import dungeonmania.map.GameMap;
 
 public class Inventory implements Serializable {
     private List<InventoryItem> items = new ArrayList<>();
@@ -29,7 +31,7 @@ public class Inventory implements Serializable {
         items.remove(item);
     }
 
-    public List<String> getBuildables() {
+    public List<String> getBuildables(GameMap map) {
 
         int wood = count(Wood.class);
         int arrows = count(Arrow.class);
@@ -45,7 +47,7 @@ public class Inventory implements Serializable {
         if (wood >= 2 && (treasure >= 1 || keys >= 1 || sunStones >= 1)) {
             result.add("shield");
         }
-        if (swords >= 1 && sunStones >= 1) {
+        if (swords >= 1 && sunStones >= 1 && map.countEntities(ZombieToast.class) == 0) {
             result.add("midnight_armour");
         }
         if ((wood >= 1 || arrows >= 2)

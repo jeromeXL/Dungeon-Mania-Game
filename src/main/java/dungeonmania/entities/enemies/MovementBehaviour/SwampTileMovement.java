@@ -21,7 +21,7 @@ public class SwampTileMovement implements Movement {
     }
 
     public void move(Game game, GameMap map) {
-        if (stuckFor > 0) {
+        if (stuckFor > 1) {
             stuckFor--;
         } else {
             enemy.changeMovement(prevMovement);

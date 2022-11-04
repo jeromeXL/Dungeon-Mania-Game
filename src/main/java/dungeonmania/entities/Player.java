@@ -49,8 +49,8 @@ public class Player extends Entity implements Battleable {
         return inventory.hasWeapon();
     }
 
-    public List<String> getBuildables() {
-        return inventory.getBuildables();
+    public List<String> getBuildables(GameMap map) {
+        return inventory.getBuildables(map);
     }
 
     public boolean build(String entity, EntityFactory factory) {

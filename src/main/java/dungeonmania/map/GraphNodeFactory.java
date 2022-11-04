@@ -34,6 +34,11 @@ public class GraphNodeFactory implements Serializable {
             case "key":
             case "sun_stone":
             case "hydra":
+            case "swamp_tile":
+            case "light_bulb_off":
+            case "light_bulb_on":
+            case "wire":
+            case "switch_door":
             case "time_turner":
             case "time_travelling_portal":
                 return new GraphNode(factory.createEntity(jsonEntity));

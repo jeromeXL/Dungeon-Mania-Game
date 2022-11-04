@@ -4,15 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dungeonmania.entities.collectables.Bomb;
+import dungeonmania.entities.logicals.Conductor;
+import dungeonmania.entities.logicals.LogicalEntity;
 import dungeonmania.map.GameMap;
 import dungeonmania.util.Position;
 
-public class Switch extends Entity {
+public class Switch extends LogicalEntity implements Conductor {
     private boolean activated;
     private List<Bomb> bombs = new ArrayList<>();
 
     public Switch(Position position) {
-        super(position.asLayer(Entity.ITEM_LAYER));
+        super(position.asLayer(Entity.ITEM_LAYER), "or");
     }
 
     public void subscribe(Bomb b) {
@@ -45,7 +47,8 @@ public class Switch extends Entity {
         }
     }
 
-    public boolean isActivated() {
+    @Override
+    public boolean isActivated(GameMap map) {
         return activated;
     }
 }
