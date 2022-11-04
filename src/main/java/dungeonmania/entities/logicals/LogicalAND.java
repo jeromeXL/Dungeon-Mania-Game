@@ -21,14 +21,14 @@ public class LogicalAND implements LogicalStrategy {
 
         // Check if they are adjacent and are activated
         for (LogicalEntity l : LogicalEntities) {
-            if (l != e && Position.isAdjacent(e.getPosition(), l.getPosition())) {
+            if (l != e && Position.isAdjacent(e.getPosition(), l.getPosition()) && l instanceof Conductor) {
                 total++;
                 if (l.isActivated(map)) {
                     count++;
                 }
             }
         }
-        return count == total;
+        return count == total && count >= 2;
     }
 
     @Override

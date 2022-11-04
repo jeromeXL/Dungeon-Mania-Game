@@ -19,7 +19,8 @@ public class LogicalOR implements LogicalStrategy {
 
         // Check if they are adjacent and are activated
         return LogicalEntities.stream().anyMatch(
-                l -> l != e && Position.isAdjacent(e.getPosition(), l.getPosition()) && l.isActivated(map));
+                l -> l != e && Position.isAdjacent(e.getPosition(), l.getPosition()) && l.isActivated(map)
+                        && l instanceof Conductor);
     }
 
     @Override

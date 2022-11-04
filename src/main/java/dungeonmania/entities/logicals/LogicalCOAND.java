@@ -17,7 +17,7 @@ public class LogicalCOAND implements LogicalStrategy {
     public boolean isActivated(GameMap map) {
         // Adjacent Logical Entities
         List<LogicalEntity> AdjacentLogEnt = map.getEntities(LogicalEntity.class).stream()
-                .filter(l -> l != e && Position.isAdjacent(e.getPosition(), l.getPosition()))
+                .filter(l -> l != e && Position.isAdjacent(e.getPosition(), l.getPosition()) && l instanceof Conductor)
                 .collect(Collectors.toList());
 
         int numLogEntActive = (int) AdjacentLogEnt.stream().filter(l -> l.isActivated(map)).count();

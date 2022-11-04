@@ -14,16 +14,14 @@ public class LogicalXOR implements LogicalStrategy {
 
     @Override
     public boolean isActivated(GameMap map) {
-        int count = 0;
         // All logical Entities
         List<LogicalEntity> LogicalEntities = map.getEntities(LogicalEntity.class);
 
-        // Check if they are adjacent and are activated
-        for (LogicalEntity l : LogicalEntities) {
-            if (l != e && Position.isAdjacent(e.getPosition(), l.getPosition()) && l.isActivated(map)) {
-                count++;
-            }
-        }
+        int count = (int) LogicalEntities.stream()
+                .filter(l -> l != e && Position.isAdjacent(e.getPosition(), l.getPosition()) && l.isActivated(map)
+                        && l instanceof Conductor)
+                .count();
+
         return count == 1;
     }
 
