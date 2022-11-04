@@ -145,6 +145,7 @@ public class MidnightArmourTest {
         assertEquals(1, TestUtils.getInventory(res, "sun_stone").size());
 
         // Cannot Build Midnight Armour
+        assertThrows(InvalidActionException.class ,() -> dmc.build("midnight_armour"));
         assertEquals(0, TestUtils.getInventory(res, "midnight_armour").size());
 
         // Sunstone and sword not used
@@ -154,8 +155,8 @@ public class MidnightArmourTest {
 
     @Test
     @Tag("20-5")
-    @DisplayName("Test cant build midnight armour due to Hydra on map")
-    public void cantBuildMidnightArmourHydraPresent() {
+    @DisplayName("Test can build midnight armour with Hydra on map")
+    public void canBuildMidnightArmourHydraPresent() {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
         DungeonResponse res = dmc.newGame("d_MidnightArmourTest_HydraPresent",
@@ -178,12 +179,13 @@ public class MidnightArmourTest {
         res = dmc.tick(Direction.RIGHT);
         assertEquals(1, TestUtils.getInventory(res, "sun_stone").size());
 
-        // Cannot Build Midnight Armour
-        assertEquals(0, TestUtils.getInventory(res, "midnight_armour").size());
+        // Builds Midnight Armour
+        res = assertDoesNotThrow(() -> dmc.build("midnight_armour"));
+        assertEquals(1, TestUtils.getInventory(res, "midnight_armour").size());
 
-        // Sunstone and sword not used
-        assertEquals(2, TestUtils.getInventory(res, "sword").size());
-        assertEquals(1, TestUtils.getInventory(res, "sun_stone").size());
+        // 1 Sword and 1 Sun Stone used
+        assertEquals(1, TestUtils.getInventory(res, "sword").size());
+        assertEquals(0, TestUtils.getInventory(res, "sun_stone").size());
     }
 
     private List<EntityResponse> getZombies(DungeonResponse res) {
