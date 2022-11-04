@@ -2,33 +2,32 @@ package dungeonmania.entities.logicals;
 
 import dungeonmania.map.GameMap;
 
-//import java.util.ArrayList;
-import java.util.List;
-
 import dungeonmania.entities.Entity;
 import dungeonmania.util.Position;
 
 public class LogicalEntity extends Entity {
+    private int activatedTick;
 
-    public LogicalEntity(Position position) {
+    private LogicalStrategy logic;
+
+    public LogicalEntity(Position position, String logic) {
         super(position);
+        this.logic = LogicalFactory.constructLogicalStrategy(logic, this);
     }
 
     public boolean isActivated(GameMap map) {
+        return logic.isActivated(map);
+    }
 
-        // All logical Entities
-        List<LogicalEntity> LogicalEntities = map.getEntities(LogicalEntity.class);
-
-        // Check if they are adjacent and are activated
-        for (LogicalEntity l : LogicalEntities) {
-            if (l != this && Position.isAdjacent(this.getPosition(), l.getPosition()) && l.isActivated(map)) {
-                return true;
-            }
-        }
-        return false;
+    public int getActivatedTick() {
+        return activatedTick;
     }
 
     public void updateStatus(GameMap map) {
         return;
+    }
+
+    public String logicType() {
+        return logic.toString();
     }
 }
