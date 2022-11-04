@@ -5,7 +5,7 @@ import dungeonmania.entities.Player;
 import dungeonmania.map.GameMap;
 import dungeonmania.util.Position;
 
-public abstract class Collectables extends Entity {
+public class Collectables extends Entity {
 
     public Collectables(Position position) {
         super(position);
