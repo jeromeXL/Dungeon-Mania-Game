@@ -6,5 +6,4 @@ public class Exit extends Entity {
     public Exit(Position position) {
         super(position.asLayer(Entity.ITEM_LAYER));
     }
-
 }

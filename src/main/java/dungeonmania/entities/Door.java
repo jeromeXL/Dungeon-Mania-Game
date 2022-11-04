@@ -64,4 +64,7 @@ public class Door extends Entity {
         open = true;
     }
 
+    public int getKey() {
+        return number;
+    }
 }

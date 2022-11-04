@@ -1,6 +1,7 @@
 package dungeonmania;
 
 import java.io.IOException;
+import java.io.Serializable;
 
 import org.json.JSONObject;
 
@@ -16,10 +17,11 @@ import dungeonmania.util.FileLoader;
 
 /**
  * GameBuilder -- A builder to build up the whole game
- * @author      Webster Zhang
- * @author      Tina Ji
+ *
+ * @author Webster Zhang
+ * @author Tina Ji
  */
-public class GameBuilder {
+public class GameBuilder implements Serializable {
     private String configName;
     private String dungeonName;
 
@@ -46,6 +48,7 @@ public class GameBuilder {
         Game game = new Game(dungeonName);
         EntityFactory factory = new EntityFactory(config);
         game.setEntityFactory(factory);
+        game.setConfigName(configName);
         buildMap(game);
         buildGoals(game);
         game.init();

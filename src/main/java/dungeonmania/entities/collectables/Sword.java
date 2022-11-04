@@ -44,5 +44,4 @@ public class Sword extends Collectables implements InventoryItem, BattleItem {
     public int getDurability() {
         return durability;
     }
-
 }

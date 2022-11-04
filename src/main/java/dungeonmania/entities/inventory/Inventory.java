@@ -1,5 +1,6 @@
 package dungeonmania.entities.inventory;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,7 +17,7 @@ import dungeonmania.entities.collectables.Sword;
 import dungeonmania.entities.collectables.Treasure;
 import dungeonmania.entities.collectables.Wood;
 
-public class Inventory {
+public class Inventory implements Serializable {
     private List<InventoryItem> items = new ArrayList<>();
 
     public boolean add(InventoryItem item) {
@@ -87,7 +88,7 @@ public class Inventory {
             }
             return factory.buildShield();
 
-        } else if (swords.size() >= 1 && sunStones.size() >= 1) {
+        } else if (swords.size() >= 1 && sunStones.size() >= 1 && entity.equals("midnight_armour")) {
             if (remove) {
                 items.remove(swords.get(0));
                 items.remove(sunStones.get(0));

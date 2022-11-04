@@ -48,5 +48,4 @@ public class Switch extends Entity {
     public boolean isActivated() {
         return activated;
     }
-
 }

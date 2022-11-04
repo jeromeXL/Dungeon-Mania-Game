@@ -14,5 +14,4 @@ public class Spider extends Enemy {
         super(position.asLayer(Entity.DOOR_LAYER + 1), health, attack);
         super.changeMovement(new SpiderMovement(this, position));
     };
-
 }

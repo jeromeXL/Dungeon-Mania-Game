@@ -10,8 +10,11 @@ import dungeonmania.entities.enemies.*;
 import dungeonmania.map.GameMap;
 import dungeonmania.entities.collectables.potions.InvincibilityPotion;
 import dungeonmania.entities.collectables.potions.InvisibilityPotion;
+import dungeonmania.util.FileLoader;
 import dungeonmania.util.Position;
 
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -19,8 +22,8 @@ import java.util.stream.Collectors;
 
 import org.json.JSONObject;
 
-public class EntityFactory {
-    private JSONObject config;
+public class EntityFactory implements Serializable {
+    private transient JSONObject config;
     private Random ranGen = new Random();
 
     public EntityFactory(JSONObject config) {
@@ -31,11 +34,22 @@ public class EntityFactory {
         return constructEntity(jsonEntity, config);
     }
 
+    public void loadConfig(String configName) {
+        String configFile = String.format("/configs/%s.json", configName);
+        try {
+            config = new JSONObject(FileLoader.loadResourceFile(configFile));
+        } catch (IOException e) {
+            e.printStackTrace();
+            config = null;
+        }
+    }
+
     public void spawnSpider(Game game) {
         GameMap map = game.getMap();
         int tick = game.getTick();
         int rate = config.optInt("spider_spawn_interval", 0);
-        if (rate == 0 || (tick + 1) % rate != 0) return;
+        if (rate == 0 || (tick + 1) % rate != 0)
+            return;
         int radius = 20;
         Position player = map.getPlayer().getPosition();
 
@@ -44,16 +58,18 @@ public class EntityFactory {
         List<Position> availablePos = new ArrayList<>();
         for (int i = player.getX() - radius; i < player.getX() + radius; i++) {
             for (int j = player.getY() - radius; j < player.getY() + radius; j++) {
-                if (Position.calculatePositionBetween(player, new Position(i, j)).magnitude() > radius) continue;
+                if (Position.calculatePositionBetween(player, new Position(i, j)).magnitude() > radius)
+                    continue;
                 Position np = new Position(i, j);
-                if (!map.canMoveTo(dummySpider, np)) continue;
+                if (!map.canMoveTo(dummySpider, np))
+                    continue;
                 availablePos.add(np);
             }
         }
         Position initPosition = availablePos.get(ranGen.nextInt(availablePos.size()));
         Spider spider = buildSpider(initPosition);
         map.addEntity(spider);
-        game.register(() -> spider.move(game), Game.AI_MOVEMENT, spider.getId());
+        game.register((Runnable & Serializable) () -> spider.move(game), Game.AI_MOVEMENT, spider.getId());
     }
 
     public void spawnZombie(Game game, ZombieToastSpawner spawner) {
@@ -61,16 +77,18 @@ public class EntityFactory {
         int tick = game.getTick();
         Random randGen = new Random();
         int spawnInterval = config.optInt("zombie_spawn_interval", ZombieToastSpawner.DEFAULT_SPAWN_INTERVAL);
-        if (spawnInterval == 0 || (tick + 1) % spawnInterval != 0) return;
+        if (spawnInterval == 0 || (tick + 1) % spawnInterval != 0)
+            return;
         List<Position> pos = spawner.getPosition().getCardinallyAdjacentPositions();
         pos = pos
-            .stream()
-            .filter(p -> !map.getEntities(p).stream().anyMatch(e -> (e instanceof Wall)))
-            .collect(Collectors.toList());
-        if (pos.size() == 0) return;
+                .stream()
+                .filter(p -> !map.getEntities(p).stream().anyMatch(e -> (e instanceof Wall)))
+                .collect(Collectors.toList());
+        if (pos.size() == 0)
+            return;
         ZombieToast zt = buildZombieToast(pos.get(randGen.nextInt(pos.size())));
         map.addEntity(zt);
-        game.register(() -> zt.move(game), Game.AI_MOVEMENT, zt.getId());
+        game.register((Runnable & Serializable) () -> zt.move(game), Game.AI_MOVEMENT, zt.getId());
     }
 
     public Spider buildSpider(Position pos) {
@@ -138,60 +156,60 @@ public class EntityFactory {
         Position pos = new Position(jsonEntity.getInt("x"), jsonEntity.getInt("y"));
 
         switch (jsonEntity.getString("type")) {
-        case "player":
-            return buildPlayer(pos);
-        case "zombie_toast":
-            return buildZombieToast(pos);
-        case "zombie_toast_spawner":
-            return buildZombieToastSpawner(pos);
-        case "mercenary":
-            return buildMercenary(pos);
-        case "wall":
-            return new Wall(pos);
-        case "boulder":
-            return new Boulder(pos);
-        case "switch":
-            return new Switch(pos);
-        case "exit":
-            return new Exit(pos);
-        case "treasure":
-            return new Treasure(pos);
-        case "sun_stone":
-            return new SunStone(pos);
-        case "wood":
-            return new Wood(pos);
-        case "arrow":
-            return new Arrow(pos);
-        case "bomb":
-            int bombRadius = config.optInt("bomb_radius", Bomb.DEFAULT_RADIUS);
-            return new Bomb(pos, bombRadius);
-        case "invisibility_potion":
-            int invisibilityPotionDuration = config.optInt(
-                "invisibility_potion_duration",
-                InvisibilityPotion.DEFAULT_DURATION);
-            return new InvisibilityPotion(pos, invisibilityPotionDuration);
-        case "invincibility_potion":
-            int invincibilityPotionDuration = config.optInt("invincibility_potion_duration",
-            InvincibilityPotion.DEFAULT_DURATION);
-            return new InvincibilityPotion(pos, invincibilityPotionDuration);
-        case "portal":
-            return new Portal(pos, ColorCodedType.valueOf(jsonEntity.getString("colour")));
-        case "sword":
-            double swordAttack = config.optDouble("sword_attack", Sword.DEFAULT_ATTACK);
-            int swordDurability = config.optInt("sword_durability", Sword.DEFAULT_DURABILITY);
-            return new Sword(pos, swordAttack, swordDurability);
-        case "spider":
-            return buildSpider(pos);
-        case "door":
-            return new Door(pos, jsonEntity.getInt("key"));
-        case "key":
-            return new Key(pos, jsonEntity.getInt("key"));
-        case "swamp_tile":
-            return new SwampTile(pos, jsonEntity.getInt("movement_factor"));
-        case "hydra":
-            return buildHydra(pos);
-        default:
-            return null;
+            case "player":
+                return buildPlayer(pos);
+            case "zombie_toast":
+                return buildZombieToast(pos);
+            case "zombie_toast_spawner":
+                return buildZombieToastSpawner(pos);
+            case "mercenary":
+                return buildMercenary(pos);
+            case "wall":
+                return new Wall(pos);
+            case "boulder":
+                return new Boulder(pos);
+            case "switch":
+                return new Switch(pos);
+            case "exit":
+                return new Exit(pos);
+            case "treasure":
+                return new Treasure(pos);
+            case "sun_stone":
+                return new SunStone(pos);
+            case "wood":
+                return new Wood(pos);
+            case "arrow":
+                return new Arrow(pos);
+            case "bomb":
+                int bombRadius = config.optInt("bomb_radius", Bomb.DEFAULT_RADIUS);
+                return new Bomb(pos, bombRadius);
+            case "invisibility_potion":
+                int invisibilityPotionDuration = config.optInt(
+                        "invisibility_potion_duration",
+                        InvisibilityPotion.DEFAULT_DURATION);
+                return new InvisibilityPotion(pos, invisibilityPotionDuration);
+            case "invincibility_potion":
+                int invincibilityPotionDuration = config.optInt("invincibility_potion_duration",
+                        InvincibilityPotion.DEFAULT_DURATION);
+                return new InvincibilityPotion(pos, invincibilityPotionDuration);
+            case "portal":
+                return new Portal(pos, ColorCodedType.valueOf(jsonEntity.getString("colour")));
+            case "sword":
+                double swordAttack = config.optDouble("sword_attack", Sword.DEFAULT_ATTACK);
+                int swordDurability = config.optInt("sword_durability", Sword.DEFAULT_DURABILITY);
+                return new Sword(pos, swordAttack, swordDurability);
+            case "spider":
+                return buildSpider(pos);
+            case "door":
+                return new Door(pos, jsonEntity.getInt("key"));
+            case "key":
+                return new Key(pos, jsonEntity.getInt("key"));
+            case "swamp_tile":
+                return new SwampTile(pos, jsonEntity.getInt("movement_factor"));
+            case "hydra":
+                return buildHydra(pos);
+            default:
+                return null;
         }
     }
 }

@@ -1,5 +1,6 @@
 package dungeonmania;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.UUID;
@@ -20,7 +21,7 @@ import dungeonmania.goals.Goal;
 import dungeonmania.map.GameMap;
 import dungeonmania.util.Direction;
 
-public class Game {
+public class Game implements Serializable {
     private String id;
     private String name;
     private Goal goals;
@@ -38,6 +39,7 @@ public class Game {
     private int tickCount = 0;
     private PriorityQueue<ComparableCallback> sub = new PriorityQueue<>();
     private PriorityQueue<ComparableCallback> addingSub = new PriorityQueue<>();
+    private String configName;
 
     public Game(String dungeonName) {
         this.name = dungeonName;
@@ -50,13 +52,14 @@ public class Game {
         map.init();
         this.tickCount = 0;
         player = map.getPlayer();
-        register(() -> player.onTick(tickCount), PLAYER_MOVEMENT, "potionQueue");
+        register((Runnable & Serializable) () -> player.onTick(tickCount), PLAYER_MOVEMENT, "potionQueue");
         initialTreasureCount = map.getEntities(Treasure.class).size() + map.getEntities(SunStone.class).size();
     }
 
     public Game tick(Direction movementDirection) {
         registerOnce(
-                () -> player.move(this.getMap(), movementDirection), PLAYER_MOVEMENT, "playerMoves");
+                (Runnable & Serializable) () -> player.move(this.getMap(), movementDirection), PLAYER_MOVEMENT,
+                "playerMoves");
         tick();
         return this;
     }
@@ -68,7 +71,7 @@ public class Game {
         if (!(item instanceof Useable))
             throw new IllegalArgumentException(String.format("%s cannot be used", item.getClass()));
 
-        registerOnce(() -> {
+        registerOnce((Runnable & Serializable) () -> {
             if (item instanceof Bomb)
                 player.use((Bomb) item, map);
             if (item instanceof Potion)
@@ -100,7 +103,8 @@ public class Game {
         if (!buildables.contains(buildable)) {
             throw new InvalidActionException(String.format("%s cannot be built", buildable));
         }
-        registerOnce(() -> player.build(buildable, entityFactory), PLAYER_MOVEMENT, "playerBuildsItem");
+        registerOnce((Runnable & Serializable) () -> player.build(buildable, entityFactory), PLAYER_MOVEMENT,
+                "playerBuildsItem");
         tick();
         return this;
     }
@@ -113,7 +117,8 @@ public class Game {
             throw new InvalidActionException("Entity cannot be interacted");
         }
         registerOnce(
-                () -> ((Interactable) e).interact(player, this), PLAYER_MOVEMENT, "playerInteractsWithEntity");
+                (Runnable & Serializable) () -> ((Interactable) e).interact(player, this), PLAYER_MOVEMENT,
+                "playerInteractsWithEntity");
         tick();
         return this;
     }
@@ -225,4 +230,11 @@ public class Game {
         return initialTreasureCount;
     }
 
+    public void setConfigName(String configName) {
+        this.configName = configName;
+    }
+
+    public void setConfigFileEntityFactory() {
+        entityFactory.loadConfig(configName);
+    }
 }

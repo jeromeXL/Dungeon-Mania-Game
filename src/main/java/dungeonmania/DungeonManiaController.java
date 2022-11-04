@@ -1,16 +1,12 @@
 package dungeonmania;
 
-import java.io.File;
-import java.io.FileWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.List;
-
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
-
-import dungeonmania.entities.Entity;
 import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.response.models.ResponseBuilder;
@@ -28,6 +24,7 @@ public class DungeonManiaController {
         return "en_US";
     }
 
+    private String workingDirec = System.getProperty("user.dir");
     private static String defaultDirectory = "/src/main/resources/savedGames/";
 
     /**
@@ -107,56 +104,59 @@ public class DungeonManiaController {
 
     /**
      * /game/save
+     *
      * @throws IOException
      */
     public DungeonResponse saveGame(String name) throws IllegalArgumentException {
-        // Simple persistence
-        JSONObject save = new JSONObject();
-        JSONArray arr = new JSONArray();
-        List<Entity> entities = game.getMap().getEntities();
-        for (Entity e: entities) {
-            JSONObject eJSON = new JSONObject();
-            eJSON.put("type", e.getClass().getSimpleName().toLowerCase());
-            eJSON.put("x", e.getPosition().getX());
-            eJSON.put("y", e.getPosition().getY());
-            arr.put(eJSON);
-        }
-        save.put("entities", arr);
-        // JSONObject goals = new JSONObject();
-        // goals.put("goal", game.getGoals());
-        File newFile = new File(defaultDirectory + name + ".json");
-        FileWriter file;
+        String path = String.format("%s%s%s.ser", workingDirec, defaultDirectory, name);
+        System.setProperty("sun.io.serialization.extendedDebugInfo", "true");
         try {
-            newFile.createNewFile();
-        } catch (IOException e2) {
-            // e2.printStackTrace();
-            System.out.println("Failed to create");
+            FileOutputStream fileOut = new FileOutputStream(path);
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(game);
+            out.close();
+            fileOut.close();
+            System.out.printf("Serialized data is saved in %s.ser", name);
+            return ResponseBuilder.getDungeonResponse(game);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error in saving game");
+            return null;
         }
-        try {
-            file = new FileWriter(defaultDirectory + name + ".json");
-            file.write(save.toString());
-            System.out.println("Sucessfully copied to JSON file");
-            System.out.println("JSON object: " + save);
-            file.close();
-        } catch (IOException e1) {
-            // e1.printStackTrace();
-            System.out.println("Failed to write");
-        }
-        return null;
+
     }
 
     /**
      * /game/load
      */
     public DungeonResponse loadGame(String name) throws IllegalArgumentException {
-        return null;
+        if (!FileLoader.listFileNamesInSavedGamesDirectory("savedGames").contains(name)) {
+            throw new IllegalArgumentException(name + " could not be found");
+        }
+        String path = String.format("%s%s%s.ser", workingDirec, defaultDirectory, name);
+        try {
+            FileInputStream fileIn = new FileInputStream(path);
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            this.game = (Game) in.readObject();
+            in.close();
+            fileIn.close();
+            game.setConfigFileEntityFactory();
+            return ResponseBuilder.getDungeonResponse(game);
+        } catch (IOException i) {
+            i.printStackTrace();
+            return null;
+        } catch (ClassNotFoundException c) {
+            System.out.println("Game class not found");
+            c.printStackTrace();
+            return null;
+        }
     }
 
     /**
      * /games/all
      */
     public List<String> allGames() {
-        return new ArrayList<>();
+        return FileLoader.listFileNamesInSavedGamesDirectory("savedGames");
     }
 
     /**

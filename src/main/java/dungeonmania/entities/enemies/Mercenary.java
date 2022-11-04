@@ -49,8 +49,10 @@ public class Mercenary extends Enemy implements Interactable {
 
     @Override
     public boolean canMoveOnto(GameMap map, Entity entity) {
-        if (isAllied()) return entity instanceof Mercenary || entity instanceof Player;
-        else return entity instanceof Player;
+        if (isAllied())
+            return entity instanceof Mercenary || entity instanceof Player;
+        else
+            return entity instanceof Player;
     }
 
     /**
@@ -103,14 +105,14 @@ public class Mercenary extends Enemy implements Interactable {
     }
 
     private boolean hasMindControlledFinished(Game game) {
-        return mindControlled && game.getTick() - startTick >= mindControlDuration - 1;
+        return mindControlled && (game.getTick() - startTick >= mindControlDuration - 2);
     }
 
     @Override
     public void move(Game game) {
+        getMovement().move(game, game.getMap());
         if (hasMindControlledFinished(game)) {
             stopMindControl();
         }
-        getMovement().move(game, game.getMap());
     }
 }
