@@ -32,6 +32,7 @@ public class GraphNodeFactory {
         case "key":
         case "sun_stone":
         case "hydra":
+        case "swamp_tile":
         case "light_bulb_off":
         case "light_bulb_on":
         case "wire":
