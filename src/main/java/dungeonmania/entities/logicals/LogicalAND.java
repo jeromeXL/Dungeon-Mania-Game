@@ -1,5 +1,6 @@
 package dungeonmania.entities.logicals;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import dungeonmania.map.GameMap;
@@ -18,11 +19,14 @@ public class LogicalAND implements LogicalStrategy {
         int total = 0;
         // All logical Entities
         List<LogicalEntity> LogicalEntities = map.getEntities(LogicalEntity.class);
+        List<LogicalEntity> visited = new ArrayList<>();
 
         // Check if they are adjacent and are activated
         for (LogicalEntity l : LogicalEntities) {
-            if (l != e && Position.isAdjacent(e.getPosition(), l.getPosition()) && l instanceof Conductor) {
+            if (l != e && Position.isAdjacent(e.getPosition(), l.getPosition()) && l instanceof Conductor
+                    && !visited.contains(e)) {
                 total++;
+                visited.add(e);
                 if (l.isActivated(map)) {
                     count++;
                 }

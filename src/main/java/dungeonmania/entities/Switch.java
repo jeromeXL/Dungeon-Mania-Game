@@ -37,6 +37,8 @@ public class Switch extends LogicalEntity implements Conductor {
         if (entity instanceof Boulder) {
             activated = true;
             bombs.stream().forEach(b -> b.notify(map));
+            // Update the status of all other automatically when a switch is turned on
+            map.getEntities(LogicalEntity.class).stream().forEach(e -> e.updateStatus(map));
         }
     }
 
@@ -44,6 +46,8 @@ public class Switch extends LogicalEntity implements Conductor {
     public void onMovedAway(GameMap map, Entity entity) {
         if (entity instanceof Boulder) {
             activated = false;
+            // Update the status of all other automatically when a switch is turned on
+            map.getEntities(LogicalEntity.class).stream().forEach(e -> e.updateStatus(map));
         }
     }
 

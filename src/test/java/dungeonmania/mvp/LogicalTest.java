@@ -25,10 +25,7 @@ public class LogicalTest {
         res = dmc.tick(Direction.RIGHT);
 
         // Check light bulb is on
-        // assertEquals(1, TestUtils.getEntities(res, "light_bulb_on").size());
-
-        // The line above is the actual test but fails
-        assertEquals(0, TestUtils.getEntities(res, "light_bulb_on").size());
+        assertEquals(1, TestUtils.getEntities(res, "light_bulb_on").size());
     }
 
     @Test
@@ -37,17 +34,14 @@ public class LogicalTest {
     public void XORLightBulb() {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
-        DungeonResponse res = dmc.newGame("d_LogicalTest_ORLightBulb",
+        DungeonResponse res = dmc.newGame("d_LogicalTest_XORLightBulb",
                 "c_LogicalTest");
 
         // Push Boulder Onto Switch
         res = dmc.tick(Direction.RIGHT);
 
         // Check light bulb is on
-        // assertEquals(1, TestUtils.getEntities(res, "light_bulb_on").size());
-
-        // The line above is the actual test but fails
-        assertEquals(0, TestUtils.getEntities(res, "light_bulb_on").size());
+        assertEquals(1, TestUtils.getEntities(res, "light_bulb_on").size());
     }
 
     @Test
@@ -86,10 +80,10 @@ public class LogicalTest {
         res = dmc.tick(Direction.UP);
 
         // Check player is on Switch Door
-        // assertEquals(new Position(2, 2), getPlayerPos(res));
+        assertEquals(new Position(2, 2), getPlayerPos(res));
 
         // The line above is the actual test but fails
-        assertEquals(getPlayerPos(res), new Position(2, 3));
+        // assertEquals(getPlayerPos(res), new Position(2, 3));
     }
 
     @Test
@@ -98,7 +92,7 @@ public class LogicalTest {
     public void XORSwitchDoor() {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
-        DungeonResponse res = dmc.newGame("d_LogicalTest_ORSwitchDoor",
+        DungeonResponse res = dmc.newGame("d_LogicalTest_XORSwitchDoor",
                 "c_LogicalTest");
 
         // Push Boulder Onto Switch
@@ -108,10 +102,10 @@ public class LogicalTest {
         res = dmc.tick(Direction.UP);
 
         // Check player is on Switch Door
-        // assertEquals(new Position(2, 2), getPlayerPos(res));
+        assertEquals(new Position(2, 2), getPlayerPos(res));
 
         // The line above is the actual test but fails
-        assertEquals(new Position(2, 3), getPlayerPos(res));
+        // assertEquals(new Position(2, 3), getPlayerPos(res));
     }
 
     @Test
@@ -134,6 +128,41 @@ public class LogicalTest {
 
         // The line above is the actual test but fails
         assertEquals(new Position(2, 3), getPlayerPos(res));
+    }
+
+    @Test
+    @Tag("24-7")
+    @DisplayName("Test Switch Door Opens (AND)")
+    public void COANDSwitchDoor() {
+        DungeonManiaController dmc;
+        dmc = new DungeonManiaController();
+        DungeonResponse res = dmc.newGame("d_LogicalTest_COANDSwitchDoor",
+                "c_LogicalTest");
+
+        // Push Boulder Onto Switch
+        res = dmc.tick(Direction.RIGHT);
+
+        // Move player up to Switch Door
+        res = dmc.tick(Direction.UP);
+
+        // Check player is on Switch Door
+        assertEquals(new Position(2, 2), getPlayerPos(res));
+    }
+
+    @Test
+    @Tag("24-3")
+    @DisplayName("Test Light Bulb Turns On (AND)")
+    public void COANDLightBulb() {
+        DungeonManiaController dmc;
+        dmc = new DungeonManiaController();
+        DungeonResponse res = dmc.newGame("d_LogicalTest_COANDLightBulb",
+                "c_LogicalTest");
+
+        // Push Boulder Onto Switch
+        res = dmc.tick(Direction.RIGHT);
+
+        // Check light bulb is on
+        assertEquals(1, TestUtils.getEntities(res, "light_bulb_on").size());
     }
 
     private Position getPlayerPos(DungeonResponse res) {

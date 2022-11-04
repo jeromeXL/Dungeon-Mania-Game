@@ -16,7 +16,6 @@ public class LogicalXOR implements LogicalStrategy {
     public boolean isActivated(GameMap map) {
         // All logical Entities
         List<LogicalEntity> LogicalEntities = map.getEntities(LogicalEntity.class);
-
         int count = (int) LogicalEntities.stream()
                 .filter(l -> l != e && Position.isAdjacent(e.getPosition(), l.getPosition()) && l.isActivated(map)
                         && l instanceof Conductor)
