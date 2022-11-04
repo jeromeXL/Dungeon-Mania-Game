@@ -1,7 +1,7 @@
 package dungeonmania.entities.logicals;
 
 import dungeonmania.util.Position;
-
+import dungeonmania.entities.Entity;
 import dungeonmania.map.GameMap;
 
 public class LightBulbOff extends LogicalEntity {
@@ -15,7 +15,11 @@ public class LightBulbOff extends LogicalEntity {
         if (this.isActivated(map)) {
             map.addEntity(new LightBulbOn(this.getPosition(), logicType()));
             map.removeNode(this);
-        } else {
         }
+    }
+
+    @Override
+    public boolean canMoveOnto(GameMap map, Entity entity) {
+        return false;
     }
 }

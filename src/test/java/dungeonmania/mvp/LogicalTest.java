@@ -34,7 +34,7 @@ public class LogicalTest {
     public void XORLightBulb() {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
-        DungeonResponse res = dmc.newGame("d_LogicalTest_XORLightBulb",
+        DungeonResponse res = dmc.newGame("d_LogicalTest_ORLightBulb",
         "c_LogicalTest");
 
         // Push Boulder Onto Switch
@@ -85,7 +85,7 @@ public class LogicalTest {
     public void XORSwitchDoor() {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
-        DungeonResponse res = dmc.newGame("d_LogicalTest_XORSwitchDoor",
+        DungeonResponse res = dmc.newGame("d_LogicalTest_ORSwitchDoor",
         "c_LogicalTest");
 
         // Push Boulder Onto Switch
@@ -104,7 +104,7 @@ public class LogicalTest {
     public void ANDSwitchDoor() {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
-        DungeonResponse res = dmc.newGame("d_LogicalTest_ANDSwtichDoor",
+        DungeonResponse res = dmc.newGame("d_LogicalTest_ANDSwitchDoor",
         "c_LogicalTest");
 
         // Push Boulder Onto Switch
