@@ -26,8 +26,10 @@ public class SwampTile extends Entity {
     public void onOverlap(GameMap map, Entity entity) {
         if (entity instanceof Enemy) {
             Enemy e = (Enemy) entity;
-            Movement prevMov = e.getMovement();
-            e.changeMovement(new SwampTileMovement(e, movementFactor, prevMov));
+            if (!(e.isAllied() && Position.isAdjacent(e.getPosition(), map.getPlayerCurrPos()))) {
+                Movement prevMov = e.getMovement();
+                e.changeMovement(new SwampTileMovement(e, movementFactor, prevMov));
+            }
         }
     }
 
