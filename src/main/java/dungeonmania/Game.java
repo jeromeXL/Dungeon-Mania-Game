@@ -237,4 +237,12 @@ public class Game implements Serializable {
     public void setConfigFileEntityFactory() {
         entityFactory.loadConfig(configName);
     }
+
+    public void rewind(int ticks) {
+        /*
+         * Not yet implemented
+         * Rewinds game state
+         * by amount of ticks
+         */
+    }
 }

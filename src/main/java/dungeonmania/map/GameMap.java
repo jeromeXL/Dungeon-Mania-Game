@@ -275,4 +275,8 @@ public class GameMap implements Serializable {
     public void setGame(Game game) {
         this.game = game;
     }
+
+    public void rewind(int ticks) {
+        game.rewind(ticks);
+    }
 }

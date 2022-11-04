@@ -2,10 +2,11 @@ package dungeonmania.entities.collectables;
 
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.Player;
+import dungeonmania.entities.inventory.InventoryItem;
 import dungeonmania.map.GameMap;
 import dungeonmania.util.Position;
 
-public class Collectables extends Entity {
+public class Collectables extends Entity implements InventoryItem {
 
     public Collectables(Position position) {
         super(position);

@@ -2,8 +2,8 @@ package dungeonmania.entities.collectables;
 
 import dungeonmania.util.Position;
 
-public class Wood extends Collectables {
-    public Wood(Position position) {
+public class TimeTurner extends Collectables {
+    public TimeTurner(Position position) {
         super(position);
     }
 }
