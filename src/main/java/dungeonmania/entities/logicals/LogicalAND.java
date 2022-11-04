@@ -18,11 +18,11 @@ public class LogicalAND implements LogicalStrategy {
         int count = 0;
         int total = 0;
         // All logical Entities
-        List<LogicalEntity> LogicalEntities = map.getEntities(LogicalEntity.class);
+        List<LogicalEntity> logicalEntities = map.getEntities(LogicalEntity.class);
         List<LogicalEntity> visited = new ArrayList<>();
 
         // Check if they are adjacent and are activated
-        for (LogicalEntity l : LogicalEntities) {
+        for (LogicalEntity l : logicalEntities) {
             if (l != e && Position.isAdjacent(e.getPosition(), l.getPosition()) && l instanceof Conductor
                     && !visited.contains(e)) {
                 total++;

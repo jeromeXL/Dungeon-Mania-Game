@@ -39,7 +39,7 @@ public class SwampTileTest {
     @Test
     @Tag("21-2")
     @DisplayName("Test an enemy mercenary is affected")
-    public void EnemyAffected() {
+    public void enemyAffected() {
         DungeonManiaController dmc = new DungeonManiaController();
         DungeonResponse res = dmc.newGame(
                 "d_SwampTileTest_enemyAffected", "c_SwampTileTest_testPlayerUnaffected");
@@ -67,7 +67,7 @@ public class SwampTileTest {
     @Test
     @Tag("21-3")
     @DisplayName("Test an allied mercenary is still affected")
-    public void AllyAffected() throws IllegalArgumentException, InvalidActionException {
+    public void allyAffected() throws IllegalArgumentException, InvalidActionException {
         DungeonManiaController dmc = new DungeonManiaController();
         DungeonResponse res = dmc.newGame(
                 "d_SwampTileTest_enemyAffected", "c_SwampTileTest_testPlayerUnaffected");
@@ -99,7 +99,7 @@ public class SwampTileTest {
     @Test
     @Tag("21-4")
     @DisplayName("Test an allied mercenary is still affected")
-    public void AdjacentAllyUnaffected() throws IllegalArgumentException, InvalidActionException {
+    public void adjacentAllyUnaffected() throws IllegalArgumentException, InvalidActionException {
         DungeonManiaController dmc = new DungeonManiaController();
         DungeonResponse res = dmc.newGame(
                 "d_SwampTileTest_AllyUnaffected", "c_SwampTileTest_testPlayerUnaffected");

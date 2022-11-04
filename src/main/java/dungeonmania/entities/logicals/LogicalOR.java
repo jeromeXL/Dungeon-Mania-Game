@@ -15,9 +15,9 @@ public class LogicalOR implements LogicalStrategy {
     @Override
     public boolean isActivated(GameMap map) {
         // All logical Entities
-        List<LogicalEntity> LogicalEntities = map.getEntities(LogicalEntity.class);
+        List<LogicalEntity> logicalEntities = map.getEntities(LogicalEntity.class);
         // Check if they are adjacent and are activated
-        return LogicalEntities.stream().anyMatch(
+        return logicalEntities.stream().anyMatch(
                 l -> l != e && Position.isAdjacent(e.getPosition(), l.getPosition()) && l.isActivated(map)
                         && l instanceof Conductor);
     }

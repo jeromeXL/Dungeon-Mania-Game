@@ -15,7 +15,7 @@ public class LogicalTest {
     @Test
     @Tag("24-1")
     @DisplayName("Test Light Bulb Turns On (OR)")
-    public void ORLightBulb() {
+    public void orLightBulb() {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
         DungeonResponse res = dmc.newGame("d_LogicalTest_ORLightBulb",
@@ -31,7 +31,7 @@ public class LogicalTest {
     @Test
     @Tag("24-2")
     @DisplayName("Test Light Bulb Turns On (XOR)")
-    public void XORLightBulb() {
+    public void xOrLightBulb() {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
         DungeonResponse res = dmc.newGame("d_LogicalTest_XORLightBulb",
@@ -47,7 +47,7 @@ public class LogicalTest {
     @Test
     @Tag("24-3")
     @DisplayName("Test Light Bulb Turns On (AND)")
-    public void ANDLightBulb() {
+    public void andLightBulb() {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
         DungeonResponse res = dmc.newGame("d_LogicalTest_ANDLightBulb",
@@ -67,7 +67,7 @@ public class LogicalTest {
     @Test
     @Tag("24-4")
     @DisplayName("Test Swtich Door Opens (OR)")
-    public void ORSwitchDoor() {
+    public void orSwitchDoor() {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
         DungeonResponse res = dmc.newGame("d_LogicalTest_ORSwitchDoor",
@@ -89,7 +89,7 @@ public class LogicalTest {
     @Test
     @Tag("24-5")
     @DisplayName("Test Switch Door Opens (XOR)")
-    public void XORSwitchDoor() {
+    public void xOrSwitchDoor() {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
         DungeonResponse res = dmc.newGame("d_LogicalTest_XORSwitchDoor",
@@ -111,7 +111,7 @@ public class LogicalTest {
     @Test
     @Tag("24-6")
     @DisplayName("Test Switch Door Opens (AND)")
-    public void ANDSwitchDoor() {
+    public void andSwitchDoor() {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
         DungeonResponse res = dmc.newGame("d_LogicalTest_ANDSwitchDoor",
@@ -133,7 +133,7 @@ public class LogicalTest {
     @Test
     @Tag("24-7")
     @DisplayName("Test Switch Door Opens (AND)")
-    public void COANDSwitchDoor() {
+    public void coandSwitchDoor() {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
         DungeonResponse res = dmc.newGame("d_LogicalTest_COANDSwitchDoor",
@@ -152,7 +152,7 @@ public class LogicalTest {
     @Test
     @Tag("24-3")
     @DisplayName("Test Light Bulb Turns On (AND)")
-    public void COANDLightBulb() {
+    public void coandLightBulb() {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
         DungeonResponse res = dmc.newGame("d_LogicalTest_COANDLightBulb",
