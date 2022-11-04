@@ -16,12 +16,12 @@ public class LogicalCOAND implements LogicalStrategy {
     @Override
     public boolean isActivated(GameMap map) {
         // All logical Entities
-        List<LogicalEntity> LogicalEntities = map.getEntities(LogicalEntity.class);
+        List<LogicalEntity> logicalEntities = map.getEntities(LogicalEntity.class);
         List<LogicalEntity> visited = new ArrayList<>();
         List<LogicalEntity> on = new ArrayList<>();
 
         // Check if they are adjacent and are activated
-        for (LogicalEntity l : LogicalEntities) {
+        for (LogicalEntity l : logicalEntities) {
             if (l != e && Position.isAdjacent(e.getPosition(), l.getPosition()) && l instanceof Conductor
                     && !visited.contains(e)) {
                 visited.add(e);
