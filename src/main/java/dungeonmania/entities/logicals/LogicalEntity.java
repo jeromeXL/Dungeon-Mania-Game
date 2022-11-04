@@ -20,8 +20,8 @@ public class LogicalEntity extends Entity {
         List<LogicalEntity> LogicalEntities = map.getEntities(LogicalEntity.class);
 
         // Check if they are adjacent and are activated
-        for (LogicalEntity l: LogicalEntities) {
-            if (Position.isAdjacent(this.getPosition(), l.getPosition()) && l.isActivated(map)) {
+        for (LogicalEntity l : LogicalEntities) {
+            if (l != this && Position.isAdjacent(this.getPosition(), l.getPosition()) && l.isActivated(map)) {
                 return true;
             }
         }
