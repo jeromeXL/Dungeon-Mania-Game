@@ -2,7 +2,6 @@ package dungeonmania.entities.logicals;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import dungeonmania.map.GameMap;
 import dungeonmania.util.Position;
@@ -20,7 +19,6 @@ public class LogicalCOAND implements LogicalStrategy {
         List<LogicalEntity> LogicalEntities = map.getEntities(LogicalEntity.class);
         List<LogicalEntity> visited = new ArrayList<>();
         List<LogicalEntity> on = new ArrayList<>();
-        List<LogicalEntity> adj = new ArrayList<>();
 
         // Check if they are adjacent and are activated
         for (LogicalEntity l : LogicalEntities) {
