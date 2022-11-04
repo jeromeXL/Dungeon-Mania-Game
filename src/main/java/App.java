@@ -1,3 +1,4 @@
+
 import spark.Request;
 import spark.Spark;
 import spark.servlet.SparkApplication;
@@ -8,13 +9,12 @@ import dungeonmania.DungeonManiaController;
 import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.GenericResponseWrapper;
 import dungeonmania.util.Direction;
+import scintilla.Scintilla;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Supplier;
-
-import scintilla.Scintilla;
 
 /**
  * A threadsafe wrapper around your DungeonManiaController.
@@ -32,6 +32,7 @@ public class App implements SparkApplication {
             super(message);
         }
     }
+
     private static volatile Map<String, DungeonManiaController> sessionStates = new HashMap<>();
 
     private static synchronized DungeonManiaController getDungeonManiaController(Request request) {
@@ -60,7 +61,7 @@ public class App implements SparkApplication {
     }
 
     private static <T> GenericResponseWrapper<T> callUsingSessionAndArgument(
-        Request request, Function<DungeonManiaController, T> runnable) {
+            Request request, Function<DungeonManiaController, T> runnable) {
         try {
             DungeonManiaController dmc = getDungeonManiaController(request);
             synchronized (dmc) {
@@ -87,14 +88,16 @@ public class App implements SparkApplication {
         });
 
         Spark.get("/api/dungeons/", "application/json", (request, response) -> {
-            // we don't *need* to globally lock this but we might as well just to keep a nice standard.
+            // we don't *need* to globally lock this but we might as well just to keep a
+            // nice standard.
             synchronized (globalLock) {
                 return callWithWrapper(() -> DungeonManiaController.dungeons());
             }
         }, gson::toJson);
 
         Spark.get("/api/configs/", "application/json", (request, response) -> {
-            // we don't *need* to globally lock this but we might as well just to keep a nice standard.
+            // we don't *need* to globally lock this but we might as well just to keep a
+            // nice standard.
             synchronized (globalLock) {
                 return callWithWrapper(() -> DungeonManiaController.configs());
             }
@@ -102,8 +105,8 @@ public class App implements SparkApplication {
 
         Spark.post("/api/game/new/", "application/json", (request, response) -> {
             return callUsingSessionAndArgument(
-                request,
-                (dmc) -> dmc.newGame(request.queryParams("dungeonName"), request.queryParams("configName")));
+                    request,
+                    (dmc) -> dmc.newGame(request.queryParams("dungeonName"), request.queryParams("configName")));
         }, gson::toJson);
 
         Spark.post("/api/game/tick/item/", "application/json", (request, response) -> {
@@ -118,8 +121,8 @@ public class App implements SparkApplication {
 
         Spark.post("/api/game/tick/movement/", "application/json", (request, response) -> {
             return callUsingSessionAndArgument(
-                request,
-                (dmc) -> dmc.tick(Direction.valueOf(request.queryParams("movementDirection").toUpperCase())));
+                    request,
+                    (dmc) -> dmc.tick(Direction.valueOf(request.queryParams("movementDirection").toUpperCase())));
         }, gson::toJson);
 
         Spark.post("/api/game/build/", "application/json", (request, response) -> {

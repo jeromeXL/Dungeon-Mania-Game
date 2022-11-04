@@ -5,6 +5,7 @@ import dungeonmania.battles.BattleStatistics;
 
 public class Sceptre extends Buildable {
     private int mindControlDuration;
+
     public Sceptre(int mindControlDuration) {
         super(null);
         this.mindControlDuration = mindControlDuration;

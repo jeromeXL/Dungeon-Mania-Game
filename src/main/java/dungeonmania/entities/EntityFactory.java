@@ -13,8 +13,11 @@ import dungeonmania.entities.logicals.Wire;
 import dungeonmania.map.GameMap;
 import dungeonmania.entities.collectables.potions.InvincibilityPotion;
 import dungeonmania.entities.collectables.potions.InvisibilityPotion;
+import dungeonmania.util.FileLoader;
 import dungeonmania.util.Position;
 
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -22,8 +25,8 @@ import java.util.stream.Collectors;
 
 import org.json.JSONObject;
 
-public class EntityFactory {
-    private JSONObject config;
+public class EntityFactory implements Serializable {
+    private transient JSONObject config;
     private Random ranGen = new Random();
 
     public EntityFactory(JSONObject config) {
@@ -32,6 +35,16 @@ public class EntityFactory {
 
     public Entity createEntity(JSONObject jsonEntity) {
         return constructEntity(jsonEntity, config);
+    }
+
+    public void loadConfig(String configName) {
+        String configFile = String.format("/configs/%s.json", configName);
+        try {
+            config = new JSONObject(FileLoader.loadResourceFile(configFile));
+        } catch (IOException e) {
+            e.printStackTrace();
+            config = null;
+        }
     }
 
     public void spawnSpider(Game game) {
@@ -59,7 +72,7 @@ public class EntityFactory {
         Position initPosition = availablePos.get(ranGen.nextInt(availablePos.size()));
         Spider spider = buildSpider(initPosition);
         map.addEntity(spider);
-        game.register(() -> spider.move(game), Game.AI_MOVEMENT, spider.getId());
+        game.register((Runnable & Serializable) () -> spider.move(game), Game.AI_MOVEMENT, spider.getId());
     }
 
     public void spawnZombie(Game game, ZombieToastSpawner spawner) {
@@ -78,7 +91,7 @@ public class EntityFactory {
             return;
         ZombieToast zt = buildZombieToast(pos.get(randGen.nextInt(pos.size())));
         map.addEntity(zt);
-        game.register(() -> zt.move(game), Game.AI_MOVEMENT, zt.getId());
+        game.register((Runnable & Serializable) () -> zt.move(game), Game.AI_MOVEMENT, zt.getId());
     }
 
     public Spider buildSpider(Position pos) {
@@ -204,6 +217,10 @@ public class EntityFactory {
                 return new Wire(pos);
             case "switch_door":
                 return new SwitchDoor(pos, jsonEntity.getString("logic"));
+            case "time_turner":
+                return new TimeTurner(pos);
+            case "time_travelling_portal":
+                return new TimeTravellingPortal(pos);
             default:
                 return null;
         }

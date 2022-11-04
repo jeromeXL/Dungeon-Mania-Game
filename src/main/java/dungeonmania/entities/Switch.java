@@ -51,5 +51,4 @@ public class Switch extends LogicalEntity implements Conductor {
     public boolean isActivated(GameMap map) {
         return activated;
     }
-
 }

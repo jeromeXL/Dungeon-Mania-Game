@@ -1,5 +1,6 @@
 package dungeonmania.map;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,7 +19,7 @@ import dungeonmania.entities.enemies.ZombieToastSpawner;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
-public class GameMap {
+public class GameMap implements Serializable {
     private Game game;
     private Map<Position, GraphNode> nodes = new HashMap<>();
     private Player player;
@@ -67,16 +68,17 @@ public class GameMap {
     private void initRegisterMovables() {
         List<Enemy> enemies = getEntities(Enemy.class);
         enemies.forEach(e -> {
-            game.register(() -> e.move(game), Game.AI_MOVEMENT, e.getId());
+            game.register((Runnable & Serializable) () -> e.move(game), Game.AI_MOVEMENT, e.getId());
         });
     }
 
     private void initRegisterSpawners() {
         List<ZombieToastSpawner> zts = getEntities(ZombieToastSpawner.class);
         zts.forEach(e -> {
-            game.register(() -> e.spawn(game), Game.AI_MOVEMENT, e.getId());
+            game.register((Runnable & Serializable) () -> e.spawn(game), Game.AI_MOVEMENT, e.getId());
         });
-        game.register(() -> game.getEntityFactory().spawnSpider(game), Game.AI_MOVEMENT, "zombieToastSpawner");
+        game.register((Runnable & Serializable) () -> game.getEntityFactory().spawnSpider(game), Game.AI_MOVEMENT,
+                "zombieToastSpawner");
     }
 
     public void moveTo(Entity entity, Position position) {
@@ -104,7 +106,7 @@ public class GameMap {
         List<Runnable> callbacks = new ArrayList<>();
         getEntities(entity.getPosition()).forEach(e -> {
             if (e != entity)
-                callbacks.add(() -> e.onMovedAway(this, entity));
+                callbacks.add((Runnable & Serializable) () -> e.onMovedAway(this, entity));
         });
         callbacks.forEach(callback -> {
             callback.run();
@@ -115,7 +117,7 @@ public class GameMap {
         List<Runnable> overlapCallbacks = new ArrayList<>();
         getEntities(entity.getPosition()).forEach(e -> {
             if (e != entity)
-                overlapCallbacks.add(() -> e.onOverlap(this, entity));
+                overlapCallbacks.add((Runnable & Serializable) () -> e.onOverlap(this, entity));
         });
         overlapCallbacks.forEach(callback -> {
             callback.run();
@@ -272,5 +274,9 @@ public class GameMap {
 
     public void setGame(Game game) {
         this.game = game;
+    }
+
+    public void rewind(int ticks) {
+        game.rewind(ticks);
     }
 }

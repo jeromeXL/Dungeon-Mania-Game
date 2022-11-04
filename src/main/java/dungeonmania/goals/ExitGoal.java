@@ -11,8 +11,8 @@ import dungeonmania.util.Position;
 public class ExitGoal implements Goal {
     @Override
     public boolean achieved(Game game) {
-        // if (game.getPlayer() == null)
-        // return false;
+        if (game.getPlayer() == null)
+            return false;
         Player character = game.getPlayer();
         Position pos = character.getPosition();
         List<Exit> es = game.getMap().getEntities(Exit.class);
@@ -30,4 +30,5 @@ public class ExitGoal implements Goal {
             return "";
         return ":exit";
     }
+
 }

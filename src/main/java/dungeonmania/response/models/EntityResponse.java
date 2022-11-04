@@ -1,8 +1,10 @@
 package dungeonmania.response.models;
 
+import java.io.Serializable;
+
 import dungeonmania.util.Position;
 
-public final class EntityResponse {
+public final class EntityResponse implements Serializable {
     private final String id;
     private final String type;
     private final Position position;
@@ -33,14 +35,17 @@ public final class EntityResponse {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == this) return true;
-        if (obj == null) return false;
-        if (obj.getClass() != getClass()) return false;
+        if (obj == this)
+            return true;
+        if (obj == null)
+            return false;
+        if (obj.getClass() != getClass())
+            return false;
 
         EntityResponse entityResponse = (EntityResponse) obj;
         return entityResponse.id.equals(id)
-               && entityResponse.type.equals(type)
-               && entityResponse.position.equals(position)
-               && entityResponse.isInteractable == isInteractable;
+                && entityResponse.type.equals(type)
+                && entityResponse.position.equals(position)
+                && entityResponse.isInteractable == isInteractable;
     }
 }

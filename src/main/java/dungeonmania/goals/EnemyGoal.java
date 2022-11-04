@@ -12,8 +12,8 @@ public class EnemyGoal implements Goal {
 
     @Override
     public boolean achieved(Game game) {
-        // if (game.getPlayer() == null)
-        // return false;
+        if (game.getPlayer() == null)
+            return false;
         return game.getPlayer().getKillCount() >= target && game.countEntities(ZombieToastSpawner.class) <= 0;
     }
 
@@ -23,4 +23,5 @@ public class EnemyGoal implements Goal {
             return "";
         return ":enemies";
     }
+
 }

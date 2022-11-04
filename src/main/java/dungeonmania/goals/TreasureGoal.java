@@ -13,11 +13,11 @@ public class TreasureGoal implements Goal {
 
     @Override
     public boolean achieved(Game game) {
-        // if (game.getPlayer() == null)
-        // return false;
+        if (game.getPlayer() == null)
+            return false;
         return game.getInitialTreasureCount()
-        - game.getMap().getEntities(Treasure.class).size()
-        - game.getMap().getEntities(SunStone.class).size() >= target;
+                - game.getMap().getEntities(Treasure.class).size()
+                - game.getMap().getEntities(SunStone.class).size() >= target;
     }
 
     @Override

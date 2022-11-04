@@ -1,8 +1,10 @@
 package dungeonmania.entities.playerState;
 
+import java.io.Serializable;
+
 import dungeonmania.entities.Player;
 
-public class PlayerState {
+public class PlayerState implements Serializable {
     private Player player;
     private boolean isInvincible = false;
     private boolean isInvisible = false;
@@ -29,10 +31,12 @@ public class PlayerState {
         this.isInvisible = true;
         this.isInvincible = false;
     }
+
     public void transitionInvincible() {
         this.isInvincible = true;
         this.isInvisible = false;
     }
+
     public void transitionBase() {
         this.isInvincible = false;
         this.isInvisible = false;

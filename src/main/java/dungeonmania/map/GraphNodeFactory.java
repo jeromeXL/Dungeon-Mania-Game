@@ -1,10 +1,12 @@
 package dungeonmania.map;
 
+import java.io.Serializable;
+
 import org.json.JSONObject;
 
 import dungeonmania.entities.EntityFactory;
 
-public class GraphNodeFactory {
+public class GraphNodeFactory implements Serializable {
     public static GraphNode createEntity(JSONObject jsonEntity, EntityFactory factory) {
         return constructEntity(jsonEntity, factory);
     }
@@ -37,6 +39,8 @@ public class GraphNodeFactory {
             case "light_bulb_on":
             case "wire":
             case "switch_door":
+            case "time_turner":
+            case "time_travelling_portal":
                 return new GraphNode(factory.createEntity(jsonEntity));
             default:
                 return null;

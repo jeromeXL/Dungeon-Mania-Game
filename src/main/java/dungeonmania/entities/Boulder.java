@@ -29,13 +29,6 @@ public class Boulder extends Entity {
 
     private boolean canPush(GameMap map, Direction direction) {
         Position newPosition = Position.translateBy(this.getPosition(), direction);
-        // for (Entity e : map.getEntities(newPosition)) {
-        // if (!e.canMoveOnto(map, this))
-        // return false;
-        // }
-        // return true;
-
         return map.getEntities(newPosition).stream().allMatch(e -> e.canMoveOnto(map, this));
     }
-
 }
