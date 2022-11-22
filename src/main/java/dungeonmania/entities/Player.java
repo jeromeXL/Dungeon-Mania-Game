@@ -49,10 +49,6 @@ public class Player extends Entity implements Battleable {
         return inventory.hasWeapon();
     }
 
-    public BattleItem getWeapon() {
-        return inventory.getWeapon();
-    }
-
     public List<String> getBuildables() {
         return inventory.getBuildables();
     }
@@ -126,10 +122,6 @@ public class Player extends Entity implements Battleable {
             state.transitionInvisible();
         }
         nextTrigger = currentTick + inEffective.getDuration();
-    }
-
-    public void changeState(PlayerState playerState) {
-        state = playerState;
     }
 
     public void use(Potion potion, int tick) {

@@ -88,7 +88,7 @@ public class Inventory implements Serializable {
             }
             return factory.buildShield();
 
-        } else if (swords.size() >= 1 && sunStones.size() >= 1) {
+        } else if (swords.size() >= 1 && sunStones.size() >= 1 && entity.equals("midnight_armour")) {
             if (remove) {
                 items.remove(swords.get(0));
                 items.remove(sunStones.get(0));
