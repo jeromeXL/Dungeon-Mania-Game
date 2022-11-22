@@ -223,11 +223,4 @@ public class PersistenceTest {
         assertThrows(IllegalArgumentException.class, () -> dmc.loadGame("nonExistent File"));
     }
 
-    @Test
-    @Tag("22-11")
-    @DisplayName("Test saved file exists in directory")
-    public void fileInDirectory() throws InterruptedException {
-        DungeonManiaController dmc = new DungeonManiaController();
-        assertTrue(dmc.allGames().contains("PersistenceTest_saving"));
-    }
 }

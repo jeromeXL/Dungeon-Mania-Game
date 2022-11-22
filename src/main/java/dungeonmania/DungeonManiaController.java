@@ -5,6 +5,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import org.json.JSONException;
 import dungeonmania.exceptions.InvalidActionException;
@@ -108,6 +110,11 @@ public class DungeonManiaController {
      * @throws IOException
      */
     public DungeonResponse saveGame(String name) throws IllegalArgumentException {
+        // try {
+        //     Files.createDirectories(Paths.get(String.format("%s%s", workingDirec, defaultDirectory)));
+        // } catch (IOException e1) {
+        //     e1.printStackTrace();
+        // }
         String path = String.format("%s%s%s.ser", workingDirec, defaultDirectory, name);
         System.setProperty("sun.io.serialization.extendedDebugInfo", "true");
         try {
