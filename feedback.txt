@@ -1,0 +1,19 @@
+Part 1
+a) Excellent
+b) Excellent
+c) Excellent
+d) Solid work! There's more issues with the existing pattern than just the code you changed. In particular, the existing state pattern is quite useless as it is so you can either remove it or move more of the potion logic into the pattern (buffing, etc)
+e) Excellent
+f) Excellent
+g) Excellent!
+
+Part 2
+Micro
+All excellent 🤩
+
+Macro
+Overall, very good reflections of where you fell short and where you did well. Your approaches of design were good, and the mistakes you identified were the key problems - great work overall :)
+
+Part 3
+The buildables one - not really, this is more of a behaviour that is assumed to be tested in an ideal manner
+Otherwise the zombie one is nicely done :)
