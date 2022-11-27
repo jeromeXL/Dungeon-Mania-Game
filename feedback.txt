@@ -5,7 +5,7 @@ c) Excellent
 d) Solid work! There's more issues with the existing pattern than just the code you changed. In particular, the existing state pattern is quite useless as it is so you can either remove it or move more of the potion logic into the pattern (buffing, etc)
 e) Excellent
 f) Excellent
-g) Excellent!
+g) Excellent - tough to get a perfect performance in this part, for that you need to cover all smells and make improvements to the system beyond the basic smells that exist
 
 Part 2
 Micro
